@@ -14,6 +14,7 @@ public class EvaluationFonciere {
         
         String texteSource = cIOUtils.toString(new FileInputStream(args[0]), "UTF-8");
         JSONObject JSONSource = new JSONObject(texteSource);
+        
         String texteEvaluation;
         JSONObject JSONEvaluation;
         Terrain terrain;
@@ -30,6 +31,7 @@ public class EvaluationFonciere {
                 terrain = new TerrainCommercial(JSONSource);
             break;
         }
+        
         JSONEvaluation = terrain.rapport();
         texteEvaluation = JSONEvaluation.toString();
         fichier = new File(args[1]);
