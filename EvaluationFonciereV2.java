@@ -1,5 +1,5 @@
 
-package evaluationfoncierev2;
+package evaluationfonciere;
 
 import java.io.File;
 import java.io.FileWriter;

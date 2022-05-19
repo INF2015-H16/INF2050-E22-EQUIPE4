@@ -1,5 +1,5 @@
 
-package evaluationfoncierev2;
+package evaluationfonciere;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -71,6 +71,7 @@ public class Terrain {
         return rapport;
     }
     
+    //Copier coller de la methode a Eric
     private Lotissement [] formaterLot(JSONArray source){
         lotissements = new Lotissement[source.size()];
         for (int i=0; i < source.size(); i++){

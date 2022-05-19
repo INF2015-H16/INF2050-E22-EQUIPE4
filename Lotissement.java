@@ -1,5 +1,5 @@
 
-package evaluationfoncierev2;
+package evaluationfonciere;
 
 import net.sf.json.JSONObject;
 
