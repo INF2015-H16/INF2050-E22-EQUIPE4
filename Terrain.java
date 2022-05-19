@@ -22,7 +22,7 @@ abstract class Terrain {
         this.prixMax = JSONSource.getDouble("prix_max");
         this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
         //Calculs specifiques des valeurs dans lotissements
-        this.calculTaxeParSuperficie();
+        this.calculValeurParSuperficie();
         this.calculDroitPassage();
         this.calculMontantServices();
         this.calculValeurParLot();
@@ -33,7 +33,7 @@ abstract class Terrain {
     }
     
     //Toutes les methodes abstraites agissent sur this.lotissements
-    private abstract void calculTaxeParSuperficie();    
+    private abstract void calculValeurParSuperficie();    
     private abstract void calculDroitPassage();    
     private abstract void calculMontantServices();    
     private abstract void calculValeurParLot();    
