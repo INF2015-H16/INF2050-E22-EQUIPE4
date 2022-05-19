@@ -15,10 +15,10 @@ public class Lotissement {
     double valeur;
     
     public Lotissement(JSONObject source){
-        this.description = source.getString("description");
-        this.nbServices = source.getInt("nombre_services");
-        this.nbDroitsPassages = source.getInt("nombre_droits_passage");
-        this.superficie = source.getInt("superficie");
-        this.dateMesure = source.getString("date_mesure");
+        description = source.getString("description");
+        nbServices = source.getInt("nombre_services");
+        nbDroitsPassages = source.getInt("nombre_droits_passage");
+        superficie = source.getInt("superficie");
+        dateMesure = source.getString("date_mesure");
     }
 }
