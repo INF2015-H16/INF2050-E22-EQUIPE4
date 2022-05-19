@@ -6,21 +6,23 @@ package evaluationfonciere;
  * @author 
  */
 abstract class Terrain {
+    //valeurs recues
     private final int nbrServiceBase = 2;
     private final double prixFixe = 733.77;
     private final double montantBase = 500;    
     private double prixMin;
     private double prixMax;
+    //valeurs calculees
     private double valeurFonciereTotale;
     private double taxeScolaire;
     private double taxeMunicipale;
-    private Lotissement [] lotissements;
+    private ArrayList<Lotissement> lotissements;
     
     public terrain(JSONObject JSONSource){
         //Simple initialisation
         this.prixMin = JSONSource.getDouble("prix_min");
         this.prixMax = JSONSource.getDouble("prix_max");
-        this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
+        this.lotissements = initialiserLot(JSONSource.getJSONArray("lotissements"));
         //Calculs specifiques des valeurs dans lotissements
         this.calculValeurParSuperficie();
         this.calculDroitPassage();
@@ -53,10 +55,11 @@ abstract class Terrain {
         this.taxeMunicipale = 0.025 * this.valeurFonciereTotale;
     }
     
-    private Lotissement [] formaterLot(JSONArray source){
-        lotissements = new Lotissement[source.size()];
-        for (int i=0; i < source.size(); i++){
-            lotissements[i] = new Lotissement(source.getJSONObject(i));
+    private ArrayList<Lotissement> initialiserLot(JSONArray source){
+        lotissements = new ArrayList<Lotissement>;
+        for (JSONObject JSONlot: source){
+            Lotissement lot = new Lotissement(JSONlot);            
+            lotissements.append(lot);
         }
         return lotissements;
     }
