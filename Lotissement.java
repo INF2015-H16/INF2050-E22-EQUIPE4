@@ -1,74 +1,65 @@
 
-package evaluationfonciere;
+package evaluationfoncierev2;
 
 import net.sf.json.JSONObject;
 
 /**
  *
- * @author 
+ * @author Leonid
  */
-public class Lotissement {
-    //Valeurs recues
-    private String description;
-    private int nbDroitsPassages;
-    private int nbServices;
-    private int superficie;
-    private String dateMesure; 
-    //Valeurs calculees
-    private double valeurSuperficie;
-    private double montantDroitsPassage;
-    private double montantServices;
-    private double valeurLot;
+public class Lotissement{
+    double montantServices;
+    double montantDroitDePassages;
+    double valeurLot;
     
-    public Lotissement(JSONObject source){
-        description = source.getString("description");
-        nbDroitsPassages = source.getInt("nombre_droits_passage");
-        nbServices = source.getInt("nombre_services");
-        superficie = source.getInt("superficie");
-        dateMesure = source.getString("dateMesure");
-    }
+    String description;
+    int nbServices;
+    int nbDroitsPassages;
+    int superficie;
+    String dateMesure;
     
-    //getters des valeurs recues
-    public String getDescription(){
-        return description;
-    }
-
-    public int getNbDroitsPassages(){
-        return nbDroitsPassages;
-    }
-
-    public int getNbServices(){
-        return nbServices;
-    }
+    final int nbrServiceBase = 2;
+    final int montantDeBase = 500;
     
-    public int getSuperficie(){
-        return superficie;
+    Lotissement(JSONObject jsonObject) {
+        this.description = jsonObject.getString("description");
+        this.nbDroitsPassages = jsonObject.getInt("nombre_droits_passage");
+        this.dateMesure = jsonObject.getString("date_mesure");
+        this.nbServices = jsonObject.getInt("nombre_services") + nbrServiceBase;
+        this.superficie = jsonObject.getInt("superficie");
     }
 
-    public int getDateMesure(){
-        return dateMesure;
+    void residentiel(double prixMax, double prixMin) {
+        valeurLot = superficie * ((prixMax + prixMin)/2);
+        montantDroitDePassages = montantDeBase - (nbDroitsPassages * (valeurLot/10));
+        
+        if(superficie <= 500) {
+            montantServices = 0;
+        } else if(superficie > 500 && superficie <= 10000){
+            montantServices = 500 * nbServices;
+        } else if(superficie > 10000){
+            montantServices = 1000 * nbServices;
+        }
     }
 
-    //setters des valeurs calculees
-    public void setValeurSuperficie(double montant){
-        valeurSuperficie = montant;
+    void agricole(double prixMin) {
+        valeurLot = superficie * prixMin;
+        montantDroitDePassages = montantDeBase - (nbDroitsPassages * (valeurLot/20));
+        montantServices = 0;
     }
 
-    public void setMontantDroitsPassage(double montant){
-        montantDroitsPassage = montant;
+    void commercial(double prixMax) {
+        valeurLot = superficie * prixMax;
+        montantDroitDePassages = montantDeBase - (nbDroitsPassages * (15/100) * valeurLot);
+        
+        if(superficie <= 500) {
+            montantServices = 500 * nbServices;
+        } else if(superficie > 500){
+            montantServices = 1500 * nbServices;
+        }
+        
+        if(montantServices > 5000){
+            montantServices = 5000;
+        }
     }
-
-    public void setMontantServices(double montant){
-        montantServices = montant;
-    }
-
-    public void setValeurLot(){
-        valeurLot = valeurSuperficie + montantDroitsPassage + montantServices;
-    }
-
-
-    public JSONObject rapport(){
-    //append les lignes demandees
-    }
-    
 }

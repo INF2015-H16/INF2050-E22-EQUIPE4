@@ -1,76 +1,81 @@
 
-package evaluationfonciere;
+package evaluationfoncierev2;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  *
- * @author 
+ * @author Leonid
  */
-abstract class Terrain {
-    //valeurs recues
-    private final int nbrServiceBase = 2;
-    private final double prixFixe = 733.77;
-    private final double montantBase = 500;    
-    private double prixMin;
-    private double prixMax;
-    //valeurs calculees
-    private double valeurFonciereTotale;
-    private double taxeScolaire;
-    private double taxeMunicipale;
-    private ArrayList<Lotissement> lotissements;
+public class Terrain {
+    double prixMin;
+    double prixMax;
+    
+    double valeurFonciereTotale;
+    double taxeScolaire;
+    double taxeMunicipale;
+    Lotissement [] lotissements;
+    
+    final double prixFixe = 733.77;
+    final double montantBase = 500;
     
     public Terrain(JSONObject JSONSource){
-        //Simple initialisation
-        this.prixMin = JSONSource.getDouble("prix_min");
-        this.prixMax = JSONSource.getDouble("prix_max");
-        this.lotissements = initialiserLot(JSONSource.getJSONArray("lotissements"));
-        //Calculs specifiques des valeurs dans lotissements
-        this.calculValeurParSuperficie();
-        this.calculDroitPassage();
-        this.calculMontantServices();
-        this.calculValeurParLot();
-        //Calculs generaux
-        this.calculValeurFonciereTotale();
-        this.calculTaxeScolaire();
-        this.calculTaxeMunicipale(); 
+        this.prixMin = Double.parseDouble(JSONSource.getString("prix_m2_min").split(" ")[0]);
+        this.prixMax = Double.parseDouble(JSONSource.getString("prix_m2_max").split(" ")[0]);
+        this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
     }
     
-    //Toutes les methodes abstraites agissent sur this.lotissements
-    private abstract void calculValeurParSuperficie();    
-    private abstract void calculDroitPassage();    
-    private abstract void calculMontantServices();    
-    private abstract void calculValeurParLot();    
-    
-    private void calculValeurFonciereTotale(){
-        this.valeurFonciereToTale = prixFixe;
-        for (Lotissement lot: this.lotissements){
-            this.valeurFonciereTotale += lot.getValeurParLot();
+    void residentiel() {
+        for(Lotissement lot : lotissements){
+            lot.residentiel(prixMax, prixMin);
         }
-        this.valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
-    }    
-    
-    private void calculTaxeScolaire(){
-        this.taxeScolaire = arrondiAu5sousSuperieur(0.012 * this.valeurFonciereTotale);
-    }
-    
-    private void calculTaxeMunicipale(){
-        this.taxeMunicipale = arrondiAu5sousSuperieur(0.025 * this.valeurFonciereTotale);
     }
 
-    public static double arrondiAu5sousSuperieur(double montant){
-        return (double) (Math.ceil(montant*20)/20);
+    void agricole() {
+        for(Lotissement lot : lotissements){
+            lot.agricole(prixMin);
+        }
+    }
+
+    void commercial() {
+        for(Lotissement lot : lotissements){
+            lot.commercial(prixMax);
+        }
     }
     
-    private ArrayList<Lotissement> initialiserLot(JSONArray source){
-        lotissements = new ArrayList<Lotissement>;
-        for (JSONObject JSONlot: source){
-            Lotissement lot = new Lotissement(JSONlot);            
-            lotissements.append(lot);
+    public JSONObject rapport(){
+        valeurFonciereTotale = prixFixe;
+        for(Lotissement lot : lotissements){
+            valeurFonciereTotale += lot.valeurLot;
+        }
+        
+        taxeScolaire = valeurFonciereTotale * (12/100);
+        taxeMunicipale = valeurFonciereTotale * (25/100);
+        
+        JSONObject rapport = new JSONObject();
+        rapport.accumulate("valeur_fonciere_totale", valeurFonciereTotale);
+        rapport.accumulate("taxe_scolaire", taxeScolaire);
+        rapport.accumulate("taxe_ municipale", taxeMunicipale);
+        
+        JSONArray lots = new JSONArray();
+        for(Lotissement lot : lotissements){
+            JSONObject lotUnique = new JSONObject();
+            lotUnique.accumulate("description", lot.description);
+            lotUnique.accumulate("valeur_par_lot", lot.valeurLot);
+            lots.add(lotUnique);
+        }
+        
+        rapport.accumulate("lotissements", lots);
+        
+        return rapport;
+    }
+    
+    private Lotissement [] formaterLot(JSONArray source){
+        lotissements = new Lotissement[source.size()];
+        for (int i=0; i < source.size(); i++){
+            lotissements[i] = new Lotissement(source.getJSONObject(i));
         }
         return lotissements;
-    }
-    
-    public JSONObject rapport{
-        //append les lignes voulues avant le lotissement
-        //append avec appel de rapport() dans la classe Lotissement
     }
 }
