@@ -48,6 +48,10 @@ public class Terrain {
     
     public JSONObject rapport(){
         valeurFonciereTotale = prixFixe;
+
+        String pattern = "#.##";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+
         for(Lotissement lot : lotissements){
             valeurFonciereTotale += lot.valeurLot;
         }
@@ -56,9 +60,9 @@ public class Terrain {
         taxeMunicipale = valeurFonciereTotale * tauxMunicipale;
         
         JSONObject rapport = new JSONObject();
-        rapport.accumulate("valeur_fonciere_totale", valeurFonciereTotale);
-        rapport.accumulate("taxe_scolaire", taxeScolaire);
-        rapport.accumulate("taxe_ municipale", taxeMunicipale);
+        rapport.accumulate("valeur_fonciere_totale", decimalFormat.format(valeurFonciereTotale) + " " + "$");
+        rapport.accumulate("taxe_scolaire", decimalFormat.format(taxeScolaire) + " " + "$");
+        rapport.accumulate("taxe_ municipale", decimalFormat.format(taxeMunicipale) + " " + "$");
         
         JSONArray lots = new JSONArray();
         for(Lotissement lot : lotissements){
