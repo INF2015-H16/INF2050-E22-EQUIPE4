@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/Users/stevenchieng/Downloads/lib/json-lib-2.4-jdk15.jar"
+    ]
+}
