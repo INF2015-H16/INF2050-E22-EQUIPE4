@@ -25,6 +25,7 @@ abstract class Terrain {
         this.calculTaxeParSuperficie();
         this.calculDroitPassage();
         this.calculMontantServices();
+        this.calculValeurParLot();
         //Calculs generaux
         this.valeurFonciereTotale = this.calculValeurFonciereTotale();
         this.taxeScolaire = this.calculTaxeScolaire();
