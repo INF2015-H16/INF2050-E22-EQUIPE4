@@ -18,7 +18,7 @@ abstract class Terrain {
     private double taxeMunicipale;
     private ArrayList<Lotissement> lotissements;
     
-    public terrain(JSONObject JSONSource){
+    public Terrain(JSONObject JSONSource){
         //Simple initialisation
         this.prixMin = JSONSource.getDouble("prix_min");
         this.prixMax = JSONSource.getDouble("prix_max");
