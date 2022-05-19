@@ -6,33 +6,45 @@ package evaluationfonciere;
  * @author 
  */
 abstract class Terrain {
-    double prixMin;
-    double prixMax;
-    double valeurFonciereTotale;
-    double taxeScolaire;
-    double taxeMunicipale;
-    double montantServices;
-    Lotissement [] lotissements;
-    final int nbrServiceBase = 2;
-    final double prixFixe = 733.77;
-    final double montantBase = 500; //Je l'ai mis ici et non dans chaque sub-class pour eviter la repetition
+    private final int nbrServiceBase = 2;
+    private final double prixFixe = 733.77;
+    private final double montantBase = 500;    
+    private double prixMin;
+    private double prixMax;
+    private double valeurFonciereTotale;
+    private double taxeScolaire;
+    private double taxeMunicipale;
+    private Lotissement [] lotissements;
     
-    public terrain(JSONObject JSONSource){        
+    public terrain(JSONObject JSONSource){
+        //Simple initialisation
         this.prixMin = JSONSource.getDouble("prix_min");
         this.prixMax = JSONSource.getDouble("prix_max");
         this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
-        //Je n'ai pas l'ordre des calculs en tete
-        //Prochaines lignes surement a changer d'ordre
+        //Calculs specifiques des valeurs dans lotissements
+        this.calculTaxeParSuperficie();
+        this.calculDroitPassage();
+        this.calculMontantServices();
+        //Calculs generaux
         this.valeurFonciereTotale = this.calculValeurFonciereTotale();
         this.taxeScolaire = this.calculTaxeScolaire();
-        this.taxeMunicipale = this.calculTaxeMunicipale();
-        this.montantServices = this.calculMontantServices();   
+        this.taxeMunicipale = this.calculTaxeMunicipale(); 
     }
-          
-    private abstract double calculValeurFonciereTotale();
-    private abstract double calculTaxeScolaire();
-    private abstract double calculTaxeMunicipale();
-    private abstract double calculMontantServices();
+    
+    //Toutes les methodes abstraites agissent sur this.lotissements
+    private abstract double calculTaxeParSuperficie();    
+    private abstract double calculDroitPassage();    
+    private abstract double calculMontantServices();    
+    private abstract double calculValeurParLot();    
+    
+    private double calculValeurFonciereTotale(){    
+    }    
+    
+    private double calculTaxeScolaire(){
+    }
+    
+    private double calculTaxeMunicipale(){
+    }
     
     private Lotissement [] formaterLot(JSONArray source){
         lotissements = new Lotissement[source.size()];
@@ -44,6 +56,6 @@ abstract class Terrain {
     
     public JSONObject rapport{
         //append les lignes voulues avant le lotissement
-        //append avec appel de lotissements.rapport()
+        //append avec appel de rapport() dans la classe Lotissement
     }
 }
