@@ -19,6 +19,8 @@ public class Terrain {
     
     final double prixFixe = 733.77;
     final double montantBase = 500;
+    final double tauxScolaire = 0.12;
+    final double tauxMunicipale = 0.25;
     
     public Terrain(JSONObject JSONSource){
         this.prixMin = Double.parseDouble(JSONSource.getString("prix_m2_min").split(" ")[0]);
@@ -50,8 +52,8 @@ public class Terrain {
             valeurFonciereTotale += lot.valeurLot;
         }
         
-        taxeScolaire = valeurFonciereTotale * (12/100);
-        taxeMunicipale = valeurFonciereTotale * (25/100);
+        taxeScolaire = valeurFonciereTotale * tauxScolaire;
+        taxeMunicipale = valeurFonciereTotale * tauxMunicipale;
         
         JSONObject rapport = new JSONObject();
         rapport.accumulate("valeur_fonciere_totale", valeurFonciereTotale);
