@@ -9,18 +9,27 @@ import net.sf.json.JSONObject;
  */
 public class Lotissement {
     //Valeurs recues
-    String description;
-    int nbServices;
-    int nbDroitsPassages;
-    int superficie;
-    String dateMesure; 
+    private String description;
+    private int nbServices;
+    private int nbDroitsPassages;
+    private int superficie;
+    private String dateMesure; 
     //Valeurs calculees
-    double valeurParSuperficie;
-    double valeurDroitPassage;
-    double montantServices;
-    double valeurParLot;
+    private double valeurParSuperficie;
+    private double valeurDroitPassage;
+    private double montantServices;
+    private double valeurParLot;
     
     public Lotissement(JSONObject source){
-        
+    //initiliser seulement les valeurs recues    
     }
+    
+    //getters des valeurs recues
+    
+    //setters des valeurs calculees
+    
+    public JSONObject rapport(){
+    //append les lignes demandees
+    }
+    
 }
