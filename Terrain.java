@@ -41,18 +41,23 @@ abstract class Terrain {
     private abstract void calculValeurParLot();    
     
     private void calculValeurFonciereTotale(){
-        this.valeurFonciereToTale = 0;
+        this.valeurFonciereToTale = prixFixe;
         for (Lotissement lot: this.lotissements){
             this.valeurFonciereTotale += lot.getValeurParLot();
         }
+        this.valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
     }    
     
     private void calculTaxeScolaire(){
-        this.taxeScolaire = 0.012 * this.valeurFonciereTotale;
+        this.taxeScolaire = arrondiAu5sousSuperieur(0.012 * this.valeurFonciereTotale);
     }
     
     private void calculTaxeMunicipale(){
-        this.taxeMunicipale = 0.025 * this.valeurFonciereTotale;
+        this.taxeMunicipale = arrondiAu5sousSuperieur(0.025 * this.valeurFonciereTotale);
+    }
+
+    public static double arrondiAu5sousSuperieur(double montant){
+        return (double) (Math.ceil(montant*20)/20);
     }
     
     private ArrayList<Lotissement> initialiserLot(JSONArray source){
