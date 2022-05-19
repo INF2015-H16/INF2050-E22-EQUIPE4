@@ -12,7 +12,7 @@ import net.sf.json.JSONObject;
  *
  * @author Leonid
  */
-public class EvaluationFonciereV2 {
+public class EvaluationFonciere {
 
     /**
      * @param fileName
