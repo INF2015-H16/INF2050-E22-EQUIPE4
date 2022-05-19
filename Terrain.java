@@ -19,8 +19,8 @@ public class Terrain {
     
     final double prixFixe = 733.77;
     final double montantBase = 500;
-    final double tauxScolaire = 0.12;
-    final double tauxMunicipale = 0.25;
+    final double tauxScolaire = 0.012;
+    final double tauxMunicipale = 0.025;
     
     public Terrain(JSONObject JSONSource){
         this.prixMin = Double.parseDouble(JSONSource.getString("prix_m2_min").split(" ")[0]);
