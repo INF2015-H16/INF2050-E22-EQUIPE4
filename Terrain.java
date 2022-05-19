@@ -27,24 +27,30 @@ abstract class Terrain {
         this.calculMontantServices();
         this.calculValeurParLot();
         //Calculs generaux
-        this.valeurFonciereTotale = this.calculValeurFonciereTotale();
-        this.taxeScolaire = this.calculTaxeScolaire();
-        this.taxeMunicipale = this.calculTaxeMunicipale(); 
+        this.calculValeurFonciereTotale();
+        this.calculTaxeScolaire();
+        this.calculTaxeMunicipale(); 
     }
     
     //Toutes les methodes abstraites agissent sur this.lotissements
-    private abstract double calculTaxeParSuperficie();    
-    private abstract double calculDroitPassage();    
-    private abstract double calculMontantServices();    
-    private abstract double calculValeurParLot();    
+    private abstract void calculTaxeParSuperficie();    
+    private abstract void calculDroitPassage();    
+    private abstract void calculMontantServices();    
+    private abstract void calculValeurParLot();    
     
-    private double calculValeurFonciereTotale(){    
+    private void calculValeurFonciereTotale(){
+        this.valeurFonciereToTale = 0;
+        for (Lotissement lot: this.lotissements){
+            this.valeurFonciereTotale += lot.getValeurParLot();
+        }
     }    
     
-    private double calculTaxeScolaire(){
+    private void calculTaxeScolaire(){
+        this.taxeScolaire = 0.012 * this.valeurFonciereTotale;
     }
     
-    private double calculTaxeMunicipale(){
+    private void calculTaxeMunicipale(){
+        this.taxeMunicipale = 0.025 * this.valeurFonciereTotale;
     }
     
     private Lotissement [] formaterLot(JSONArray source){
