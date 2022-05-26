@@ -27,8 +27,8 @@ abstract class Terrain {
         this.calculValeurParSuperficie();
         this.calculDroitPassage();
         this.calculMontantServices();
-        this.calculValeurParLot();
         //Calculs generaux
+        this.calculValeurParLot();
         this.calculValeurFonciereTotale();
         this.calculTaxeScolaire();
         this.calculTaxeMunicipale(); 
@@ -39,6 +39,12 @@ abstract class Terrain {
     private abstract void calculDroitPassage();    
     private abstract void calculMontantServices();    
     private abstract void calculValeurParLot();    
+    
+    public void calculValeurParLot(){
+        for(Lotissement lot: this.lotissements){
+            lot.setValeurLot();
+        }
+    }
     
     private void calculValeurFonciereTotale(){
         this.valeurFonciereToTale = prixFixe;
