@@ -75,11 +75,11 @@ public class Lotissement{
     }
     
     Lotissement(JSONObject jsonObject) {
-        jsonObject.setDescription(jsonObject.getString("description"));
-        jsonObject.setNbDroitsPassages(jsonObject.getInt("nombre_droits_passage"));
-        jsonObject.setDateMesure(jsonObject.getString("date_mesure"));
-        jsonObject.setNbServices(jsonObject.getInt("nombre_services") + nbrServiceBase);
-        jsonObject.setSuperficie(jsonObject.getInt("superficie"));
+        setDescription(jsonObject.getString("description"));
+        setNbDroitsPassages(jsonObject.getInt("nombre_droits_passage"));
+        setDateMesure(jsonObject.getString("date_mesure"));
+        setNbServices(jsonObject.getInt("nombre_services") + nbrServiceBase);
+        setSuperficie(jsonObject.getInt("superficie"));
     }
 
     void residentiel(double prixMax, double prixMin) {
