@@ -8,25 +8,70 @@ import net.sf.json.JSONObject;
  * @author Leonid
  */
 public class Lotissement{
+    final int nbrServiceBase = 2;
+    final int montantDeBase = 500;
+
+    int nbDroitsPassages;
+    int nbServices;
+    int superficie;
+    
     double montantServices;
     double montantDroitDePassages;
     double valeurLot;
-    
+
     String description;
-    int nbServices;
-    int nbDroitsPassages;
-    int superficie;
     String dateMesure;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getValeurLot() {
+        return valeurLot;
+    }
+
+    public String getDateMesure() {
+        return dateMesure;
+    }
+
+    public int getNbDroitsPassages() {
+        return nbDroitsPassages;
+    }
+
+    public int getNbServices() {
+        return nbServices;
+    }
+
+    public int getSuperficie() {
+        return superficie;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDateMesure(String dateMesure) {
+        this.dateMesure = dateMesure;
+    }
+
+    public void setNbDroitsPassages(int nbDroitsPassages) {
+        this.nbDroitsPassages = nbDroitsPassages;
+    }
+
+    public void setNbServices(int nbServices) {
+        this.nbServices = nbServices;
+    }
     
-    final int nbrServiceBase = 2;
-    final int montantDeBase = 500;
+    public void setSuperficie(int superficie) {
+        this.superficie = superficie;
+    }
     
     Lotissement(JSONObject jsonObject) {
-        this.description = jsonObject.getString("description");
-        this.nbDroitsPassages = jsonObject.getInt("nombre_droits_passage");
-        this.dateMesure = jsonObject.getString("date_mesure");
-        this.nbServices = jsonObject.getInt("nombre_services") + nbrServiceBase;
-        this.superficie = jsonObject.getInt("superficie");
+        jsonObject.setDescription(jsonObject.getString("description"));
+        jsonObject.setNbDroitsPassages(jsonObject.getInt("nombre_droits_passage"));
+        jsonObject.setDateMesure(jsonObject.getString("date_mesure"));
+        jsonObject.setNbServices(jsonObject.getInt("nombre_services") + nbrServiceBase);
+        jsonObject.setSuperficie(jsonObject.getInt("superficie"));
     }
 
     void residentiel(double prixMax, double prixMin) {
