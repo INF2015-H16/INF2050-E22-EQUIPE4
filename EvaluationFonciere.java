@@ -19,9 +19,6 @@ public class EvaluationFonciere {
      * @return 
      * @throws java.io.IOException
      */
-    public static String readFileAsString(String fileName) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(fileName)));
-    }
     
     public static void main(String[] args) {
         String texteSource = "";
@@ -31,7 +28,6 @@ public class EvaluationFonciere {
         File fichier = new File(args[1]);
         JSONObject JSONSource;
         
-        
         try {
             texteSource = readFileAsString(args[0]);
         } catch (IOException e) {
@@ -40,12 +36,6 @@ public class EvaluationFonciere {
         
         JSONSource = JSONObject.fromObject(texteSource);
         terrain = new Terrain(JSONSource);
-
-        switch(JSONSource.getInt("type_terrain")){
-            case 0 -> terrain.agricole();
-            case 1 -> terrain.residentiel();
-            case 2 -> terrain.commercial();
-        }
         
         JSONEvaluation = terrain.rapport();
         texteEvaluation = JSONEvaluation.toString();
