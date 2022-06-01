@@ -30,7 +30,7 @@ public class Lotissement{
         return valeurLot;
     }
 
-    public String getDateMesure() {
+    /* public String getDateMesure() {
         return dateMesure;
     }
 
@@ -44,7 +44,15 @@ public class Lotissement{
 
     public int getSuperficie() {
         return superficie;
+    } 
+    
+    public double getMontantServices() {
+        return montantServices;
     }
+    
+    public double getMontantDroitDePassages() {
+        return montantDroitDePassages;
+    }*/
 
     public void setDescription(String description) {
         this.description = description;
