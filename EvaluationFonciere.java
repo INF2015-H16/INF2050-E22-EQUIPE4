@@ -29,7 +29,7 @@ public class EvaluationFonciere {
         JSONObject JSONSource;
         
         try {
-            texteSource = readFileAsString(args[0]);
+            texteSource = new String(Files.readAllBytes(Paths.get(args[0])));
         } catch (IOException e) {
             System.out.println("Cannot read file: " + e.getMessage());
         }
