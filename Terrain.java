@@ -26,21 +26,33 @@ public class Terrain {
         this.prixMin = Double.parseDouble(JSONSource.getString("prix_m2_min").split(" ")[0]);
         this.prixMax = Double.parseDouble(JSONSource.getString("prix_m2_max").split(" ")[0]);
         this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
+
+        switch(JSONSource.getInt("type_terrain")) {
+            case 0:
+            this.agricole();
+            break;
+            case 1:
+            this.residentiel();
+            break;
+            case 2:
+            this.commercial();
+            break;
+        }
     }
     
-    void residentiel() {
+    private void residentiel() {
         for(Lotissement lot : lotissements){
             lot.residentiel(prixMax, prixMin);
         }
     }
 
-    void agricole() {
+    private void agricole() {
         for(Lotissement lot : lotissements){
             lot.agricole(prixMin);
         }
     }
 
-    void commercial() {
+    private void commercial() {
         for(Lotissement lot : lotissements){
             lot.commercial(prixMax);
         }
