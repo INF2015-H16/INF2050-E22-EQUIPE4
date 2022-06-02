@@ -8,19 +8,19 @@ import net.sf.json.JSONObject;
  * @author Leonid
  */
 public class Lotissement{
-    final int nbrServiceBase = 2;
-    final int montantDeBase = 500;
+    private static final int NB_SERVICE_BASE = 2;
+    private static final int MONTANT_BASE = 500;
 
-    int nbDroitsPassages;
-    int nbServices;
-    int superficie;
+    private int nbDroitsPassages;
+    private int nbServices;
+    private int superficie;
     
-    double montantServices;
-    double montantDroitDePassages;
-    double valeurLot;
+    private double montantServices;
+    private double montantDroitDePassages;
+    private double valeurLot;
 
-    String description;
-    String dateMesure;
+    private String description;
+    private String dateMesure;
 
     public String getDescription() {
         return description;
@@ -78,13 +78,13 @@ public class Lotissement{
         setDescription(jsonObject.getString("description"));
         setNbDroitsPassages(jsonObject.getInt("nombre_droits_passage"));
         setDateMesure(jsonObject.getString("date_mesure"));
-        setNbServices(jsonObject.getInt("nombre_services") + nbrServiceBase);
+        setNbServices(jsonObject.getInt("nombre_services") + NB_SERVICE_BASE);
         setSuperficie(jsonObject.getInt("superficie"));
     }
 
     void residentiel(double prixMax, double prixMin) {
         valeurLot = superficie * ((prixMax + prixMin)/2);
-        montantDroitDePassages = montantDeBase - (nbDroitsPassages * (valeurLot/10));
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurLot/10));
         
         if(superficie <= 500) {
             montantServices = 0;
@@ -97,13 +97,13 @@ public class Lotissement{
 
     void agricole(double prixMin) {
         valeurLot = superficie * prixMin;
-        montantDroitDePassages = montantDeBase - (nbDroitsPassages * (valeurLot/20));
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurLot/20));
         montantServices = 0;
     }
 
     void commercial(double prixMax) {
         valeurLot = superficie * prixMax;
-        montantDroitDePassages = montantDeBase - (nbDroitsPassages * (15/100) * valeurLot);
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurLot);
         
         if(superficie <= 500) {
             montantServices = 500 * nbServices;
