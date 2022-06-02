@@ -88,9 +88,9 @@ public class Lotissement{
         
         if(superficie <= 500) {
             montantServices = 0;
-        } else if(superficie > 500 && superficie <= 10000){
+        } else if(superficie <= 10000){
             montantServices = 500 * nbServices;
-        } else if(superficie > 10000){
+        } else {
             montantServices = 1000 * nbServices;
         }
     }
@@ -107,7 +107,7 @@ public class Lotissement{
         
         if(superficie <= 500) {
             montantServices = 500 * nbServices;
-        } else if(superficie > 500){
+        } else {
             montantServices = 1500 * nbServices;
         }
         
