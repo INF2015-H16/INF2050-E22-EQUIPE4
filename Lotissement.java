@@ -5,7 +5,7 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author Leonid
+ * @author Leonid, Golem, Steven, Eric
  */
 public class Lotissement{
     private static final int NB_SERVICE_BASE = 2;
@@ -75,11 +75,11 @@ public class Lotissement{
     }
     
     Lotissement(JSONObject jsonObject) {
-        setDescription(jsonObject.getString("description"));
-        setNbDroitsPassages(jsonObject.getInt("nombre_droits_passage"));
-        setDateMesure(jsonObject.getString("date_mesure"));
-        setNbServices(jsonObject.getInt("nombre_services") + NB_SERVICE_BASE);
-        setSuperficie(jsonObject.getInt("superficie"));
+        description = (jsonObject.getString("description"));
+        nbDroitsPassages = (jsonObject.getInt("nombre_droits_passage"));
+        dateMesure = (jsonObject.getString("date_mesure"));
+        nbServices = (jsonObject.getInt("nombre_services") + NB_SERVICE_BASE);
+        superficie = (jsonObject.getInt("superficie"));
     }
 
     void residentiel(double prixMax, double prixMin) {

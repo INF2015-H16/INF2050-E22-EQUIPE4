@@ -1,13 +1,13 @@
 
 package evaluationfonciere;
 
-import java.text.DecimalFormal;
+import java.text.DecimalFormat;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
  *
- * @author Leonid
+ * @author Leonid, Golem, Steven, Eric
  */
 public class Terrain {
     double prixMin;
@@ -99,7 +99,6 @@ public class Terrain {
         return Math.ceil(montant*20)/20;
     }
     
-    //Copier coller de la methode a Eric
     private Lotissement [] formaterLot(JSONArray source){
         lotissements = new Lotissement[source.size()];
         for (int i=0; i < source.size(); i++){

@@ -10,15 +10,9 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author Leonid
+ * @author Leonid, Golem, Steven, Eric
  */
 public class EvaluationFonciere {
-
-    /**
-     * @param fileName
-     * @return 
-     * @throws java.io.IOException
-     */
     
     public static void main(String[] args) {
         String texteSource = "";
@@ -39,7 +33,6 @@ public class EvaluationFonciere {
         
         JSONEvaluation = terrain.rapport();
         texteEvaluation = JSONEvaluation.toString();
-        System.out.println(texteEvaluation);
 
         try (FileWriter writer = new FileWriter(fichier)) {
             writer.write(texteEvaluation);
