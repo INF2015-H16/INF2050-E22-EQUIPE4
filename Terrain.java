@@ -65,7 +65,7 @@ public class Terrain {
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
         for(Lotissement lot : lotissements){
-            valeurFonciereTotale += lot.getValeurLot();
+            valeurFonciereTotale += lot.getValeurTotalLot();
         }
         
         //Arrondir ses montants au 5 sous 
