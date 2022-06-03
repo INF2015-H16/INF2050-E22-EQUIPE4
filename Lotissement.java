@@ -89,7 +89,7 @@ public class Lotissement{
 
     void residentiel(double prixMax, double prixMin) {
         valeurSuperficie = superficie * ((prixMax + prixMin)/2);
-        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurLot/10));
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie/10));
         
         if(superficie <= 500) {
             montantServices = 0;
@@ -104,7 +104,7 @@ public class Lotissement{
 
     void agricole(double prixMin) {
         valeurSuperficie = superficie * prixMin;
-        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurLot/20));
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie/20));
         montantServices = 0;
 
         valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
@@ -113,7 +113,7 @@ public class Lotissement{
 
     void commercial(double prixMax) {
         valeurSuperficie = superficie * prixMax;
-        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurLot);
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurSuperficie);
         
         if(superficie <= 500) {
             montantServices = 500 * nbServices;
