@@ -17,7 +17,8 @@ public class Lotissement{
     
     private double montantServices;
     private double montantDroitDePassages;
-    private double valeurLot;
+    private double valeurSuperficie;
+    private double valeurTotalLot;
 
     private String description;
     private String dateMesure;
@@ -26,8 +27,8 @@ public class Lotissement{
         return description;
     }
 
-    public double getValeurLot() {
-        return valeurLot;
+    public double getValeurTotalLot() {
+        return valeurTotalLot;
     }
 
     /* public String getDateMesure() {
@@ -52,6 +53,10 @@ public class Lotissement{
     
     public double getMontantDroitDePassages() {
         return montantDroitDePassages;
+    }
+    
+    public double getValeurSuperficie(){
+        return valeurSuperficie;
     }*/
 
     public void setDescription(String description) {
@@ -83,7 +88,7 @@ public class Lotissement{
     }
 
     void residentiel(double prixMax, double prixMin) {
-        valeurLot = superficie * ((prixMax + prixMin)/2);
+        valeurSuperficie = superficie * ((prixMax + prixMin)/2);
         montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurLot/10));
         
         if(superficie <= 500) {
@@ -93,16 +98,21 @@ public class Lotissement{
         } else {
             montantServices = 1000 * nbServices;
         }
+
+        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
     }
 
     void agricole(double prixMin) {
-        valeurLot = superficie * prixMin;
+        valeurSuperficie = superficie * prixMin;
         montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurLot/20));
         montantServices = 0;
+
+        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
+
     }
 
     void commercial(double prixMax) {
-        valeurLot = superficie * prixMax;
+        valeurSuperficie = superficie * prixMax;
         montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurLot);
         
         if(superficie <= 500) {
@@ -114,5 +124,8 @@ public class Lotissement{
         if(montantServices > 5000){
             montantServices = 5000;
         }
+
+        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
+
     }
 }
