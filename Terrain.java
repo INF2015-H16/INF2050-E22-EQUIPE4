@@ -61,7 +61,7 @@ public class Terrain {
     public JSONObject rapport(){
         valeurFonciereTotale = PRIX_FIXE;
 
-        String pattern = "#.##";
+        String pattern = "#.00";
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
 
         for(Lotissement lot : lotissements){
