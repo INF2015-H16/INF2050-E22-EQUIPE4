@@ -5,16 +5,20 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author Leonid, Golem, Steven, Eric
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
-public class Lotissement{
+public class Lotissement {
     private static final int NB_SERVICE_BASE = 2;
     private static final int MONTANT_BASE = 500;
 
     private int nbDroitsPassages;
     private int nbServices;
     private int superficie;
-    
+
     private double montantServices;
     private double montantDroitDePassages;
     private double valeurSuperficie;
@@ -31,33 +35,35 @@ public class Lotissement{
         return valeurTotalLot;
     }
 
-    /* public String getDateMesure() {
-        return dateMesure;
-    }
-
-    public int getNbDroitsPassages() {
-        return nbDroitsPassages;
-    }
-
-    public int getNbServices() {
-        return nbServices;
-    }
-
-    public int getSuperficie() {
-        return superficie;
-    } 
-    
-    public double getMontantServices() {
-        return montantServices;
-    }
-    
-    public double getMontantDroitDePassages() {
-        return montantDroitDePassages;
-    }
-    
-    public double getValeurSuperficie(){
-        return valeurSuperficie;
-    }*/
+    /*
+     * public String getDateMesure() {
+     * return dateMesure;
+     * }
+     * 
+     * public int getNbDroitsPassages() {
+     * return nbDroitsPassages;
+     * }
+     * 
+     * public int getNbServices() {
+     * return nbServices;
+     * }
+     * 
+     * public int getSuperficie() {
+     * return superficie;
+     * }
+     * 
+     * public double getMontantServices() {
+     * return montantServices;
+     * }
+     * 
+     * public double getMontantDroitDePassages() {
+     * return montantDroitDePassages;
+     * }
+     * 
+     * public double getValeurSuperficie(){
+     * return valeurSuperficie;
+     * }
+     */
 
     public void setDescription(String description) {
         this.description = description;
@@ -74,11 +80,11 @@ public class Lotissement{
     public void setNbServices(int nbServices) {
         this.nbServices = nbServices;
     }
-    
+
     public void setSuperficie(int superficie) {
         this.superficie = superficie;
     }
-    
+
     Lotissement(JSONObject jsonObject) {
         description = (jsonObject.getString("description"));
         nbDroitsPassages = (jsonObject.getInt("nombre_droits_passage"));
@@ -88,12 +94,12 @@ public class Lotissement{
     }
 
     void residentiel(double prixMax, double prixMin) {
-        valeurSuperficie = superficie * ((prixMax + prixMin)/2);
-        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie/10));
-        
-        if(superficie <= 500) {
+        valeurSuperficie = superficie * ((prixMax + prixMin) / 2);
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie / 10));
+
+        if (superficie <= 500) {
             montantServices = 0;
-        } else if(superficie <= 10000){
+        } else if (superficie <= 10000) {
             montantServices = 500 * nbServices;
         } else {
             montantServices = 1000 * nbServices;
@@ -104,7 +110,7 @@ public class Lotissement{
 
     void agricole(double prixMin) {
         valeurSuperficie = superficie * prixMin;
-        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie/20));
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie / 20));
         montantServices = 0;
 
         valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
@@ -114,14 +120,14 @@ public class Lotissement{
     void commercial(double prixMax) {
         valeurSuperficie = superficie * prixMax;
         montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurSuperficie);
-        
-        if(superficie <= 500) {
+
+        if (superficie <= 500) {
             montantServices = 500 * nbServices;
         } else {
             montantServices = 1500 * nbServices;
         }
-        
-        if(montantServices > 5000){
+
+        if (montantServices > 5000) {
             montantServices = 5000;
         }
 
