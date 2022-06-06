@@ -5,70 +5,103 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author 
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
 public class Lotissement {
-    //Valeurs recues
-    private String description;
+    private static final int NB_SERVICE_BASE = 2;
+    private static final int MONTANT_BASE = 500;
+
     private int nbDroitsPassages;
     private int nbServices;
     private int superficie;
-    private String dateMesure; 
-    //Valeurs calculees
-    private double valeurSuperficie;
-    private double montantDroitsPassage;
+
     private double montantServices;
-    private double valeurLot;
-    
-    public Lotissement(JSONObject source){
-        description = source.getString("description");
-        nbDroitsPassages = source.getInt("nombre_droits_passage");
-        nbServices = source.getInt("nombre_services");
-        superficie = source.getInt("superficie");
-        dateMesure = source.getString("dateMesure");
-    }
-    
-    //getters des valeurs recues
-    public String getDescription(){
+    private double montantDroitDePassages;
+    private double valeurSuperficie;
+    private double valeurTotalLot;
+
+    private String description;
+    private String dateMesure;
+
+    public String getDescription() {
         return description;
     }
 
-    public int getNbDroitsPassages(){
-        return nbDroitsPassages;
-    }
-
-    public int getNbServices(){
-        return nbServices;
+    public double getValeurTotalLot() {
+        return valeurTotalLot;
     }
     
-    public int getSuperficie(){
-        return superficie;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public int getDateMesure(){
-        return dateMesure;
+    public void setDateMesure(String dateMesure) {
+        this.dateMesure = dateMesure;
     }
 
-    //setters des valeurs calculees
-    public void setValeurSuperficie(double montant){
-        valeurSuperficie = montant;
+    public void setNbDroitsPassages(int nbDroitsPassages) {
+        this.nbDroitsPassages = nbDroitsPassages;
     }
 
-    public void setMontantDroitsPassage(double montant){
-        montantDroitsPassage = montant;
+    public void setNbServices(int nbServices) {
+        this.nbServices = nbServices;
     }
 
-    public void setMontantServices(double montant){
-        montantServices = montant;
+    public void setSuperficie(int superficie) {
+        this.superficie = superficie;
     }
 
-    public void setValeurLot(){
-        valeurLot = valeurSuperficie + montantDroitsPassage + montantServices;
+    Lotissement(JSONObject jsonObject) {
+        description = (jsonObject.getString("description"));
+        nbDroitsPassages = (jsonObject.getInt("nombre_droits_passage"));
+        dateMesure = (jsonObject.getString("date_mesure"));
+        nbServices = (jsonObject.getInt("nombre_services") + NB_SERVICE_BASE);
+        superficie = (jsonObject.getInt("superficie"));
     }
 
+    void residentiel(double prixMax, double prixMin) {
+        valeurSuperficie = superficie * ((prixMax + prixMin) / 2);
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie / 10));
 
-    public JSONObject rapport(){
-    //append les lignes demandees
+        if (superficie <= 500) {
+            montantServices = 0;
+        } else if (superficie <= 10000) {
+            montantServices = 500 * nbServices;
+        } else {
+            montantServices = 1000 * nbServices;
+        }
+
+        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
     }
-    
+
+    void agricole(double prixMin) {
+        valeurSuperficie = superficie * prixMin;
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie / 20));
+        montantServices = 0;
+
+        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
+
+    }
+
+    void commercial(double prixMax) {
+        valeurSuperficie = superficie * prixMax;
+        montantDroitDePassages = MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurSuperficie);
+
+        if (superficie <= 500) {
+            montantServices = 500 * nbServices;
+        } else {
+            montantServices = 1500 * nbServices;
+        }
+
+        if (montantServices > 5000) {
+            montantServices = 5000;
+        }
+
+        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
+
+    }
 }

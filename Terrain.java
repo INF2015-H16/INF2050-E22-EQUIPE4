@@ -1,82 +1,110 @@
 
 package evaluationfonciere;
 
+import java.text.DecimalFormat;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  *
- * @author 
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
-abstract class Terrain {
-    //valeurs recues
-    private final int nbrServiceBase = 2;
-    private final double prixFixe = 733.77;
-    private final double montantBase = 500;    
-    private double prixMin;
-    private double prixMax;
-    //valeurs calculees
-    private double valeurFonciereTotale;
-    private double taxeScolaire;
-    private double taxeMunicipale;
-    private ArrayList<Lotissement> lotissements;
-    
-    public Terrain(JSONObject JSONSource){
-        //Simple initialisation
-        this.prixMin = JSONSource.getDouble("prix_min");
-        this.prixMax = JSONSource.getDouble("prix_max");
-        this.lotissements = initialiserLot(JSONSource.getJSONArray("lotissements"));
-        //Calculs specifiques des valeurs dans lotissements
-        this.calculValeurParSuperficie();
-        this.calculDroitPassage();
-        this.calculMontantServices();
-        //Calculs generaux
-        this.calculValeurParLot();
-        this.calculValeurFonciereTotale();
-        this.calculTaxeScolaire();
-        this.calculTaxeMunicipale(); 
-    }
-    
-    //Toutes les methodes abstraites agissent sur this.lotissements
-    private abstract void calculValeurParSuperficie();    
-    private abstract void calculDroitPassage();    
-    private abstract void calculMontantServices();    
-    private abstract void calculValeurParLot();    
-    
-    public void calculValeurParLot(){
-        for(Lotissement lot: this.lotissements){
-            lot.setValeurLot();
+public class Terrain {
+    double prixMin;
+    double prixMax;
+
+    double valeurFonciereTotale;
+    double taxeScolaire;
+    double taxeMunicipale;
+    Lotissement[] lotissements;
+
+    static final double PRIX_FIXE = 733.77;
+    static final double TAUX_SCOLAIRE = 0.012;
+    static final double TAUX_MUNICIPALE = 0.025;
+
+    public Terrain(JSONObject JSONSource) {
+        this.prixMin = Double.parseDouble(JSONSource.getString("prix_m2_min").split(" ")[0]);
+        this.prixMax = Double.parseDouble(JSONSource.getString("prix_m2_max").split(" ")[0]);
+        this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
+
+        switch (JSONSource.getInt("type_terrain")) {
+            case 0:
+                this.agricole();
+                break;
+            case 1:
+                this.residentiel();
+                break;
+            case 2:
+                this.commercial();
+                break;
         }
-    }
-    
-    private void calculValeurFonciereTotale(){
-        this.valeurFonciereToTale = prixFixe;
-        for (Lotissement lot: this.lotissements){
-            this.valeurFonciereTotale += lot.getValeurParLot();
-        }
-        this.valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
-    }    
-    
-    private void calculTaxeScolaire(){
-        this.taxeScolaire = arrondiAu5sousSuperieur(0.012 * this.valeurFonciereTotale);
-    }
-    
-    private void calculTaxeMunicipale(){
-        this.taxeMunicipale = arrondiAu5sousSuperieur(0.025 * this.valeurFonciereTotale);
     }
 
-    public static double arrondiAu5sousSuperieur(double montant){
-        return (double) (Math.ceil(montant*20)/20);
+    private void residentiel() {
+        for (Lotissement lot : lotissements) {
+            lot.residentiel(prixMax, prixMin);
+        }
     }
-    
-    private ArrayList<Lotissement> initialiserLot(JSONArray source){
-        lotissements = new ArrayList<Lotissement>;
-        for (JSONObject JSONlot: source){
-            Lotissement lot = new Lotissement(JSONlot);            
-            lotissements.append(lot);
+
+    private void agricole() {
+        for (Lotissement lot : lotissements) {
+            lot.agricole(prixMin);
+        }
+    }
+
+    private void commercial() {
+        for (Lotissement lot : lotissements) {
+            lot.commercial(prixMax);
+        }
+    }
+
+    public JSONObject rapport() {
+        valeurFonciereTotale = PRIX_FIXE;
+
+        String pattern = "#.00";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+
+        for (Lotissement lot : lotissements) {
+            valeurFonciereTotale += lot.getValeurTotalLot();
+        }
+
+        // Arrondir ses montants au 5 sous
+        valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
+        taxeScolaire = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_SCOLAIRE);
+        taxeMunicipale = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_MUNICIPALE);
+
+        JSONObject rapport = new JSONObject();
+        rapport.accumulate("valeur_fonciere_totale", decimalFormat.format(valeurFonciereTotale) + " $");
+        rapport.accumulate("taxe_scolaire", decimalFormat.format(taxeScolaire) + " $");
+        rapport.accumulate("taxe_ municipale", decimalFormat.format(taxeMunicipale) + " $");
+
+        JSONArray lots = new JSONArray();
+        for (Lotissement lot : lotissements) {
+            JSONObject lotUnique = new JSONObject();
+            lotUnique.accumulate("description", lot.getDescription());
+            lotUnique.accumulate("valeur_par_lot", decimalFormat.format(lot.getValeurTotalLot()) + " $");
+
+            lots.add(lotUnique);
+        }
+
+        rapport.accumulate("lotissements", lots);
+
+        return rapport;
+    }
+
+    public double arrondiAu5sousSuperieur(double montant) {
+        return Math.ceil(montant * 20) / 20;
+    }
+
+    private Lotissement[] formaterLot(JSONArray source) {
+        lotissements = new Lotissement[source.size()];
+        for (int i = 0; i < source.size(); i++) {
+            lotissements[i] = new Lotissement(source.getJSONObject(i));
         }
         return lotissements;
-    }
-    
-    public JSONObject rapport{
-        //append les lignes voulues avant le lotissement
-        //append avec appel de rapport() dans la classe Lotissement
     }
 }
