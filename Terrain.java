@@ -86,10 +86,6 @@ public class Terrain {
         for (Lotissement lot : lotissements) {
             JSONObject lotUnique = new JSONObject();
             lotUnique.accumulate("description", lot.getDescription());
-
-            // Enoncer ne precise pas qu'il faut arrondir le montant au 5 sous pour chaque
-            // lot,
-            // mais l'exemple de sortie montre des montants arrondis
             lotUnique.accumulate("valeur_par_lot", decimalFormat.format(lot.getValeurTotalLot()) + " $");
 
             lots.add(lotUnique);
