@@ -34,37 +34,7 @@ public class Lotissement {
     public double getValeurTotalLot() {
         return valeurTotalLot;
     }
-
-    /*
-     * public String getDateMesure() {
-     * return dateMesure;
-     * }
-     * 
-     * public int getNbDroitsPassages() {
-     * return nbDroitsPassages;
-     * }
-     * 
-     * public int getNbServices() {
-     * return nbServices;
-     * }
-     * 
-     * public int getSuperficie() {
-     * return superficie;
-     * }
-     * 
-     * public double getMontantServices() {
-     * return montantServices;
-     * }
-     * 
-     * public double getMontantDroitDePassages() {
-     * return montantDroitDePassages;
-     * }
-     * 
-     * public double getValeurSuperficie(){
-     * return valeurSuperficie;
-     * }
-     */
-
+    
     public void setDescription(String description) {
         this.description = description;
     }
