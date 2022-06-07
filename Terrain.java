@@ -86,7 +86,8 @@ public class Terrain {
         for (Lotissement lot : lotissements) {
             JSONObject lotUnique = new JSONObject();
             lotUnique.accumulate("description", lot.getDescription());
-            lotUnique.accumulate("valeur_par_lot", decimalFormat.format(lot.getValeurTotalLot()) + " $");
+            lotUnique.accumulate("valeur_par_lot", 
+                    decimalFormat.format(arrondiAu5sousSuperieur(lot.getValeurTotalLot())) + " $");
 
             lots.add(lotUnique);
         }
