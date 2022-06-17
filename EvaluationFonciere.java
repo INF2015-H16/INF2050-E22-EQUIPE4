@@ -1,42 +1,48 @@
 
 package evaluationfonciere;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import net.sf.json.JSONObject;
+
 /**
  *
- * @author 
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
 public class EvaluationFonciere {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        
-        String texteSource = cIOUtils.toString(new FileInputStream(args[0]), "UTF-8");
-        JSONObject JSONSource = new JSONObject(texteSource);
-        
-        String texteEvaluation;
-        JSONObject JSONEvaluation;
+        String texteSource = "";
         Terrain terrain;
-        File fichier;
-        
-        switch(JSONSource.getInt("type_terrain")){
-            case 0:
-                terrain = new TerrainAgricole(JSONSource);
-            break;
-            case 1:
-                terrain = new TerrainResidentiel(JSONSource);
-            break;
-            case 2:
-                terrain = new TerrainCommercial(JSONSource);
-            break;
+        JSONObject JSONEvaluation;
+        String texteEvaluation;
+        File fichier = new File(args[1]);
+        JSONObject JSONSource;
+
+        try {
+            texteSource = new String(Files.readAllBytes(Paths.get(args[0])));
+        } catch (IOException e) {
+            System.out.println("Cannot read file: " + e.getMessage());
         }
-        
+
+        JSONSource = JSONObject.fromObject(texteSource);
+        terrain = new Terrain(JSONSource);
+
         JSONEvaluation = terrain.rapport();
         texteEvaluation = JSONEvaluation.toString();
-        fichier = new File(args[1]);
-        FileUtils.writeStringToFile(fichier, texteEvaluation, "UTF-8")
-        
-    }    
-    
+
+        try (FileWriter writer = new FileWriter(fichier)) {
+            writer.write(texteEvaluation);
+        } catch (IOException e) {
+            System.out.printf("Une erreur s'est produite %s", e.getMessage());
+        }
+    }
+
 }
