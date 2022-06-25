@@ -14,8 +14,7 @@ import net.sf.json.JSONObject;
  * 
  */
 public class Terrain {
-    double prixMin;
-    double prixMax;
+    double[] prixMinMax = new double[2];
 
     double valeurFonciereTotale;
     double taxeScolaire;
@@ -25,85 +24,74 @@ public class Terrain {
     static final double PRIX_FIXE = 733.77;
     static final double TAUX_SCOLAIRE = 0.012;
     static final double TAUX_MUNICIPALE = 0.025;
-
+   
     public Terrain(JSONObject JSONSource) {
-        this.prixMin = Double.parseDouble(JSONSource.getString("prix_m2_min").split(" ")[0]);
-        this.prixMax = Double.parseDouble(JSONSource.getString("prix_m2_max").split(" ")[0]);
-        this.lotissements = formaterLot(JSONSource.getJSONArray("lotissements"));
-
-        switch (JSONSource.getInt("type_terrain")) {
-            case 0:
-                this.agricole();
-                break;
-            case 1:
-                this.residentiel();
-                break;
-            case 2:
-                this.commercial();
-                break;
-        }
+        prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
+        prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
+        
+        JSONArray lesLots = JSONSource.getJSONArray("lotissements");
+        int typeDeTerrain = JSONSource.getInt("type_terrain");
+        
+        this.lotissements = formaterLot(lesLots, typeDeTerrain);
     }
-
-    private void residentiel() {
-        for (Lotissement lot : lotissements) {
-            lot.residentiel(prixMax, prixMin);
-        }
+    
+    private double stringEnDouble(String prixEnString){
+        return Double.parseDouble(prixEnString.split(" ")[0]);
     }
-
-    private void agricole() {
-        for (Lotissement lot : lotissements) {
-            lot.agricole(prixMin);
-        }
-    }
-
-    private void commercial() {
-        for (Lotissement lot : lotissements) {
-            lot.commercial(prixMax);
-        }
-    }
-
+    
     public JSONObject rapport() {
-        valeurFonciereTotale = PRIX_FIXE;
-
-        String pattern = "#.00";
-        DecimalFormat decimalFormat = new DecimalFormat(pattern);
-
-        for (Lotissement lot : lotissements) {
-            valeurFonciereTotale += lot.getValeurTotalLot();
-        }
-
-        // Arrondir ses montants au 5 sous
-        valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
-        taxeScolaire = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_SCOLAIRE);
-        taxeMunicipale = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_MUNICIPALE);
-
+        calculsRapport();
         JSONObject rapport = new JSONObject();
-        rapport.accumulate("valeur_fonciere_totale", decimalFormat.format(valeurFonciereTotale) + " $");
-        rapport.accumulate("taxe_scolaire", decimalFormat.format(taxeScolaire) + " $");
-        rapport.accumulate("taxe_ municipale", decimalFormat.format(taxeMunicipale) + " $");
+        rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale) + " $");
+        rapport.accumulate("taxe_scolaire", formaterDecimal(taxeScolaire) + " $");
+        rapport.accumulate("taxe_ municipale", formaterDecimal(taxeMunicipale) + " $");
+        JSONArray lots = creerRapportsLots();
+        rapport.accumulate("lotissements", lots);
 
+        return rapport;
+    }
+
+    private JSONArray creerRapportsLots() {
         JSONArray lots = new JSONArray();
         for (Lotissement lot : lotissements) {
             JSONObject lotUnique = new JSONObject();
             lotUnique.accumulate("description", lot.getDescription());
-            lotUnique.accumulate("valeur_par_lot", decimalFormat.format(lot.getValeurTotalLot()) + " $");
+            lotUnique.accumulate("valeur_par_lot", formaterDecimal(lot.getValeurTotalLot()) + " $");
 
             lots.add(lotUnique);
         }
-
-        rapport.accumulate("lotissements", lots);
-
-        return rapport;
+        return lots;
+    }
+    
+    private void calculsRapport(){
+        valeurFonciereTotale = PRIX_FIXE;
+        for (Lotissement lot : lotissements) {
+            lot.calculs();
+            valeurFonciereTotale += lot.getValeurTotalLot();
+        }
+        valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
+        taxeScolaire = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_SCOLAIRE);
+        taxeMunicipale = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_MUNICIPALE);
+    }
+    
+    private String formaterDecimal(double valeur) {
+        String pattern = "#.00";
+        DecimalFormat decimalFormat = new DecimalFormat(pattern);
+        return decimalFormat.format(valeur);
     }
 
     public double arrondiAu5sousSuperieur(double montant) {
         return Math.ceil(montant * 20) / 20;
     }
 
-    private Lotissement[] formaterLot(JSONArray source) {
+    private Lotissement[] formaterLot(JSONArray source, int typeDeTerrain) {
+        CreerTypeLotissement createur = new CreerTypeLotissement();
+        JSONObject unLot;
         lotissements = new Lotissement[source.size()];
         for (int i = 0; i < source.size(); i++) {
-            lotissements[i] = new Lotissement(source.getJSONObject(i));
+            unLot = source.getJSONObject(i);
+            lotissements[i] = createur.creerLotissement(typeDeTerrain, unLot);
+            lotissements[i].setPrixMinMax(prixMinMax);
         }
         return lotissements;
     }
