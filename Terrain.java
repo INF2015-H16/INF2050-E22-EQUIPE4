@@ -41,7 +41,11 @@ public class Terrain {
         return Double.parseDouble(prixEnString);
     }
     
-    public JSONObject rapport() {
+    public String rapport(){
+        return rapportJSONObject().toString();
+    }
+    
+    private JSONObject rapportJSONObject() {
         calculsRapport();
         JSONObject rapport = new JSONObject();
         rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale) + " $");
