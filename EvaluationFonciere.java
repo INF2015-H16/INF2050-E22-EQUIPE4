@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.json.JSONObject;
 
 /**
@@ -22,8 +24,7 @@ public class EvaluationFonciere {
         try {
             String texteSource = lireFichierEntree(args);
             JSONObject JSONSource = JSONObject.fromObject(texteSource);
-            Terrain terrain = new Terrain(JSONSource);
-            texteEvaluation = terrain.rapport();
+            texteEvaluation = jePensePasCestBon(JSONSource);
         } catch (FormatInvalide erreur) {
             System.out.print(erreur.getMessage());
         } finally {
@@ -32,12 +33,22 @@ public class EvaluationFonciere {
             }
         }
     }
+    
+    private static String jePensePasCestBon(JSONObject JSONSource){
+        Terrain terrain;
+        try {
+            terrain = new Terrain(JSONSource);
+            return terrain.getRapport();
+        } catch (FormatInvalide erreur) {
+            return "{\"message\": \"" + erreur.getMessage() + ".\"}";
+        }
+    }
 
     private static void ecrireFichierSortie(String[] args, String texteEvaluation) {
         try (FileWriter writer = new FileWriter(new File(args[1]))) {
             writer.write(texteEvaluation);
         } catch (IOException e) {
-            System.out.printf("Erreur dans l'ecriture du fichier de sortie");
+            System.out.print("Erreur dans l'ecriture du fichier de sortie");
         }
     }
 

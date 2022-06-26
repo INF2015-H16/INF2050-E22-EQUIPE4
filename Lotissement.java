@@ -51,4 +51,22 @@ public abstract class Lotissement{
     public double getValeurTotalLot() {
         return valeurTotalLot;
     }
+
+    public void verifierValeurs() throws FormatInvalide {
+        if(nbDroitsPassages > 10){
+            throw new FormatInvalide("Le nombre de droits de passage est superieur a 10");
+        } else if(nbDroitsPassages < 0){
+            throw new FormatInvalide("Le nombre de droits de passage est inferieur a 0");
+        }
+        if(nbServices > 5){
+            throw new FormatInvalide("Le nombre de services est superieur a 5");
+        } else if(nbServices > 5){
+            throw new FormatInvalide("Le nombre de services est inferieur a 0");
+        }
+        if(superficie > 50000){
+            throw new FormatInvalide("La superficie ne peut pas etre supérieure a 50000 metres carres");
+        } else if(superficie < 0){
+            throw new FormatInvalide("La superficie ne peut pas etre négative");
+        }
+    }
 }

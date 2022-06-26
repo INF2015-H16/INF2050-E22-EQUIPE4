@@ -24,15 +24,31 @@ public class Terrain {
     static final double PRIX_FIXE = 733.77;
     static final double TAUX_SCOLAIRE = 0.012;
     static final double TAUX_MUNICIPALE = 0.025;
+    
+    private String rapportFinal;
    
-    public Terrain(JSONObject JSONSource) {
+    public Terrain(JSONObject JSONSource) throws FormatInvalide {
         prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
         prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
         
         JSONArray lesLots = JSONSource.getJSONArray("lotissements");
         int typeDeTerrain = JSONSource.getInt("type_terrain");
+        verifierValeursTerrain(typeDeTerrain, lesLots);
         
         this.lotissements = formaterLot(lesLots, typeDeTerrain);
+        verifierValeursLots();
+    }
+
+    private void verifierValeursTerrain(int typeDeTerrain, JSONArray lesLots) throws FormatInvalide {
+        if(typeNonValide(typeDeTerrain)){
+            throw new FormatInvalide("Le type n'est pas la valeur 0, 1 ou 2");
+        } else if(lesLots.size() > 10){
+            throw new FormatInvalide("Le nombre de lots ne doit jamais depasser 10 lots");
+        } else if(lesLots.size() < 1){
+            throw new FormatInvalide("Un terrain doit avoir au moins un lot");
+        } else if(prixMinMax[0] < 0 || prixMinMax[1] < 0){
+            throw new FormatInvalide("Un montant d'argent ne peut pas être négatif;");
+        }
     }
     
     private double stringEnDouble(String prixEnString){
@@ -45,7 +61,7 @@ public class Terrain {
         return rapportJSONObject().toString();
     }
     
-    private JSONObject rapportJSONObject() {
+    private JSONObject rapportJSONObject(){
         calculsRapport();
         JSONObject rapport = new JSONObject();
         rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale) + " $");
@@ -100,5 +116,19 @@ public class Terrain {
             lotissements[i].setPrixMinMax(prixMinMax);
         }
         return lotissements;
+    }
+
+    String getRapport() {
+        return this.rapportFinal;
+    }
+
+    private boolean typeNonValide(int type) {
+        return type != 0 && type != 1 && type != 2;
+    }
+
+    private void verifierValeursLots() throws FormatInvalide {
+        for(Lotissement lot : lotissements) {
+            lot.verifierValeurs();
+        }
     }
 }
