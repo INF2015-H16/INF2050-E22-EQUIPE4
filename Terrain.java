@@ -24,8 +24,6 @@ public class Terrain {
     static final double PRIX_FIXE = 733.77;
     static final double TAUX_SCOLAIRE = 0.012;
     static final double TAUX_MUNICIPALE = 0.025;
-    
-    private String rapportFinal;
    
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
         prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
@@ -116,10 +114,6 @@ public class Terrain {
             lotissements[i].setPrixMinMax(prixMinMax);
         }
         return lotissements;
-    }
-
-    String getRapport() {
-        return this.rapportFinal;
     }
 
     private boolean typeNonValide(int type) {

@@ -38,7 +38,7 @@ public class EvaluationFonciere {
         Terrain terrain;
         try {
             terrain = new Terrain(JSONSource);
-            return terrain.getRapport();
+            return terrain.rapport();
         } catch (FormatInvalide erreur) {
             return "{\"message\": \"" + erreur.getMessage() + ".\"}";
         }
