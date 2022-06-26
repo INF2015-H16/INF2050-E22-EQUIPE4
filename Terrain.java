@@ -36,7 +36,9 @@ public class Terrain {
     }
     
     private double stringEnDouble(String prixEnString){
-        return Double.parseDouble(prixEnString.split(" ")[0]);
+        //On le separe du signe $ et on remplace les , par . s'il y en a
+        prixEnString = prixEnString.split(" ")[0].replaceAll(",",".");
+        return Double.parseDouble(prixEnString);
     }
     
     public JSONObject rapport() {
