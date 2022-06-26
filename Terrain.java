@@ -49,6 +49,12 @@ public class Terrain {
         }
     }
     
+    private void verifierValeursLots() throws FormatInvalide {
+        for(Lotissement lot : lotissements) {
+            lot.verifierValeurs();
+        }
+    }
+    
     private double stringEnDouble(String prixEnString){
         //On le separe du signe $ et on remplace les , par . s'il y en a
         prixEnString = prixEnString.split(" ")[0].replaceAll(",",".");
@@ -118,11 +124,5 @@ public class Terrain {
 
     private boolean typeNonValide(int type) {
         return type != 0 && type != 1 && type != 2;
-    }
-
-    private void verifierValeursLots() throws FormatInvalide {
-        for(Lotissement lot : lotissements) {
-            lot.verifierValeurs();
-        }
     }
 }

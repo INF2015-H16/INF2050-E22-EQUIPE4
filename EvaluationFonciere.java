@@ -6,8 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.json.JSONObject;
 
 /**
@@ -20,35 +18,33 @@ import net.sf.json.JSONObject;
  */
 public class EvaluationFonciere {
     public static void main(String[] args) {
-        String texteEvaluation = "";
         try {
             String texteSource = lireFichierEntree(args);
             JSONObject JSONSource = JSONObject.fromObject(texteSource);
-            texteEvaluation = jePensePasCestBon(JSONSource);
+            String texteEvaluation = retournerRapportFinal(JSONSource);
+            ecrireFichierSortie(args[1], texteEvaluation);
         } catch (FormatInvalide erreur) {
             System.out.print(erreur.getMessage());
-        } finally {
-            if(!texteEvaluation.equals("")){
-                ecrireFichierSortie(args, texteEvaluation);
-            }
         }
     }
     
-    private static String jePensePasCestBon(JSONObject JSONSource){
-        Terrain terrain;
+     private static void ecrireFichierSortie(String args, String texteEvaluation) throws FormatInvalide {
+        try (FileWriter writer = new FileWriter(new File(args))) {
+            writer.write(texteEvaluation);
+        } catch (IOException e) {
+            throw new FormatInvalide("Erreur dans l'ecriture du fichier de sortie");
+        }
+     }
+    
+    private static String retournerRapportFinal(JSONObject JSONSource){
         try {
-            terrain = new Terrain(JSONSource);
+            //Ici des exception peuvent etre lance
+            Terrain terrain = new Terrain(JSONSource);
+            //Ici non
+            //Ici sera l'appel de Rapport.getRapport(terrain);
             return terrain.rapport();
         } catch (FormatInvalide erreur) {
             return "{\"message\": \"" + erreur.getMessage() + ".\"}";
-        }
-    }
-
-    private static void ecrireFichierSortie(String[] args, String texteEvaluation) {
-        try (FileWriter writer = new FileWriter(new File(args[1]))) {
-            writer.write(texteEvaluation);
-        } catch (IOException e) {
-            System.out.print("Erreur dans l'ecriture du fichier de sortie");
         }
     }
 
@@ -56,12 +52,11 @@ public class EvaluationFonciere {
         if(args.length != 2){
             throw new FormatInvalide("Fichier d'entree ou de sortie manquant");
         }
-        String texteSource;
         try {
-            texteSource = new String(Files.readAllBytes(Paths.get(args[0])));
+            String texteSource = new String(Files.readAllBytes(Paths.get(args[0])));
+            return texteSource;
         } catch (IOException e) {
             throw new FormatInvalide("Erreur dans la lecture du fichier d'entree");
         }
-        return texteSource;
     }
 }
