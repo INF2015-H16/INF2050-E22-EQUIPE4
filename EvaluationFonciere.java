@@ -21,7 +21,7 @@ public class EvaluationFonciere {
         try {
             String texteSource = lireFichierEntree(args);
             JSONObject JSONSource = JSONObject.fromObject(texteSource);
-            String texteEvaluation = retournerRapportFinal(JSONSource);
+            String texteEvaluation = retournerContenuSortie(JSONSource);
             ecrireFichierSortie(args[1], texteEvaluation);
         } catch (FormatInvalide erreur) {
             System.out.print(erreur.getMessage());
@@ -36,7 +36,7 @@ public class EvaluationFonciere {
         }
      }
     
-    private static String retournerRapportFinal(JSONObject JSONSource){
+    private static String retournerContenuSortie(JSONObject JSONSource){
         try {
             //Ici des exception peuvent etre lance
             Terrain terrain = new Terrain(JSONSource);
