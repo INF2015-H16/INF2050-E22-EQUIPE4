@@ -26,15 +26,47 @@ public class Terrain {
     static final double TAUX_MUNICIPALE = 0.025;
    
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
-        prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
-        prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
+        setPrixMin(JSONSource);
+        setPrixMax(JSONSource);
         
-        JSONArray lesLots = JSONSource.getJSONArray("lotissements");
-        int typeDeTerrain = JSONSource.getInt("type_terrain");
+        JSONArray lesLots = setLots(JSONSource);
+        int typeDeTerrain = setTypeTerrain(JSONSource);
         verifierValeursTerrain(typeDeTerrain, lesLots);
         
         this.lotissements = formaterLot(lesLots, typeDeTerrain);
         verifierValeursLots();
+    }
+
+    private void setPrixMin(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <prix_m2_min> est manquante dans le fichier d'entree");
+        }
+    }
+
+    private void setPrixMax(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <prix_m2_max> est manquante dans le fichier d'entree");
+        }
+    }
+
+    private JSONArray setLots(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            return JSONSource.getJSONArray("lotissements");
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <lotissements> est manquante dans le fichier d'entree");
+        }
+    }
+
+    private int setTypeTerrain(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            return JSONSource.getInt("type_terrain");
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <type_terrain> est manquante dans le fichier d'entree");
+        }
     }
 
     private void verifierValeursTerrain(int typeDeTerrain, JSONArray lesLots) throws FormatInvalide {

@@ -29,12 +29,52 @@ public abstract class Lotissement{
     double prixMax;
     double prixMin;
 
-    Lotissement(JSONObject jsonObject) {
-        description = (jsonObject.getString("description"));
-        nbDroitsPassages = (jsonObject.getInt("nombre_droits_passage"));
-        dateMesure = (jsonObject.getString("date_mesure"));
-        nbServices = (jsonObject.getInt("nombre_services") + NB_SERVICE_BASE);
-        superficie = (jsonObject.getInt("superficie"));
+    Lotissement(JSONObject JSONSource) {
+        setDescription(JSONSource);
+        setNbDroitsPassages(JSONSource);
+        setDateMesure(JSONSource);
+        setNbServices(JSONSource);
+        setSuperficie(JSONSource);
+    }
+
+    private void setDescription(JSONObject JSONSource) throws FormatInvalide{
+        try {
+            description = JSONSource.getString("description");
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <description> d'un lot est manquante dans le fichier d'entree");
+        }
+    }
+
+    private void setNbDroitsPassages(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            nbDroitsPassages = JSONSource.getInt("nombre_droits_passage");
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <nombre_droits_passage> d'un lot est manquante dans le fichier d'entree");
+        }
+    }
+
+    private void setDateMesure(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            dateMesure = JSONSource.getString("date_mesure");
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <date_mesure> d'un lot est manquante dans le fichier d'entree");
+        }
+    }
+
+    private void setNbServices(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            nbServices = JSONSource.getInt("nombre_services") + NB_SERVICE_BASE;
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <nombre_services> d'un lot est manquante dans le fichier d'entree");
+        }
+    }
+
+    private void setSuperficie(JSONObject JSONSource) throws FormatInvalide {
+        try {
+            superficie = JSONSource.getInt("superficie");
+        } catch (JSONException e) {
+            throw new FormatInvalide("La propriete <superficie> d'un lot est manquante dans le fichier d'entree");
+        }
     }
     
     void setPrixMinMax(double[] prixMinMax){
