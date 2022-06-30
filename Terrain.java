@@ -26,11 +26,11 @@ public class Terrain {
     static final double TAUX_MUNICIPALE = 0.025;
    
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
-        prixMinExiste(JSONSource, prixMinMax);
-        prixMaxExiste(JSONSource, prixMinMax);
+        setPrixMin(JSONSource, prixMinMax);
+        setPrixMax(JSONSource, prixMinMax);
         
-        JSONArray lesLots = lotsExiste(JSONSource);
-        int typeDeTerrain = typeTerrainExiste(JSONSource);
+        JSONArray lesLots = setLots(JSONSource);
+        int typeDeTerrain = setTypeTerrain(JSONSource);
         verifierValeursTerrain(typeDeTerrain, lesLots, prixMinMax);
         
         this.lotissements = formaterLot(lesLots, typeDeTerrain);
@@ -42,7 +42,6 @@ public class Terrain {
             lot.verifierNbDroitsPassages();
             lot.verifierNbServices();
             lot.verifierSuperficie();
-            lot.verifierDescription();
         }
     }
     

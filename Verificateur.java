@@ -19,7 +19,7 @@ public class Verificateur {
     public void verifierNbServices(int nbServices) throws FormatInvalide {
         if(nbServices > 5){
             throw new FormatInvalide("Le nombre de services est superieur a 5");
-        } else if(nbServices > 5){
+        } else if(nbServices < 0){
             throw new FormatInvalide("Le nombre de services est inferieur a 0");
         }
     }
@@ -32,13 +32,7 @@ public class Verificateur {
         }
     }
 
-    public void verifierDescription(JSONObject JSONSource) throws FormatInvalide {
-        if (!JSONSource.containskey("description")) {
-            throw new FormatInvalide("La propriete <description> d'un lot est manquante dans le fichier d'entree");
-        }
-    }
-
-    public void descriptionExiste(JSONObject JSONSource, String description) throws FormatInvalide {
+    public void setDescription(JSONObject JSONSource, String description) throws FormatInvalide {
         if (JSONSource.containskey("description")) {
             description = JSONSource.getString("description");
         } else {
@@ -46,7 +40,7 @@ public class Verificateur {
         }
     }
 
-    public void nbDroitsPassagesExiste(JSONObject JSONSource, int nbDroitsPassages) throws FormatInvalide {
+    public void setNbDroitsPassages(JSONObject JSONSource, int nbDroitsPassages) throws FormatInvalide {
         if (JSONSource.containskey("nombre_droits_passage")) {
             nbDroitsPassages = JSONSource.getInt("nombre_droits_passage");
         } else {
@@ -54,7 +48,7 @@ public class Verificateur {
         }
     }
 
-    public void dateMesureExiste(JSONObject JSONSource, String dateMesure) throws FormatInvalide {
+    public void setDateMesure(JSONObject JSONSource, String dateMesure) throws FormatInvalide {
         if (JSONSource.containskey("date_mesure")) {
             dateMesure = JSONSource.getString("date_mesure");
         } else {
@@ -62,7 +56,7 @@ public class Verificateur {
         }
     }
 
-    public void nbServicesExiste(JSONObject JSONSource, int nbServices, int NB_SERVICE_BASE) throws FormatInvalide {
+    public void setNbServices(JSONObject JSONSource, int nbServices, int NB_SERVICE_BASE) throws FormatInvalide {
         if (JSONSource.containskey("nombre_services")) {
             nbServices = JSONSource.getInt("nombre_services") + NB_SERVICE_BASE;
         } else {
@@ -70,7 +64,7 @@ public class Verificateur {
         }
     }
 
-    public void superficieExiste(JSONObject JSONSource, int superficie) throws FormatInvalide {
+    public void setSuperficie(JSONObject JSONSource, int superficie) throws FormatInvalide {
         if (JSONSource.containskey("superficie")) {
             superficie = JSONSource.getInt("superficie");
         } else {
@@ -78,7 +72,7 @@ public class Verificateur {
         }
     }
 
-    public void prixMinExiste(JSONObject JSONSource, double[] prixMinMax) throws FormatInvalide {
+    public void setPrixMin(JSONObject JSONSource, double[] prixMinMax) throws FormatInvalide {
         if (JSONSource.containskey("prix_m2_min")) {
             prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
         } else {
@@ -86,7 +80,7 @@ public class Verificateur {
         }
     }
 
-    public void prixMaxExiste(JSONObject JSONSource, double[] prixMinMax) throws FormatInvalide {
+    public void setPrixMax(JSONObject JSONSource, double[] prixMinMax) throws FormatInvalide {
         if (JSONSource.containskey("prix_m2_max")) {
             prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
         } else {
@@ -94,7 +88,7 @@ public class Verificateur {
         }
     }
 
-    public JSONArray lotsExiste(JSONObject JSONSource) throws FormatInvalide {
+    public JSONArray setLots(JSONObject JSONSource) throws FormatInvalide {
         if (JSONSource.containskey("lotissements")) {
             return JSONSource.getJSONArray("lotissements");
         } else {
@@ -102,7 +96,7 @@ public class Verificateur {
         }
     }
 
-    public int typeTerrainExiste(JSONObject JSONSource) throws FormatInvalide {
+    public int setTypeTerrain(JSONObject JSONSource) throws FormatInvalide {
         if (JSONSource.containskey("type_terrain")) {
             return JSONSource.getInt("type_terrain");
         } else {

@@ -31,11 +31,11 @@ public abstract class Lotissement{
     double prixMin;
 
     Lotissement(JSONObject JSONSource) {
-        descriptionExiste(JSONSource, description);
-        nbDroitsPassagesExiste(JSONSource, nbDroitsPassages);
-        dateMesureExiste(JSONSource, dateMesure);
-        nbServicesExiste(JSONSource, nbServices, NB_SERVICE_BASE);
-        superficieExiste(JSONSource, superficie);
+        setDescription(JSONSource, description);
+        setNbDroitsPassages(JSONSource, nbDroitsPassages);
+        setDateMesure(JSONSource, dateMesure);
+        setNbServices(JSONSource, nbServices, NB_SERVICE_BASE);
+        setSuperficie(JSONSource, superficie);
     }
     
     void setPrixMinMax(double[] prixMinMax){
