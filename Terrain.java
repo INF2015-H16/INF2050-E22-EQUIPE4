@@ -2,6 +2,7 @@
 package evaluationfonciere;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
