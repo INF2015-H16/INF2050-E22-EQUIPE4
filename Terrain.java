@@ -1,4 +1,3 @@
-
 package evaluationfonciere;
 
 import java.text.DecimalFormat;
@@ -11,28 +10,25 @@ import net.sf.json.JSONObject;
  *         Goldlen Chhun CHHG20069604
  *         Steven Chieng CHIS01069604
  *         Eric Drapeau DRAE21079108
- * 
+ *
  */
 public class Terrain {
     double[] prixMinMax = new double[2];
-
-    double valeurFonciereTotale;
-    double taxeScolaire;
-    double taxeMunicipale;
+    
     Lotissement[] lotissements;
 
     static final double PRIX_FIXE = 733.77;
     static final double TAUX_SCOLAIRE = 0.012;
     static final double TAUX_MUNICIPALE = 0.025;
-   
+
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
         setPrixMin(JSONSource);
         setPrixMax(JSONSource);
-        
+
         JSONArray lesLots = setLots(JSONSource);
         int typeDeTerrain = setTypeTerrain(JSONSource);
         verifierValeursTerrain(typeDeTerrain, lesLots);
-        
+
         this.lotissements = formaterLot(lesLots, typeDeTerrain);
         verifierValeursLots();
     }
@@ -80,29 +76,28 @@ public class Terrain {
             throw new FormatInvalide("Un montant d'argent ne peut pas être négatif;");
         }
     }
-    
+
     private void verifierValeursLots() throws FormatInvalide {
         for(Lotissement lot : lotissements) {
             lot.verifierValeurs();
         }
     }
-    
+
     private double stringEnDouble(String prixEnString){
         //On le separe du signe $ et on remplace les , par . s'il y en a
         prixEnString = prixEnString.split(" ")[0].replaceAll(",",".");
         return Double.parseDouble(prixEnString);
     }
-    
+
     public String rapport(){
         return rapportJSONObject().toString();
     }
-    
+
     private JSONObject rapportJSONObject(){
-        calculsRapport();
         JSONObject rapport = new JSONObject();
-        rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale) + " $");
-        rapport.accumulate("taxe_scolaire", formaterDecimal(taxeScolaire) + " $");
-        rapport.accumulate("taxe_ municipale", formaterDecimal(taxeMunicipale) + " $");
+        rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale()) + " $");
+        rapport.accumulate("taxe_scolaire", formaterDecimal(taxeScolaire()) + " $");
+        rapport.accumulate("taxe_ municipale", formaterDecimal(taxeMunicipale()) + " $");
         JSONArray lots = creerRapportsLots();
         rapport.accumulate("lotissements", lots);
 
@@ -121,16 +116,22 @@ public class Terrain {
         return lots;
     }
     
-    private void calculsRapport(){
-        valeurFonciereTotale = PRIX_FIXE;
+    private double valeurFonciereTotale(){
+        double resultat = PRIX_FIXE;
         for (Lotissement lot : lotissements) {
-            valeurFonciereTotale += lot.getValeurTotalLot();
+            resultat += lot.getValeurTotalLot();
         }
-        valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
-        taxeScolaire = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_SCOLAIRE);
-        taxeMunicipale = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_MUNICIPALE);
+        return arrondiAu5sousSuperieur(resultat);
+    }    
+    
+    private double taxeScolaire(){
+        return arrondiAu5sousSuperieur(valeurFonciereTotale() * TAUX_SCOLAIRE);
     }
     
+    private double taxeMunicipale(){
+        return arrondiAu5sousSuperieur(valeurFonciereTotale() * TAUX_MUNICIPALE);
+    }
+
     private String formaterDecimal(double valeur) {
         String pattern = "#.00";
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
