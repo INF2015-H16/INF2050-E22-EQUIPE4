@@ -19,12 +19,11 @@ public abstract class Lotissement{
     int superficie;
     String dateMesure;
     
-    //Variable obtenues apres calculs()
-    double montantServices;
-    double montantDroitDePassages;
-    double valeurSuperficie;
-    double valeurTotalLot;
-    
+    //Variables dérivées
+    protected abstract double montantServices();
+    protected abstract double montantDroitDePassages();
+    protected abstract double valeurSuperficie();
+
     //Variables defini dans l'appel setPrixMinMax()
     double prixMax;
     double prixMin;
@@ -76,20 +75,18 @@ public abstract class Lotissement{
             throw new FormatInvalide("La propriete <superficie> d'un lot est manquante dans le fichier d'entree");
         }
     }
-    
+
     void setPrixMinMax(double[] prixMinMax){
         this.prixMin = prixMinMax[0];
         this.prixMax = prixMinMax[1];
     }
-    
-    abstract void calculs();
 
     public String getDescription() {
         return description;
     }
 
     public double getValeurTotalLot() {
-        return valeurTotalLot;
+        return valeurSuperficie() + montantDroitDePassages() + montantServices();
     }
 
     public void verifierValeurs() throws FormatInvalide {
