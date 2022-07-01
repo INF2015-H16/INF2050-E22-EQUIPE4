@@ -124,7 +124,6 @@ public class Terrain {
     private void calculsRapport(){
         valeurFonciereTotale = PRIX_FIXE;
         for (Lotissement lot : lotissements) {
-            lot.calculs();
             valeurFonciereTotale += lot.getValeurTotalLot();
         }
         valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
