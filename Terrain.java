@@ -93,45 +93,6 @@ public class Terrain {
         return Double.parseDouble(prixEnString);
     }
     
-    public String rapport(){
-        return rapportJSONObject().toString();
-    }
-    
-    private JSONObject rapportJSONObject(){
-        calculsRapport();
-        JSONObject rapport = new JSONObject();
-        rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale) + " $");
-        rapport.accumulate("taxe_scolaire", formaterDecimal(taxeScolaire) + " $");
-        rapport.accumulate("taxe_ municipale", formaterDecimal(taxeMunicipale) + " $");
-        JSONArray lots = creerRapportsLots();
-        rapport.accumulate("lotissements", lots);
-
-        return rapport;
-    }
-
-    private JSONArray creerRapportsLots() {
-        JSONArray lots = new JSONArray();
-        for (Lotissement lot : lotissements) {
-            JSONObject lotUnique = new JSONObject();
-            lotUnique.accumulate("description", lot.getDescription());
-            lotUnique.accumulate("valeur_par_lot", formaterDecimal(lot.getValeurTotalLot()) + " $");
-
-            lots.add(lotUnique);
-        }
-        return lots;
-    }
-    
-    private void calculsRapport(){
-        valeurFonciereTotale = PRIX_FIXE;
-        for (Lotissement lot : lotissements) {
-            lot.calculs();
-            valeurFonciereTotale += lot.getValeurTotalLot();
-        }
-        valeurFonciereTotale = arrondiAu5sousSuperieur(valeurFonciereTotale);
-        taxeScolaire = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_SCOLAIRE);
-        taxeMunicipale = arrondiAu5sousSuperieur(valeurFonciereTotale * TAUX_MUNICIPALE);
-    }
-    
     private String formaterDecimal(double valeur) {
         String pattern = "#.00";
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
