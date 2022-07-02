@@ -2,6 +2,7 @@
 package evaluationfonciere;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -71,6 +72,28 @@ public class Terrain {
             lotissements[i].setPrixMinMax(prixMinMax);
         }
         return lotissements;
+    }
+
+    private void verifierDescriptionUnique() throws FormatInvalide{
+        List<Lotissement> listeLots = Arrays.asList(lotissements);
+
+        if(listeDescriptionsUniques(listeLots).size() != listeLots.size())
+            throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots n'est pas unique.");
+    }
+
+    private List<Lotissement> listeDescriptionsUniques(List<Lotissement> liste) {
+        return liste.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList);
+    }
+
+    private void verifierDescriptionNonVide() throws FormatException{
+        List<Lotissement> listeLots = Arrays.asList(lotissements);
+
+        if(descriptionVideExiste(listeLots))
+            throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots est vide."); 
+    }
+
+    private List<Lotissement> descriptionVideExiste(List<Lotissement> liste){
+        return liste.stream().map(lot->lot.getDescription()).anyMatch(desc->desc.equals(""));
     }
 
     private boolean typeNonValide(int type) {
