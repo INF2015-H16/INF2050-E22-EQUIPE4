@@ -26,64 +26,22 @@ public class Terrain {
     static final double TAUX_MUNICIPALE = 0.025;
    
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
-        setPrixMin(JSONSource);
-        setPrixMax(JSONSource);
+        setPrixMin(JSONSource, prixMinMax);
+        setPrixMax(JSONSource, prixMinMax);
         
         JSONArray lesLots = setLots(JSONSource);
         int typeDeTerrain = setTypeTerrain(JSONSource);
-        verifierValeursTerrain(typeDeTerrain, lesLots);
+        verifierValeursTerrain(typeDeTerrain, lesLots, prixMinMax);
         
         this.lotissements = formaterLot(lesLots, typeDeTerrain);
         verifierValeursLots();
     }
 
-    private void setPrixMin(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <prix_m2_min> est manquante dans le fichier d'entree");
-        }
-    }
-
-    private void setPrixMax(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <prix_m2_max> est manquante dans le fichier d'entree");
-        }
-    }
-
-    private JSONArray setLots(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            return JSONSource.getJSONArray("lotissements");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <lotissements> est manquante dans le fichier d'entree");
-        }
-    }
-
-    private int setTypeTerrain(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            return JSONSource.getInt("type_terrain");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <type_terrain> est manquante dans le fichier d'entree");
-        }
-    }
-
-    private void verifierValeursTerrain(int typeDeTerrain, JSONArray lesLots) throws FormatInvalide {
-        if(typeNonValide(typeDeTerrain)){
-            throw new FormatInvalide("Le type n'est pas la valeur 0, 1 ou 2");
-        } else if(lesLots.size() > 10){
-            throw new FormatInvalide("Le nombre de lots ne doit jamais depasser 10 lots");
-        } else if(lesLots.size() < 1){
-            throw new FormatInvalide("Un terrain doit avoir au moins un lot");
-        } else if(prixMinMax[0] < 0 || prixMinMax[1] < 0){
-            throw new FormatInvalide("Un montant d'argent ne peut pas être négatif;");
-        }
-    }
-    
-    private void verifierValeursLots() throws FormatInvalide {
+    private void verifierValeursLots() {
         for(Lotissement lot : lotissements) {
-            lot.verifierValeurs();
+            lot.verifierNbDroitsPassages();
+            lot.verifierNbServices();
+            lot.verifierSuperficie();
         }
     }
     
