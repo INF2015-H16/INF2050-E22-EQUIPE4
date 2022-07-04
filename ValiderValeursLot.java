@@ -70,9 +70,9 @@ class ValiderValeursLot {
         try {
             int superficie = JSONSource.getInt("superficie");
             if(superficie > 50000){
-                throw new FormatInvalide("La superficie ne peut pas etre supérieure a 50000 metres carres");
+                throw new FormatInvalide("La superficie ne peut pas etre superieure a 50000 metres carres");
             } else if(superficie < 0){
-                throw new FormatInvalide("La superficie ne peut pas etre négative");
+                throw new FormatInvalide("La superficie ne peut pas etre negative");
             }
             return superficie;
         } catch (JSONException e) {

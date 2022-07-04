@@ -21,7 +21,7 @@ class ValiderValeursTerrain {
         try {
             double prixMin = stringEnDouble(JSONSource.getString("prix_m2_min"));
             if(prixMin < 0){
-                throw new FormatInvalide("Un montant d'argent ne peut pas être négatif (prix_m2_min)");
+                throw new FormatInvalide("Un montant d'argent ne peut pas etre negatif (prix_m2_min)");
             }
             return prixMin;
         } catch (JSONException e) {
@@ -33,7 +33,7 @@ class ValiderValeursTerrain {
         try {
             double prixMax = stringEnDouble(JSONSource.getString("prix_m2_max"));
             if(prixMax < 0){
-                throw new FormatInvalide("Un montant d'argent ne peut pas être négatif (prix_m2_max)");
+                throw new FormatInvalide("Un montant d'argent ne peut pas etre negatif (prix_m2_max)");
             }
             return prixMax;
         } catch (JSONException e) {

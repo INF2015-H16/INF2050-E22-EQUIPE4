@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
  * @author Leonid
  */
 public class CreerTypeLotissement {
-    public Lotissement creerLotissement(int typeDeTerrain, JSONObject unLot){
+    public Lotissement creerLotissement(int typeDeTerrain, JSONObject unLot) throws FormatInvalide{
       
         switch (typeDeTerrain) {
             case 0:
