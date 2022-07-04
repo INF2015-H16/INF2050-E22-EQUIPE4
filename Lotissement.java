@@ -1,6 +1,7 @@
 
 package evaluationfonciere;
 
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
@@ -28,7 +29,7 @@ public abstract class Lotissement{
     double prixMax;
     double prixMin;
 
-    Lotissement(JSONObject JSONSource) {
+    Lotissement(JSONObject JSONSource) throws FormatInvalide {
         setDescription(JSONSource);
         setNbDroitsPassages(JSONSource);
         setDateMesure(JSONSource);

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package evaluationfonciere;
 
 import net.sf.json.JSONObject;
@@ -16,6 +13,7 @@ public class LotissementCommercial extends Lotissement{
         super(unLot);
     }
 
+    @Override
     protected double montantServices(){
         double resultat;
         if (superficie <= 500) {
@@ -28,9 +26,11 @@ public class LotissementCommercial extends Lotissement{
         }
         return resultat;
     }
+    @Override
     protected double montantDroitDePassages(){
         return MONTANT_BASE - (nbDroitsPassages * (0.15) * valeurSuperficie());
     }
+    @Override
     protected double valeurSuperficie(){
         return superficie * prixMax;
     }

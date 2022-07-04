@@ -2,6 +2,7 @@ package evaluationfonciere;
 
 import java.text.DecimalFormat;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
@@ -14,6 +15,7 @@ import net.sf.json.JSONObject;
  */
 public class Terrain {
     double[] prixMinMax = new double[2];
+    int typeDeTerrain;
     
     Lotissement[] lotissements;
 
@@ -21,32 +23,33 @@ public class Terrain {
     static final double TAUX_SCOLAIRE = 0.012;
     static final double TAUX_MUNICIPALE = 0.025;
 
+    ValiderValeurTerrain valider;
+    
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
-        setPrixMin(JSONSource);
-        setPrixMax(JSONSource);
-
+        this.valider = new ValiderValeurTerrain(JSONSource);
+        
+        setPrixMin();
+        setPrixMax();
+        setTypeTerrain();
+        
         JSONArray lesLots = setLots(JSONSource);
-        int typeDeTerrain = setTypeTerrain(JSONSource);
+        
         verifierValeursTerrain(typeDeTerrain, lesLots);
 
         this.lotissements = formaterLot(lesLots, typeDeTerrain);
         verifierValeursLots();
     }
 
-    private void setPrixMin(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            prixMinMax[0] = stringEnDouble(JSONSource.getString("prix_m2_min"));
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <prix_m2_min> est manquante dans le fichier d'entree");
-        }
+    private void setPrixMin() throws FormatInvalide {
+        this.prixMinMax[0] = valider.prixMin();
     }
 
-    private void setPrixMax(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            prixMinMax[1] = stringEnDouble(JSONSource.getString("prix_m2_max"));
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <prix_m2_max> est manquante dans le fichier d'entree");
-        }
+    private void setPrixMax() throws FormatInvalide {
+        this.prixMinMax[1] = valider.prixMax();
+    }
+    
+    private void setTypeTerrain() throws FormatInvalide {
+        this.typeDeTerrain = valider.typeTerrain();
     }
 
     private JSONArray setLots(JSONObject JSONSource) throws FormatInvalide {
@@ -54,14 +57,6 @@ public class Terrain {
             return JSONSource.getJSONArray("lotissements");
         } catch (JSONException e) {
             throw new FormatInvalide("La propriete <lotissements> est manquante dans le fichier d'entree");
-        }
-    }
-
-    private int setTypeTerrain(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            return JSONSource.getInt("type_terrain");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <type_terrain> est manquante dans le fichier d'entree");
         }
     }
 
@@ -152,9 +147,5 @@ public class Terrain {
             lotissements[i].setPrixMinMax(prixMinMax);
         }
         return lotissements;
-    }
-
-    private boolean typeNonValide(int type) {
-        return type != 0 && type != 1 && type != 2;
     }
 }

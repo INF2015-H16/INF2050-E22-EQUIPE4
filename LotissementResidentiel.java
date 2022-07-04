@@ -12,6 +12,7 @@ public class LotissementResidentiel extends Lotissement{
         super(unLot);
     }
 
+    @Override
     protected double montantServices(){
         if (superficie <= 500) {
             return 0;
@@ -21,9 +22,11 @@ public class LotissementResidentiel extends Lotissement{
             return  1000 * nbServices;
         }
     }
+    @Override
     protected double montantDroitDePassages(){
         return MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie() / 10));
     }
+    @Override
     protected double valeurSuperficie(){
         return superficie * ((prixMax + prixMin) / 2);
     }

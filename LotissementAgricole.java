@@ -12,12 +12,15 @@ public class LotissementAgricole extends Lotissement{
         super(unLot);
     }
 
+    @Override
     protected double montantServices(){
         return 0;
     }
+    @Override
     protected double montantDroitDePassages(){
         return MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie() / 20));
     }
+    @Override
     protected double valeurSuperficie(){
         return superficie * prixMin;
     }
