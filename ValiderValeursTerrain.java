@@ -88,15 +88,15 @@ class ValiderValeursTerrain {
     }
    
     private void verifierDescriptionUnique(Lotissement[] lotissements) throws FormatInvalide{
-        List<Lotissement> listeLots = Arrays.asList(lotissements);
-        List<Lotissement> listeLotsUnique = listeDescriptionsUniques(listeLots);
+        List<Lotissement> lots = Arrays.asList(lotissements);
+        List<Lotissement> lotsUnique = descriptionsUniques(lots);
         
-        if(listeLotsUnique.size() != listeLots.size())
+        if(lotsUnique.size() != lots.size())
             throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots n'est pas unique.");
     }
 
-    private List<Lotissement> listeDescriptionsUniques(List<Lotissement> liste) {
-        return liste.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList);
+    private List<Lotissement> descriptionsUniques(List<Lotissement> lots) {
+        return lots.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList);
     }
   
     private double stringEnDouble(String prixEnString){
