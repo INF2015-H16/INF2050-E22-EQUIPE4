@@ -9,8 +9,8 @@ Ce programme calcule la valeur foncière d'un terrain de un ou plusieurs lots. I
 
 ## Auteurs 
 
-Leonid Glazyrin GLAL77080105
-Goldlen Chhun CHHG20069604
-Steven Chieng CHIS01069604
-Eric Drapeau DRAE21079108
+- Leonid Glazyrin GLAL77080105
+- Goldlen Chhun CHHG20069604
+- Steven Chieng CHIS01069604
+- Eric Drapeau DRAE21079108
 
