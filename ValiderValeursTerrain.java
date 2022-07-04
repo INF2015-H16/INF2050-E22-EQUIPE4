@@ -83,7 +83,7 @@ class ValiderValeursTerrain {
             lotissements[i] = createur.creerLotissement(typeDeTerrain, unLot);
             lotissements[i].setPrixMinMax(new double[] {prixMin(), prixMax()});
         }
-        verifierDescriptionUnique(lotissements);///////////////////////
+        verifierDescriptionUnique(lotissements);
         return lotissements;
     }
    
@@ -92,11 +92,11 @@ class ValiderValeursTerrain {
         List<Lotissement> lotsUnique = descriptionsUniques(lots);
         
         if(lotsUnique.size() != lots.size())
-            throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots n'est pas unique.");
+            throw new FormatInvalide("Une ou plusieurs proprietes <description> des lots n'est pas unique.");
     }
 
-    private List<Lotissement> descriptionsUniques(List<Lotissement> lots) {
-        return lots.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList);
+    private List descriptionsUniques(List<Lotissement> lots) {
+        return lots.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList());
     }
   
     private double stringEnDouble(String prixEnString){
@@ -108,6 +108,4 @@ class ValiderValeursTerrain {
     private boolean typeNonValide(int type) {
         return type != 0 && type != 1 && type != 2;
     }
-
-    
 }

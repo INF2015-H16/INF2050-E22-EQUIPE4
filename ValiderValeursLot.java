@@ -2,6 +2,7 @@
 package evaluationfonciere;
 
 import java.time.*;
+import java.time.format.DateTimeParseException;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -52,7 +53,7 @@ class ValiderValeursLot {
             LocalDate.parse(dateMesure); //peut créer un objet LocalDate ssi le format de dateMesure est ISO8601
             return dateMesure;
             
-        } catch (DateTimeParseException) {
+        } catch (DateTimeParseException e) {
             throw new FormatInvalide("La date n'est pas dans le format ISO8601 (aaaa-mm-jj)");
         } catch (JSONException e) {
             throw new FormatInvalide("La propriete <date_mesure> d'un lot est manquante dans le fichier d'entree");

@@ -1,6 +1,5 @@
 package evaluationfonciere;
 
-import java.text.DecimalFormat;
 import net.sf.json.JSONObject;
 
 /**
@@ -13,8 +12,8 @@ import net.sf.json.JSONObject;
  */
 public class Terrain {
     //Definies dans le constructeur
-    double[] prixMinMax = new double[2];
-    int typeDeTerrain;
+    private double[] prixMinMax = new double[2];
+    private int typeDeTerrain;
     private Lotissement[] lotissements;
     
     //Constantes
@@ -70,7 +69,7 @@ public class Terrain {
         return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_MUNICIPALE);
     }
 
-    public double arrondiAu5sousSuperieur(double montant) {
+    private double arrondiAu5sousSuperieur(double montant) {
         return Math.ceil(montant * 20) / 20;
     }
 }
