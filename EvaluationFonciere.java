@@ -1,11 +1,6 @@
 
 package evaluationfonciere;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import net.sf.json.JSONObject;
 
 /**
@@ -18,11 +13,12 @@ import net.sf.json.JSONObject;
  */
 public class EvaluationFonciere {
     public static void main(String[] args) {
+        Traitement traitement = new Traitement();
         try {
-            String texteSource = lireFichierEntree(args);
+            String texteSource = traitement.lireFichierEntree(args);
             JSONObject JSONSource = JSONObject.fromObject(texteSource);
-            String texteEvaluation = retournerContenuSortie(JSONSource);
-            ecrireFichierSortie(args[1], texteEvaluation);
+            JSONObject contenuSortie = traitement.contenuSortie(JSONSource);
+            traitement.ecrireFichierSortie(args[1], contenuSortie);
         } catch (FormatInvalide erreur) {
             System.out.print(erreur.getMessage());
         }

@@ -1,9 +1,6 @@
-
 package evaluationfonciere;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -12,91 +9,68 @@ import net.sf.json.JSONObject;
  *         Goldlen Chhun CHHG20069604
  *         Steven Chieng CHIS01069604
  *         Eric Drapeau DRAE21079108
- * 
+ *
  */
 public class Terrain {
+    //Definies dans le constructeur
     double[] prixMinMax = new double[2];
-
-    double valeurFonciereTotale;
-    double taxeScolaire;
-    double taxeMunicipale;
-    Lotissement[] lotissements;
-
+    int typeDeTerrain;
+    private Lotissement[] lotissements;
+    
+    //Constantes
     static final double PRIX_FIXE = 733.77;
     static final double TAUX_SCOLAIRE = 0.012;
     static final double TAUX_MUNICIPALE = 0.025;
-   
+    
+    //Validateur des valeurs utilise dans les setters
+    ValiderValeursTerrain valider;
+    
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
-        setPrixMin(JSONSource, prixMinMax);
-        setPrixMax(JSONSource, prixMinMax);
+        this.valider = new ValiderValeursTerrain(JSONSource);
         
-        JSONArray lesLots = setLots(JSONSource);
-        int typeDeTerrain = setTypeTerrain(JSONSource);
-        verifierValeursTerrain(typeDeTerrain, lesLots, prixMinMax);
-        
-        this.lotissements = formaterLot(lesLots, typeDeTerrain);
-        verifierValeursLots();
+        setPrixMin();
+        setPrixMax();
+        setTypeTerrain();
+        setLotissements();
     }
 
-    private void verifierValeursLots() {
-        for(Lotissement lot : lotissements) {
-            lot.verifierNbDroitsPassages();
-            lot.verifierNbServices();
-            lot.verifierSuperficie();
+    private void setPrixMin() throws FormatInvalide {
+        this.prixMinMax[0] = valider.prixMin();
+    }
+
+    private void setPrixMax() throws FormatInvalide {
+        this.prixMinMax[1] = valider.prixMax();
+    }
+    
+    private void setTypeTerrain() throws FormatInvalide {
+        this.typeDeTerrain = valider.typeTerrain();
+    }
+    
+    private void setLotissements() throws FormatInvalide{
+        this.lotissements = valider.lotissements();
+    }
+    
+    Lotissement[] getLotissements() {
+        return lotissements;
+    }
+    
+    public double getValeurFonciereTotale(){
+        double resultat = PRIX_FIXE;
+        for (Lotissement lot : lotissements) {
+            resultat += lot.getValeurTotalLot();
         }
+        return arrondiAu5sousSuperieur(resultat);
+    }    
+    
+    public double getTaxeScolaire(){
+        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_SCOLAIRE);
     }
     
-    private double stringEnDouble(String prixEnString){
-        //On le separe du signe $ et on remplace les , par . s'il y en a
-        prixEnString = prixEnString.split(" ")[0].replaceAll(",",".");
-        return Double.parseDouble(prixEnString);
-    }
-    
-    private String formaterDecimal(double valeur) {
-        String pattern = "#.00";
-        DecimalFormat decimalFormat = new DecimalFormat(pattern);
-        return decimalFormat.format(valeur);
+    public double getTaxeMunicipale(){
+        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_MUNICIPALE);
     }
 
     public double arrondiAu5sousSuperieur(double montant) {
         return Math.ceil(montant * 20) / 20;
-    }
-
-    private Lotissement[] formaterLot(JSONArray source, int typeDeTerrain) {
-        CreerTypeLotissement createur = new CreerTypeLotissement();
-        JSONObject unLot;
-        lotissements = new Lotissement[source.size()];
-        for (int i = 0; i < source.size(); i++) {
-            unLot = source.getJSONObject(i);
-            lotissements[i] = createur.creerLotissement(typeDeTerrain, unLot);
-            lotissements[i].setPrixMinMax(prixMinMax);
-        }
-        return lotissements;
-    }
-
-    private void verifierDescriptionUnique() throws FormatInvalide{
-        List<Lotissement> listeLots = Arrays.asList(lotissements);
-
-        if(listeDescriptionsUniques(listeLots).size() != listeLots.size())
-            throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots n'est pas unique.");
-    }
-
-    private List<Lotissement> listeDescriptionsUniques(List<Lotissement> liste) {
-        return liste.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList);
-    }
-
-    private void verifierDescriptionNonVide() throws FormatException{
-        List<Lotissement> listeLots = Arrays.asList(lotissements);
-
-        if(descriptionVideExiste(listeLots))
-            throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots est vide."); 
-    }
-
-    private List<Lotissement> descriptionVideExiste(List<Lotissement> liste){
-        return liste.stream().map(lot->lot.getDescription()).anyMatch(desc->desc.equals(""));
-    }
-
-    private boolean typeNonValide(int type) {
-        return type != 0 && type != 1 && type != 2;
     }
 }

@@ -1,35 +1,37 @@
-
 package evaluationfonciere;
 
 import net.sf.json.JSONObject;
 
 /**
  *
- * @author Leonid
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
 public class LotissementResidentiel extends Lotissement{
     
-    public LotissementResidentiel(JSONObject unLot) {
+    public LotissementResidentiel(JSONObject unLot) throws FormatInvalide {
         super(unLot);
     }
-    
+
     @Override
-    public void calculs(){
-        valeurSuperficie = superficie * ((prixMax + prixMin) / 2);
-        montantDroitDePassages = MONTANT_BASE - 
-                (nbDroitsPassages * (valeurSuperficie / 10));
-        calculMontantService();
-
-        valeurTotalLot = valeurSuperficie + montantDroitDePassages + montantServices;
-    }
-
-    private void calculMontantService() {
+    protected double montantServices(){
         if (superficie <= 500) {
-            montantServices = 0;
+            return 0;
         } else if (superficie <= 10000) {
-            montantServices = 500 * nbServices;
+            return  500 * nbServices;
         } else {
-            montantServices = 1000 * nbServices;
+            return  1000 * nbServices;
         }
+    }
+    @Override
+    protected double montantDroitDePassages(){
+        return MONTANT_BASE - (nbDroitsPassages * (valeurSuperficie() / 10));
+    }
+    @Override
+    protected double valeurSuperficie(){
+        return superficie * ((prixMax + prixMin) / 2);
     }
 }

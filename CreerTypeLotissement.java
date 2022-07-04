@@ -5,10 +5,14 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author Leonid
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
 public class CreerTypeLotissement {
-    public Lotissement creerLotissement(int typeDeTerrain, JSONObject unLot){
+    public Lotissement creerLotissement(int typeDeTerrain, JSONObject unLot) throws FormatInvalide{
       
         switch (typeDeTerrain) {
             case 0:

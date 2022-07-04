@@ -5,8 +5,11 @@ import net.sf.json.JSONObject;
 
 /**
  *
- * @author  Leonid
- *          Goldlen
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
  */
 public abstract class Lotissement{
     //Constantes
@@ -20,36 +23,58 @@ public abstract class Lotissement{
     int superficie;
     String dateMesure;
     
-    //Variable obtenues apres calculs()
-    double montantServices;
-    double montantDroitDePassages;
-    double valeurSuperficie;
-    double valeurTotalLot;
-    
+    //Variables dérivées
+    protected abstract double montantServices();
+    protected abstract double montantDroitDePassages();
+    protected abstract double valeurSuperficie();
+
     //Variables defini dans l'appel setPrixMinMax()
     double prixMax;
     double prixMin;
-
-    Lotissement(JSONObject JSONSource) {
-        setDescription(JSONSource, description);
-        setNbDroitsPassages(JSONSource, nbDroitsPassages);
-        setDateMesure(JSONSource, dateMesure);
-        setNbServices(JSONSource, nbServices, NB_SERVICE_BASE);
-        setSuperficie(JSONSource, superficie);
-    }
     
+    //Validateur des valeurs utilise dans les setters
+    ValiderValeursLot valider;
+
+    Lotissement(JSONObject JSONSource) throws FormatInvalide {
+        valider = new ValiderValeursLot(JSONSource);
+        
+        setDescription();
+        setNbDroitsPassages();
+        setDateMesure();
+        setNbServices();
+        setSuperficie();
+    }
+
+    private void setDescription() throws FormatInvalide{
+        this.description = valider.description();
+    }
+
+    private void setNbDroitsPassages() throws FormatInvalide {
+        this.nbDroitsPassages = valider.nbDroitsPassages();
+    }
+
+    private void setDateMesure() throws FormatInvalide {
+        this.dateMesure = valider.dateMesure();
+    }
+
+    private void setNbServices() throws FormatInvalide {
+        this.nbServices = valider.nbServices() + NB_SERVICE_BASE;
+    }
+
+    private void setSuperficie() throws FormatInvalide {
+        this.superficie = valider.superficie();
+    }
+
     void setPrixMinMax(double[] prixMinMax){
         this.prixMin = prixMinMax[0];
         this.prixMax = prixMinMax[1];
     }
-    
-    abstract void calculs();
 
     public String getDescription() {
         return description;
     }
 
     public double getValeurTotalLot() {
-        return valeurTotalLot;
+        return valeurSuperficie() + montantDroitDePassages() + montantServices();
     }
 }
