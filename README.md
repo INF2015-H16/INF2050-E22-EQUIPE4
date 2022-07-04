@@ -3,8 +3,8 @@
 Ce programme calcule la valeur foncière d'un terrain de un ou plusieurs lots. Il prend un fichier d'entrée de format JSON et retourne un fichier JSON avec les résultats des calculs effectués.
 
 ## Requirements
-Afin d'executer ce programme, il vous faudra ajouter la librairie JSON-lib au projet Java dans un IDE apres l'avoir cloner dans un repertoire.
-Voici quelques liens de references selon votre IDE utilise :
+Afin d'exécuter ce programme, il vous faudra ajouter la librairie JSON-lib au projet Java dans un IDE après l'avoir cloné dans un répertoire.
+Voici quelques liens de réferences selon votre IDE utilisé :
 - [Eclipse](http://math.oxford.emory.edu/site/cs170/externalLib/)
 - [Intellij](https://www.jetbrains.com/help/idea/library.html#define-library)
 - [Netbeans](https://www.foxinfotech.in/2019/03/how-to-add-external-jar-file-in-netbeans-project.html)
@@ -12,7 +12,7 @@ Voici quelques liens de references selon votre IDE utilise :
 
 ## Installation
 1. Cloner ce répertoire dans un fichier nommé "evaluationfonciere" dans "src"
-2. Compiler le document Java avec un IDE apres avoir ajouter la librairie JSON-lib au projet.
+2. Compiler le document Java avec un IDE après avoir ajouter la librairie JSON-lib au projet.
 3. Exécuter le programme dans la console avec la commande : <br/>`java -jar EvaluationFonciere.jar <nom fichier entree>.json sortie.json`
 
 ## Dependencies
