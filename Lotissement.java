@@ -1,7 +1,6 @@
 
 package evaluationfonciere;
 
-import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
@@ -28,53 +27,38 @@ public abstract class Lotissement{
     //Variables defini dans l'appel setPrixMinMax()
     double prixMax;
     double prixMin;
+    
+    //Validateur des valeurs utilise dans les setters
+    ValiderValeursLot valider;
 
     Lotissement(JSONObject JSONSource) throws FormatInvalide {
-        setDescription(JSONSource);
-        setNbDroitsPassages(JSONSource);
-        setDateMesure(JSONSource);
-        setNbServices(JSONSource);
-        setSuperficie(JSONSource);
+        valider = new ValiderValeursLot(JSONSource);
+        
+        setDescription();
+        setNbDroitsPassages();
+        setDateMesure();
+        setNbServices();
+        setSuperficie();
     }
 
-    private void setDescription(JSONObject JSONSource) throws FormatInvalide{
-        try {
-            description = JSONSource.getString("description");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <description> d'un lot est manquante dans le fichier d'entree");
-        }
+    private void setDescription() throws FormatInvalide{
+        this.description = valider.description();
     }
 
-    private void setNbDroitsPassages(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            nbDroitsPassages = JSONSource.getInt("nombre_droits_passage");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <nombre_droits_passage> d'un lot est manquante dans le fichier d'entree");
-        }
+    private void setNbDroitsPassages() throws FormatInvalide {
+        this.nbDroitsPassages = valider.nbDroitsPassages();
     }
 
-    private void setDateMesure(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            dateMesure = JSONSource.getString("date_mesure");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <date_mesure> d'un lot est manquante dans le fichier d'entree");
-        }
+    private void setDateMesure() throws FormatInvalide {
+        this.dateMesure = valider.dateMesure();
     }
 
-    private void setNbServices(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            nbServices = JSONSource.getInt("nombre_services") + NB_SERVICE_BASE;
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <nombre_services> d'un lot est manquante dans le fichier d'entree");
-        }
+    private void setNbServices() throws FormatInvalide {
+        this.nbServices = valider.nbServices();
     }
 
-    private void setSuperficie(JSONObject JSONSource) throws FormatInvalide {
-        try {
-            superficie = JSONSource.getInt("superficie");
-        } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <superficie> d'un lot est manquante dans le fichier d'entree");
-        }
+    private void setSuperficie() throws FormatInvalide {
+        this.superficie = valider.superficie();
     }
 
     void setPrixMinMax(double[] prixMinMax){
@@ -88,23 +72,5 @@ public abstract class Lotissement{
 
     public double getValeurTotalLot() {
         return valeurSuperficie() + montantDroitDePassages() + montantServices();
-    }
-
-    public void verifierValeurs() throws FormatInvalide {
-        if(nbDroitsPassages > 10){
-            throw new FormatInvalide("Le nombre de droits de passage est superieur a 10");
-        } else if(nbDroitsPassages < 0){
-            throw new FormatInvalide("Le nombre de droits de passage est inferieur a 0");
-        }
-        if(nbServices > 5){
-            throw new FormatInvalide("Le nombre de services est superieur a 5");
-        } else if(nbServices > 5){
-            throw new FormatInvalide("Le nombre de services est inferieur a 0");
-        }
-        if(superficie > 50000){
-            throw new FormatInvalide("La superficie ne peut pas etre supérieure a 50000 metres carres");
-        } else if(superficie < 0){
-            throw new FormatInvalide("La superficie ne peut pas etre négative");
-        }
     }
 }

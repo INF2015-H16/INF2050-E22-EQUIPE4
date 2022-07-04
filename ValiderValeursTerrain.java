@@ -9,11 +9,11 @@ import net.sf.json.JSONObject;
  *
  * @author Leonid
  */
-class ValiderValeurTerrain {
+class ValiderValeursTerrain {
 
     private final JSONObject JSONSource;
 
-    public ValiderValeurTerrain(JSONObject JSONSource) {
+    public ValiderValeursTerrain(JSONObject JSONSource) {
         this.JSONSource = JSONSource;
     }
     
@@ -56,23 +56,29 @@ class ValiderValeurTerrain {
     Lotissement[] lotissements() throws FormatInvalide{
         try {
             JSONArray lots = JSONSource.getJSONArray("lotissements");
+            if(lots.size() > 10){
+                throw new FormatInvalide("Le nombre de lots ne doit jamais depasser 10 lots");
+            } else if(lots.size() < 1){
+                throw new FormatInvalide("Un terrain doit avoir au moins un lot");
+            }
+            return formaterLot(lots, typeTerrain());
         } catch (JSONException e) {
             throw new FormatInvalide("La propriete <lotissements> est manquante dans le fichier d'entree");
         }
     }
     
-    private void verifierValeursTerrain(int typeDeTerrain, JSONArray lesLots) throws FormatInvalide {
-        if(typeNonValide(typeDeTerrain)){
-            throw new FormatInvalide("Le type n'est pas la valeur 0, 1 ou 2");
-        } else if(lesLots.size() > 10){
-            throw new FormatInvalide("Le nombre de lots ne doit jamais depasser 10 lots");
-        } else if(lesLots.size() < 1){
-            throw new FormatInvalide("Un terrain doit avoir au moins un lot");
-        } else if(prixMinMax[0] < 0 || prixMinMax[1] < 0){
-            throw new FormatInvalide("Un montant d'argent ne peut pas être négatif;");
+    private Lotissement[] formaterLot(JSONArray source, int typeDeTerrain) throws FormatInvalide {
+        CreerTypeLotissement createur = new CreerTypeLotissement();
+        Lotissement[] lotissements = new Lotissement[source.size()];
+        JSONObject unLot;
+        for (int i = 0; i < source.size(); i++) {
+            unLot = source.getJSONObject(i);
+            lotissements[i] = createur.creerLotissement(typeDeTerrain, unLot);
+            lotissements[i].setPrixMinMax(new double[] {prixMin(), prixMax()});
         }
+        return lotissements;
     }
-     
+    
     private double stringEnDouble(String prixEnString){
        //On le separe du signe $ et on remplace les , par . s'il y en a
        prixEnString = prixEnString.split(" ")[0].replaceAll(",",".");

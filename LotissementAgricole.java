@@ -8,7 +8,7 @@ import net.sf.json.JSONObject;
  */
 public class LotissementAgricole extends Lotissement{
     
-    public LotissementAgricole(JSONObject unLot) {
+    public LotissementAgricole(JSONObject unLot) throws FormatInvalide {
         super(unLot);
     }
 
