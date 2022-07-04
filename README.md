@@ -13,8 +13,7 @@ Voici quelques liens de references selon votre IDE utilise :
 ## Installation
 1. Cloner ce répertoire dans un fichier nommé "evaluationfonciere" dans "src"
 2. Compiler le document Java avec un IDE apres avoir ajouter la librairie JSON-lib au projet.
-3. Exécuter le programme dans la console avec la commande : 
-    `java -jar EvaluationFonciere.jar <nom fichier entree>.json sortie.json`
+3. Exécuter le programme dans la console avec la commande : <br/>`java -jar EvaluationFonciere.jar <nom fichier entree>.json sortie.json`
 
 ## Dependencies
 [JSON-lib](http://json-lib.sourceforge.net/)
