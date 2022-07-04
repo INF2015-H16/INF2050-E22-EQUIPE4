@@ -54,7 +54,7 @@ public abstract class Lotissement{
     }
 
     private void setNbServices() throws FormatInvalide {
-        this.nbServices = valider.nbServices();
+        this.nbServices = valider.nbServices() + NB_SERVICE_BASE;
     }
 
     private void setSuperficie() throws FormatInvalide {

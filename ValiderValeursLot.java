@@ -1,7 +1,6 @@
 
 package evaluationfonciere;
 
-import static evaluationfonciere.Lotissement.NB_SERVICE_BASE;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
@@ -20,7 +19,7 @@ class ValiderValeursLot {
         try {
             String description = JSONSource.getString("description");
             if(description.equals("")){
-                throw new FormatInvalide("La description ne peut pas etre vide");
+                throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots est vide");
             }
             return description;
         } catch (JSONException e) {
@@ -54,7 +53,7 @@ class ValiderValeursLot {
 
     int nbServices() throws FormatInvalide {
         try {
-            int nbServices = JSONSource.getInt("nombre_services") + NB_SERVICE_BASE;
+            int nbServices = JSONSource.getInt("nombre_services");
             if(nbServices > 5){
                 throw new FormatInvalide("Le nombre de services est superieur a 5");
             } else if(nbServices > 5){

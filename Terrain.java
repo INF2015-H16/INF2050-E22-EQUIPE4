@@ -1,7 +1,6 @@
 package evaluationfonciere;
 
 import java.text.DecimalFormat;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -16,7 +15,7 @@ public class Terrain {
     //Definies dans le constructeur
     double[] prixMinMax = new double[2];
     int typeDeTerrain;
-    Lotissement[] lotissements;
+    private Lotissement[] lotissements;
     
     //Constantes
     static final double PRIX_FIXE = 733.77;
@@ -50,35 +49,12 @@ public class Terrain {
     private void setLotissements() throws FormatInvalide{
         this.lotissements = valider.lotissements();
     }
-
-    public String rapport(){
-        return rapportJSONObject().toString();
-    }
-
-    private JSONObject rapportJSONObject(){
-        JSONObject rapport = new JSONObject();
-        rapport.accumulate("valeur_fonciere_totale", formaterDecimal(valeurFonciereTotale()) + " $");
-        rapport.accumulate("taxe_scolaire", formaterDecimal(taxeScolaire()) + " $");
-        rapport.accumulate("taxe_ municipale", formaterDecimal(taxeMunicipale()) + " $");
-        JSONArray lots = creerRapportsLots();
-        rapport.accumulate("lotissements", lots);
-
-        return rapport;
-    }
-
-    private JSONArray creerRapportsLots() {
-        JSONArray lots = new JSONArray();
-        for (Lotissement lot : lotissements) {
-            JSONObject lotUnique = new JSONObject();
-            lotUnique.accumulate("description", lot.getDescription());
-            lotUnique.accumulate("valeur_par_lot", formaterDecimal(lot.getValeurTotalLot()) + " $");
-
-            lots.add(lotUnique);
-        }
-        return lots;
+    
+    Lotissement[] getLotissements() {
+        return lotissements;
     }
     
-    private double valeurFonciereTotale(){
+    public double getValeurFonciereTotale(){
         double resultat = PRIX_FIXE;
         for (Lotissement lot : lotissements) {
             resultat += lot.getValeurTotalLot();
@@ -86,18 +62,12 @@ public class Terrain {
         return arrondiAu5sousSuperieur(resultat);
     }    
     
-    private double taxeScolaire(){
-        return arrondiAu5sousSuperieur(valeurFonciereTotale() * TAUX_SCOLAIRE);
+    public double getTaxeScolaire(){
+        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_SCOLAIRE);
     }
     
-    private double taxeMunicipale(){
-        return arrondiAu5sousSuperieur(valeurFonciereTotale() * TAUX_MUNICIPALE);
-    }
-
-    private String formaterDecimal(double valeur) {
-        String pattern = "#.00";
-        DecimalFormat decimalFormat = new DecimalFormat(pattern);
-        return decimalFormat.format(valeur);
+    public double getTaxeMunicipale(){
+        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_MUNICIPALE);
     }
 
     public double arrondiAu5sousSuperieur(double montant) {

@@ -1,6 +1,9 @@
 
 package evaluationfonciere;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -76,8 +79,22 @@ class ValiderValeursTerrain {
             lotissements[i] = createur.creerLotissement(typeDeTerrain, unLot);
             lotissements[i].setPrixMinMax(new double[] {prixMin(), prixMax()});
         }
+        verifierDescriptionUnique(lotissements);
         return lotissements;
     }
+    
+    ///////////////////////////
+    private void verifierDescriptionUnique(Lotissement[] lotissements) throws FormatInvalide{
+        List<Lotissement> listeLots = Arrays.asList(lotissements);
+
+        if(listeDescriptionsUniques(listeLots).size() != listeLots.size())
+            throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots n'est pas unique.");
+    }
+
+    private List<Lotissement> listeDescriptionsUniques(List<Lotissement> liste) {
+        return liste.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList());
+    }
+    ///////////////////////////
     
     private double stringEnDouble(String prixEnString){
        //On le separe du signe $ et on remplace les , par . s'il y en a
