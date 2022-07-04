@@ -7,7 +7,7 @@ Ce programme calcule la valeur foncière d'un terrain de un ou plusieurs lots. I
 1. Cloner ce répertoire dans un fichier nommé "evaluationfonciere" dans "src"
 2. Naviguer dans le fichier "evaluationfonciere" : `cd /src/evaluationfonciere`
 3. Compiler le document Java "EvaluationFonciere" : `javac EvaluationFonciere`
-4. Créer un fichier jar : `jar cfe Sprint2.jar EvaluationFonciere *.class` 
+4. Créer un fichier jar : `jar cfe Sprint2.jar EvaluationFonciere.class *.class` 
 5. Exécuter le programme : `java -jar Sprint2.jar entree.json sortie.json`
 
 ## Auteurs 
