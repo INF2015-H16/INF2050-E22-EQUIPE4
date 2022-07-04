@@ -96,7 +96,7 @@ class ValiderValeursTerrain {
     }
 
     private List<Lotissement> listeDescriptionsUniques(List<Lotissement> liste) {
-        return liste.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList());
+        return liste.stream().map(lot->lot.getDescription()).distinct().collect(Collectors.toList);
     }
     ///////////////////////////
     
