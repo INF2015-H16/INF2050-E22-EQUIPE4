@@ -23,7 +23,7 @@ class ValiderValeursLot {
     
     String description() throws FormatInvalide{
         try {
-            String description = JSONSource.getString("description");
+            String description = JSONSource.getString("description").trim();
             if(description.equals("")){
                 throw new FormatInvalide("La propriete <description> de chaque lot ne doit pas etre vide.");
             }
