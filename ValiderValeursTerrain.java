@@ -74,12 +74,12 @@ class ValiderValeursTerrain {
         }
     }
     
-    private Lotissement[] formaterLot(JSONArray source, int typeDeTerrain) throws FormatInvalide {
+    private Lotissement[] formaterLot(JSONArray lots, int typeDeTerrain) throws FormatInvalide {
         CreerTypeLotissement createur = new CreerTypeLotissement();
-        Lotissement[] lotissements = new Lotissement[source.size()];
+        Lotissement[] lotissements = new Lotissement[lots.size()];
         JSONObject unLot;
-        for (int i = 0; i < source.size(); i++) {
-            unLot = source.getJSONObject(i);
+        for (int i = 0; i < lots.size(); i++) {
+            unLot = lots.getJSONObject(i);
             lotissements[i] = createur.creerLotissement(typeDeTerrain, unLot);
             lotissements[i].setPrixMinMax(new double[] {prixMin(), prixMax()});
         }
