@@ -24,7 +24,7 @@ class ValiderValeursTerrain {
         this.JSONSource = JSONSource;
     }
     
-    double prixMin() throws FormatInvalide {
+    private double prixMin() throws FormatInvalide {
         try {
             double prixMin = stringEnDouble(JSONSource.getString("prix_m2_min"));
             if(prixMin < 0){
@@ -36,7 +36,7 @@ class ValiderValeursTerrain {
         }
     }
     
-    double prixMax() throws FormatInvalide {
+    private double prixMax() throws FormatInvalide {
         try {
             double prixMax = stringEnDouble(JSONSource.getString("prix_m2_max"));
             if(prixMax < 0){
@@ -48,7 +48,7 @@ class ValiderValeursTerrain {
         }
     }
     
-    int typeTerrain() throws FormatInvalide {
+    private int typeTerrain() throws FormatInvalide {
         try {
             int typeTerrain = JSONSource.getInt("type_terrain");
             if(typeNonValide(typeTerrain)){
