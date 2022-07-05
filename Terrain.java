@@ -12,8 +12,6 @@ import net.sf.json.JSONObject;
  */
 public class Terrain {
     //Definies dans le constructeur
-    private double[] prixMinMax = new double[2];
-    private int typeDeTerrain;
     private Lotissement[] lotissements;
     
     //Constantes
@@ -27,22 +25,7 @@ public class Terrain {
     public Terrain(JSONObject JSONSource) throws FormatInvalide {
         this.valider = new ValiderValeursTerrain(JSONSource);
         
-        setPrixMin();
-        setPrixMax();
-        setTypeTerrain();
         setLotissements();
-    }
-    
-    private void setPrixMin() throws FormatInvalide {
-        this.prixMinMax[0] = valider.prixMin();
-    }
-
-    private void setPrixMax() throws FormatInvalide {
-        this.prixMinMax[1] = valider.prixMax();
-    }
-    
-    private void setTypeTerrain() throws FormatInvalide {
-        this.typeDeTerrain = valider.typeTerrain();
     }
     
     private void setLotissements() throws FormatInvalide{
