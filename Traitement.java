@@ -20,13 +20,13 @@ public class Traitement {
     
     public String lireFichierEntree(String[] args) throws FormatInvalide {
         if(args.length != 2){
-            throw new FormatInvalide("Fichier d'entree ou de sortie manquant");
+            throw new FormatInvalide("Fichier d'entree ou de sortie manquant.");
         }
         try {
             String texteSource = new String(Files.readAllBytes(Paths.get(args[0])));
             return texteSource;
         } catch (IOException e) {
-            throw new FormatInvalide("Erreur dans la lecture du fichier d'entree");
+            throw new FormatInvalide("Erreur dans la lecture du fichier d'entree.");
         }
     }
     
@@ -35,7 +35,7 @@ public class Traitement {
            String rapportString = contenuSortie.toString();
            writer.write(rapportString);
        } catch (IOException e) {
-           throw new FormatInvalide("Erreur dans l'ecriture du fichier de sortie");
+           throw new FormatInvalide("Erreur dans l'ecriture du fichier de sortie.");
        }
     }
 
