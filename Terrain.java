@@ -32,7 +32,7 @@ public class Terrain {
         setTypeTerrain();
         setLotissements();
     }
-
+    
     private void setPrixMin() throws FormatInvalide {
         this.prixMinMax[0] = valider.prixMin();
     }

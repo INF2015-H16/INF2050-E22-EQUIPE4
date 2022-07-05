@@ -11,7 +11,7 @@ Voici quelques liens de réferences selon votre IDE utilisé :
 - [Visual Studio Code](https://code.visualstudio.com/docs/java/java-project)
 
 ## Installation
-1. Cloner ce répertoire dans un fichier nommé "evaluationfonciere"
+1. Cloner ce répertoire
 2. Compiler les documents Java avec un IDE après avoir ajouter la librairie JSON-lib au projet.
 3. Exécuter le programme dans la console avec la commande : <br/>`java -jar EvaluationFonciere.jar <nom fichier entree>.json sortie.json`
 
