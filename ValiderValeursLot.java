@@ -25,11 +25,11 @@ class ValiderValeursLot {
         try {
             String description = JSONSource.getString("description");
             if(description.equals("")){
-                throw new FormatInvalide("Une ou plusieurs propriétés <description> des lots est vide");
+                throw new FormatInvalide("La propriete <description> de chaque lot ne doit pas etre vide");
             }
             return description;
         } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <description> d'un lot est manquante dans le fichier d'entree");
+            throw new FormatInvalide("La propriete <description> d'un ou plusieurs lots est manquante dans le fichier d'entree");
         }
     }
 
@@ -37,13 +37,13 @@ class ValiderValeursLot {
         try {
             int nbDroitsPassages = JSONSource.getInt("nombre_droits_passage");
             if(nbDroitsPassages > 10){
-                throw new FormatInvalide("Le nombre de droits de passage est superieur a 10");
+                throw new FormatInvalide("La propriete <nombre_droits_passage> de chaque lot ne doit pas depasser 10");
             } else if(nbDroitsPassages < 0){
-                throw new FormatInvalide("Le nombre de droits de passage est inferieur a 0");
+                throw new FormatInvalide("La propriete <nombre_droits_passage> de chaque lot ne doit pas etre inferieure a 0");
             }
             return nbDroitsPassages;
         } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <nombre_droits_passage> d'un lot est manquante dans le fichier d'entree");
+            throw new FormatInvalide("La propriete <nombre_droits_passage> d'un ou plusieurs lots est manquante dans le fichier d'entree");
         }
     }
 
@@ -54,9 +54,9 @@ class ValiderValeursLot {
             return dateMesure;
             
         } catch (DateTimeParseException e) {
-            throw new FormatInvalide("La date n'est pas dans le format ISO8601 (aaaa-mm-jj)");
+            throw new FormatInvalide("La propriete <date_mesure> de chaque lot doit etre dans le format ISO8601 (aaaa-mm-jj)");
         } catch (JSONException e) {
-            throw new FormatInvalide("La propriete <date_mesure> d'un lot est manquante dans le fichier d'entree");
+            throw new FormatInvalide("La propriete <date_mesure> d'un ou plusieurs lots est manquante dans le fichier d'entree");
         }
     }
 
@@ -64,9 +64,9 @@ class ValiderValeursLot {
         try {
             int nbServices = JSONSource.getInt("nombre_services");
             if(nbServices > 5){
-                throw new FormatInvalide("Le nombre de services est superieur a 5");
-            } else if(nbServices > 5){
-                throw new FormatInvalide("Le nombre de services est inferieur a 0");
+                throw new FormatInvalide("La propriete <nombre_services> de chaque lot ne peut pas depasser 5");
+            } else if(nbServices < 0){
+                throw new FormatInvalide("Le propriete <nombre_services> de chaque lot ne peut pas etre inferieure a 0");
             }
             return nbServices;
         } catch (JSONException e) {
@@ -78,9 +78,9 @@ class ValiderValeursLot {
         try {
             int superficie = JSONSource.getInt("superficie");
             if(superficie > 50000){
-                throw new FormatInvalide("La superficie ne peut pas etre superieure a 50000 metres carres");
+                throw new FormatInvalide("La propriete <superficie> de chaque lot ne doit pas depasser 50000 metres carres");
             } else if(superficie < 0){
-                throw new FormatInvalide("La superficie ne peut pas etre negative");
+                throw new FormatInvalide("La propriete <superficie> de chaque lot ne doit pas etre negative");
             }
             return superficie;
         } catch (JSONException e) {

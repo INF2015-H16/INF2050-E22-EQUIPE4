@@ -28,7 +28,7 @@ class ValiderValeursTerrain {
         try {
             double prixMin = stringEnDouble(JSONSource.getString("prix_m2_min"));
             if(prixMin < 0){
-                throw new FormatInvalide("Un montant d'argent ne peut pas etre negatif (prix_m2_min)");
+                throw new FormatInvalide("La propriete <prix_m2_min> ne peut pas etre negative");
             }
             return prixMin;
         } catch (JSONException e) {
@@ -40,7 +40,7 @@ class ValiderValeursTerrain {
         try {
             double prixMax = stringEnDouble(JSONSource.getString("prix_m2_max"));
             if(prixMax < 0){
-                throw new FormatInvalide("Un montant d'argent ne peut pas etre negatif (prix_m2_max)");
+                throw new FormatInvalide("La propriete <prix_m2_max> ne peut pas etre negative");
             }
             return prixMax;
         } catch (JSONException e) {
@@ -52,7 +52,7 @@ class ValiderValeursTerrain {
         try {
             int typeTerrain = JSONSource.getInt("type_terrain");
             if(typeNonValide(typeTerrain)){
-                throw new FormatInvalide("Le type de terrain n'est pas la valeur 0, 1 ou 2");
+                throw new FormatInvalide("La propriete <type_terrain> n'est pas la valeur 0, 1 ou 2");
             }
             return typeTerrain;
         } catch (JSONException e) {
@@ -64,9 +64,9 @@ class ValiderValeursTerrain {
         try {
             JSONArray lots = JSONSource.getJSONArray("lotissements");
             if(lots.size() > 10){
-                throw new FormatInvalide("Le nombre de lots ne doit jamais depasser 10 lots");
+                throw new FormatInvalide("Le nombre de lots dans la propriete <lotissements> ne doit pas depasser 10 lots");
             } else if(lots.size() < 1){
-                throw new FormatInvalide("Un terrain doit avoir au moins un lot");
+                throw new FormatInvalide("La propriete <lotissements> doit comporter au moins un lot");
             }
             return formaterLot(lots, typeTerrain());
         } catch (JSONException e) {
@@ -92,7 +92,7 @@ class ValiderValeursTerrain {
         List<Lotissement> lotsUnique = descriptionsUniques(lots);
         
         if(lotsUnique.size() != lots.size())
-            throw new FormatInvalide("Une ou plusieurs proprietes <description> des lots n'est pas unique.");
+            throw new FormatInvalide("Une ou plusieurs proprietes <description> des lots ne sont pas uniques.");
     }
 
     private List descriptionsUniques(List<Lotissement> lots) {
