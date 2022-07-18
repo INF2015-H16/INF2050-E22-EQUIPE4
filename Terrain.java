@@ -41,18 +41,18 @@ public class Terrain {
         for (Lotissement lot : lotissements) {
             resultat += lot.getValeurTotalLot();
         }
-        return arrondiAu5sousSuperieur(resultat);
+        return arrondiAu5sous(resultat);
     }    
     
     public double getTaxeScolaire(){
-        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_SCOLAIRE);
+        return arrondiAu5sous(getValeurFonciereTotale() * TAUX_SCOLAIRE);
     }
     
     public double getTaxeMunicipale(){
-        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_MUNICIPALE);
+        return arrondiAu5sous(getValeurFonciereTotale() * TAUX_MUNICIPALE);
     }
 
-    private double arrondiAu5sousSuperieur(double montant) {
-        return Math.ceil(montant * 20) / 20;
+    private double arrondiAu5sous(double montant) {
+        return Math.round(montant * 20) / 20;
     }
 }
