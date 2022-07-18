@@ -32,7 +32,7 @@ public class Terrain {
         this.lotissements = valider.lotissements();
     }
     
-    Lotissement[] getLotissements() {
+    public Lotissement[] getLotissements() {
         return lotissements;
     }
     
