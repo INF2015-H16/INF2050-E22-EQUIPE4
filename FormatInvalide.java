@@ -2,6 +2,8 @@
 package evaluationfonciere;
 
 /**
+ * Classe d'exception qui est lancee lorsque le format des valeurs dans 
+ * le fichier d'entree ne sont pas valide.
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
