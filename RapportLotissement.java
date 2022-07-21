@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import net.sf.json.JSONObject;
 
 /**
+ * Classe qui cherche les variables des Lotissements pour
+ * les formatter avant d'etre ajouter au fichier de sortie.
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
