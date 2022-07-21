@@ -4,7 +4,9 @@ package evaluationfonciere;
 import net.sf.json.JSONObject;
 
 /**
- *
+ * Classe enfant de Lotissement pour initialiser un terrain commercial
+ * et avec ses propres méthodes de calcul de montants.
+ 
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
  *         Steven Chieng CHIS01069604
