@@ -4,6 +4,8 @@ package evaluationfonciere;
 import net.sf.json.JSONObject;
 
 /**
+ * Classe qui cree les objets Lotissement correspondant a la variable 
+ * de type de terrain donnee dans le fichier d'entree. 
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
