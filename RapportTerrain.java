@@ -7,6 +7,9 @@ import net.sf.json.JSONObject;
 
 /**
  *
+ * Classe qui cherche les resultats de calcul de la classe Terrain pour
+ * les formatter avant d'etre ajouter au fichier de sortie.
+ *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
  *         Steven Chieng CHIS01069604

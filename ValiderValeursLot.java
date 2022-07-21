@@ -7,6 +7,8 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
+ * Classe avec les methodes de validations du formatage des
+ * donnees d'entree de chaque lotissement.
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604

@@ -3,6 +3,7 @@ package evaluationfonciere;
 import net.sf.json.JSONObject;
 
 /**
+ * Classe Terrain avec les methodes de calcul pour la valeur totale/les taxes
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604

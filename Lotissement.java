@@ -4,7 +4,10 @@ package evaluationfonciere;
 import net.sf.json.JSONObject;
 
 /**
- *
+ * Classe parent des 3 types de Lotissement avec les variables communes
+ * des lotissements et les methodes abstraites de calcul. Les parametres 
+ * de constructeur sont valides avant d'etre affecte.
+ * 
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
  *         Steven Chieng CHIS01069604

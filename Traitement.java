@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import net.sf.json.JSONObject;
 
 /**
+ * Classe de methodes qui lit le fichier d'entree et
+ * ecrit le fichier de sortie. (JSON)
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
