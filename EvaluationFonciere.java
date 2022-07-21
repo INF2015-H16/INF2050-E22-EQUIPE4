@@ -4,6 +4,12 @@ package evaluationfonciere;
 import net.sf.json.JSONObject;
 
 /**
+ * Classe main du programme qui prend en parametre un fichier d'entree pour
+ * calculer et creer un fichier de sortie contenant les informations pertinentes 
+ * du terrain.
+ *
+ * @param args[0] fichier d'entree
+ * @param args[1] fichier de sortie
  *
  * @author Leonid Glazyrin GLAL77080105
  *         Goldlen Chhun CHHG20069604
