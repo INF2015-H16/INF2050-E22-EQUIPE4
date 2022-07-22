@@ -1,5 +1,5 @@
 
-package evaluationfonciere;
+package com.proudmusketeers;
 
 import java.text.DecimalFormat;
 import net.sf.json.JSONArray;
