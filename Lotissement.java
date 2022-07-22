@@ -80,4 +80,8 @@ public abstract class Lotissement{
     public double getValeurTotalLot() {
         return valeurSuperficie() + montantDroitDePassages() + montantServices();
     }
+    
+    public int getSuperficie() {
+        return superficie;
+    }
 }
