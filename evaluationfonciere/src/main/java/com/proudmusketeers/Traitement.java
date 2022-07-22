@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -43,8 +45,14 @@ public class Traitement {
 
     public JSONObject contenuSortie(JSONObject JSONSource){
         try {
+            //Peut lancer des exceptions :
             Terrain terrain = new Terrain(JSONSource);
+            //Ne devrait pas lancer des exceptions :
             JSONObject rapport = new RapportTerrain().rapport(terrain);
+            List<String> observations = new Observations(terrain).observations();
+            if(!observations.isEmpty()){
+                rapport.accumulate("observations", observations);
+            }
             return rapport;
         } catch (FormatInvalide erreur) {
             JSONObject objetErreur = new JSONObject();

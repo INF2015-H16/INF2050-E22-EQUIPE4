@@ -14,6 +14,9 @@ import net.sf.json.JSONObject;
 public class Terrain {
     //Definies dans le constructeur
     private Lotissement[] lotissements;
+    private double prixMax;
+    private double prixMin;
+
     
     //Constantes
     static final double PRIX_FIXE = 733.77;
@@ -27,10 +30,20 @@ public class Terrain {
         this.valider = new ValiderValeursTerrain(JSONSource);
         
         setLotissements();
+        setPrixMax();
+        setPrixMin();
     }
     
     private void setLotissements() throws FormatInvalide{
         this.lotissements = valider.lotissements();
+    }
+    
+    private void setPrixMax() throws FormatInvalide{
+        this.prixMax = valider.prixMax();
+    }
+    
+    private void setPrixMin() throws FormatInvalide{
+        this.prixMin = valider.prixMin();
     }
     
     public Lotissement[] getLotissements() {
@@ -55,5 +68,13 @@ public class Terrain {
 
     private double arrondiAu5sous(double montant) {
         return Math.round(montant * 20) / 20;
+    }
+    
+    public double getPrixMax(){
+        return prixMax;
+    }
+    
+    public double getPrixMin(){
+        return prixMin;
     }
 }
