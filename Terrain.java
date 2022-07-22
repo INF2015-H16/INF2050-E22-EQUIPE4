@@ -43,7 +43,7 @@ public class Terrain {
     }
     
     private void setPrixMin() throws FormatInvalide{
-        this.prixMax = valider.prixMin();
+        this.prixMin = valider.prixMin();
     }
     
     public Lotissement[] getLotissements() {
@@ -71,10 +71,10 @@ public class Terrain {
     }
     
     public double getPrixMax(){
-        return this.prixMax;
+        return prixMax;
     }
     
     public double getPrixMin(){
-        return this.prixMin;
+        return prixMin;
     }
 }
