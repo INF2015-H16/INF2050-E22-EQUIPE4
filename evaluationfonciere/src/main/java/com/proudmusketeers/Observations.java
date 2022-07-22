@@ -1,5 +1,5 @@
 
-package evaluationfonciere;
+package com.proudmusketeers;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

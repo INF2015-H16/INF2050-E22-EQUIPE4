@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
