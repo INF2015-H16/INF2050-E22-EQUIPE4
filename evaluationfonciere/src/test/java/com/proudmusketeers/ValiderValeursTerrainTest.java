@@ -17,15 +17,24 @@ public class ValiderValeursTerrainTest {
         validateur = new ValiderValeursTerrain(testData);
     }
 
-    @Test (expected = FormatInvalide.class)
-    public void testPrixMinManquante() throws FormatInvalide{
-        validateur.prixMin();
+    @Test
+    public void testPrixMinManquante() {
+        try{
+            validateur.prixMin();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <prix_m2_min> est manquante dans le fichier d'entree.", e.getMessage());
+        }
+        
     }
 
-    @Test (expected = FormatInvalide.class)
-    public void testPrixMinNegative() throws FormatInvalide{
-        testData.accumulate("prix_m2_min", -1);
-        validateur.prixMin();
+    @Test
+    public void testPrixMinNegative() {
+        try{
+            testData.accumulate("prix_m2_min", -1);
+            validateur.prixMin();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <prix_m2_min> ne peut pas etre negative.", e.getMessage());
+        }
     }
 
     @Test
@@ -34,15 +43,23 @@ public class ValiderValeursTerrainTest {
         assertEquals(1,validateur.prixMin(), 0);
     } 
 
-    @Test (expected = FormatInvalide.class) 
-    public void testPrixMaxManquante() throws FormatInvalide{
-        validateur.prixMax();
+    @Test
+    public void testPrixMaxManquante() {
+        try {
+            validateur.prixMax();
+        } catch (FormatInvalide e) {
+            assertEquals("La propriete <prix_m2_max> est manquante dans le fichier d'entree.", e.getMessage());
+        }
     }
 
-    @Test (expected = FormatInvalide.class)
-    public void testPrixMaxNegative() throws FormatInvalide{
-        testData.accumulate("prix_m2_max", -1);
-        validateur.prixMax();
+    @Test
+    public void testPrixMaxNegative() {
+        try{
+            testData.accumulate("prix_m2_max", -1);
+            validateur.prixMax();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <prix_m2_max> ne peut pas etre negative.", e.getMessage());
+        }
     }
 
     @Test
@@ -51,15 +68,23 @@ public class ValiderValeursTerrainTest {
         assertEquals(1,validateur.prixMax(), 0);
     }
 
-    @Test (expected = FormatInvalide.class) 
-    public void testTypeTerrainManquante() throws FormatInvalide{
-        validateur.typeTerrain();
+    @Test 
+    public void testTypeTerrainManquante() {
+        try{    
+            validateur.typeTerrain();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <type_terrain> est manquante dans le fichier d'entree.", e.getMessage());
+        }
     }
 
-    @Test (expected = FormatInvalide.class)
-    public void testTypeTerrainNegative() throws FormatInvalide{
-        testData.accumulate("type_terrain", 3);
-        validateur.typeTerrain();
+    @Test
+    public void testTypeTerrainNonValide() {
+        try{   
+            testData.accumulate("type_terrain", 3);
+            validateur.typeTerrain();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <type_terrain> n'est pas la valeur 0, 1 ou 2.", e.getMessage());
+        }
     }
 
     @Test
@@ -68,29 +93,40 @@ public class ValiderValeursTerrainTest {
         assertEquals(1,validateur.typeTerrain(), 0);
     }
 
-    @Test (expected = FormatInvalide.class) 
-    public void testLotissementsManquante() throws FormatInvalide{
-        validateur.lotissements();
+    @Test
+    public void testLotissementsManquante() {
+        try{
+            validateur.lotissements();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <lotissements> est manquante dans le fichier d'entree.", e.getMessage());
+        }
     }
 
-    @Test (expected = FormatInvalide.class)
-    public void testLotissementsVide() throws FormatInvalide{
+    @Test
+    public void testLotissementsVide() {
         JSONArray listeVide = new JSONArray();
-        testData.accumulate("lotissements", listeVide);
-        validateur.lotissements();
+        try {
+            testData.accumulate("lotissements", listeVide);
+            validateur.lotissements();
+        } catch (FormatInvalide e){
+            assertEquals("La propriete <lotissements> doit comporter au moins un lot.", e.getMessage());
+        }
     }
 
-    @Test (expected = FormatInvalide.class)
-    public void TestLotissementsTaillePlusQueMaxLimite() throws FormatInvalide{
+    @Test
+    public void TestLotissementsTaillePlusQueMaxLimite() {
         JSONObject unLot = new JSONObject();
         unLot.put("nom", "lot1");
         JSONArray listeAvecTropLots = new JSONArray();
-
         for(int i = 0; i <= MAX_LIMITE_LOTS; i++) {
             listeAvecTropLots.add(unLot);
         }
 
-        testData.accumulate("lotissements", listeAvecTropLots);
-        validateur.lotissements();
+        try{
+            testData.accumulate("lotissements", listeAvecTropLots);
+            validateur.lotissements();
+        } catch (FormatInvalide e) {
+            assertEquals("Le nombre de lots dans la propriete <lotissements> ne doit pas depasser 10 lots.", e.getMessage());
+        }
     }
 }
