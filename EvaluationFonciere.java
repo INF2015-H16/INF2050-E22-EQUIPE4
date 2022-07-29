@@ -1,7 +1,6 @@
 
 package evaluationfonciere;
 
-import net.sf.json.JSONObject;
 
 /**
  * Classe main du programme qui prend en parametre un fichier d'entree pour
@@ -22,15 +21,7 @@ public class EvaluationFonciere {
         if (args.length == 1) {
             Statistique.traiter(args[0]);
         } else {
-            Traitement traitement = new Traitement();
-            try {
-                String texteSource = traitement.lireFichierEntree(args);
-                JSONObject JSONSource = JSONObject.fromObject(texteSource);
-                JSONObject contenuSortie = traitement.contenuSortie(JSONSource);
-                traitement.ecrireFichierSortie(args[1], contenuSortie);
-            } catch (FormatInvalide erreur) {
-                System.out.print(erreur.getMessage());
-            }
+            Traitement.traiter(args);
         }
     }
 }

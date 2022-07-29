@@ -32,6 +32,12 @@ public class Terrain {
         setLotissements();
         setPrixMax();
         setPrixMin();
+        
+        mettreAJourStatistiques();
+    }
+    
+    private void mettreAJourStatistiques() {
+        Statistique.mettreAJour(this);
     }
     
     private void setLotissements() throws FormatInvalide{

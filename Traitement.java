@@ -20,6 +20,18 @@ import net.sf.json.JSONObject;
  */
 public class Traitement {
     
+    public static void traiter(String[] args) {
+        Traitement traitement = new Traitement();
+        try {
+            String texteSource = traitement.lireFichierEntree(args);
+            JSONObject JSONSource = JSONObject.fromObject(texteSource);
+            JSONObject contenuSortie = traitement.contenuSortie(JSONSource);
+            traitement.ecrireFichierSortie(args[1], contenuSortie);
+        } catch (FormatInvalide erreur) {
+            System.out.print(erreur.getMessage());
+        }
+    }
+    
     public String lireFichierEntree(String[] args) throws FormatInvalide {
         if(args.length != 2){
             throw new FormatInvalide("Fichier d'entree ou de sortie manquant.");
