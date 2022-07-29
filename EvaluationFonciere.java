@@ -19,14 +19,18 @@ import net.sf.json.JSONObject;
  */
 public class EvaluationFonciere {
     public static void main(String[] args) {
-        Traitement traitement = new Traitement();
-        try {
-            String texteSource = traitement.lireFichierEntree(args);
-            JSONObject JSONSource = JSONObject.fromObject(texteSource);
-            JSONObject contenuSortie = traitement.contenuSortie(JSONSource);
-            traitement.ecrireFichierSortie(args[1], contenuSortie);
-        } catch (FormatInvalide erreur) {
-            System.out.print(erreur.getMessage());
+        if (args.length == 1) {
+            Statistique.traiter(args[0]);
+        } else {
+            Traitement traitement = new Traitement();
+            try {
+                String texteSource = traitement.lireFichierEntree(args);
+                JSONObject JSONSource = JSONObject.fromObject(texteSource);
+                JSONObject contenuSortie = traitement.contenuSortie(JSONSource);
+                traitement.ecrireFichierSortie(args[1], contenuSortie);
+            } catch (FormatInvalide erreur) {
+                System.out.print(erreur.getMessage());
+            }
         }
     }
 }

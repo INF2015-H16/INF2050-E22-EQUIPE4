@@ -2,6 +2,7 @@
 package evaluationfonciere;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -28,7 +29,12 @@ public class RapportTerrain {
         rapport.accumulate("taxe_ municipale", formaterDecimal(terrain.getTaxeMunicipale()) + " $");
         JSONArray lots = creerRapportsLots();
         rapport.accumulate("lotissements", lots);
-
+        
+        List<String> observations = new Observations(terrain).observations();
+        if(!observations.isEmpty()){
+            rapport.accumulate("observations", observations);
+        }
+        
         return rapport;
     }
 
