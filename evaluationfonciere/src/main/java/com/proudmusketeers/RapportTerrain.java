@@ -25,7 +25,7 @@ public class RapportTerrain {
         JSONObject rapport = new JSONObject();
         rapport.accumulate("valeur_fonciere_totale", formaterDecimal(terrain.getValeurFonciereTotale()) + " $");
         rapport.accumulate("taxe_scolaire", formaterDecimal(terrain.getTaxeScolaire()) + " $");
-        rapport.accumulate("taxe_ municipale", formaterDecimal(terrain.getTaxeMunicipale()) + " $");
+        rapport.accumulate("taxe_municipale", formaterDecimal(terrain.getTaxeMunicipale()) + " $");
         JSONArray lots = creerRapportsLots();
         rapport.accumulate("lotissements", lots);
 
