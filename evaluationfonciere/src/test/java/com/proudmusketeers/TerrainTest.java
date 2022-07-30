@@ -3,7 +3,15 @@ package com.proudmusketeers;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-
+/**
+ * 
+ *
+ * @author Leonid Glazyrin GLAL77080105
+ *         Goldlen Chhun CHHG20069604
+ *         Steven Chieng CHIS01069604
+ *         Eric Drapeau DRAE21079108
+ * 
+ */
 public class TerrainTest
 {
     //10.00 -> 10.00
