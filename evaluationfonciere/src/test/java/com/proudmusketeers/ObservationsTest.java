@@ -10,6 +10,7 @@ public class ObservationsTest {
     static Terrain unTerrain;
     static Observations test;
 
+    //Creation d'un terrain qui devrait soulever toutes les observations
     @BeforeClass
     public static void setUp() throws Exception {
         JSONArray lots = new JSONArray();
