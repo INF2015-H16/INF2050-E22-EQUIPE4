@@ -29,7 +29,7 @@ public class LotissementResidentielTest {
 
     //superficie = 500 -> 0
     @Test
-    public void testMontantServicesCinqCentsEtMoins() throws FormatInvalide {
+    public void testMontantServicesAvecSuperficieCinqCentsEtMoins() throws FormatInvalide {
         testData.accumulate("superficie", 500);
         lotTest = new LotissementResidentiel(testData);
         assertEquals(0, lotTest.montantServices(), 0);
@@ -37,7 +37,7 @@ public class LotissementResidentielTest {
 
     //superficie = 10000 -> 1500
     @Test
-    public void testMontantServicesEntreCinqCentsEtDixMille() throws FormatInvalide {
+    public void testMontantServicesAvecSuperficieEntreCinqCentsEtDixMille() throws FormatInvalide {
         testData.accumulate("superficie", 10000);
         lotTest = new LotissementResidentiel(testData);
         assertEquals(1500, lotTest.montantServices(), 0);
@@ -45,8 +45,8 @@ public class LotissementResidentielTest {
 
     //superficie = 20000 -> 3000
     @Test
-    public void testMontantServicesPlusQueDixMille() throws FormatInvalide {
-        testData.accumulate("superficie", 20000);
+    public void testMontantServicesAvecSuperficiePlusQueDixMille() throws FormatInvalide {
+        testData.accumulate("superficie", 10001);
         lotTest = new LotissementResidentiel(testData);
         assertEquals(3000, lotTest.montantServices(), 0);
     }
@@ -54,20 +54,18 @@ public class LotissementResidentielTest {
     //superficie = 50000; prixMin = 1; prixMax = 5 -> -149500
     @Test
     public void testMontantDroitDePassages() throws FormatInvalide {
-        double[] MinMax ={1, 5};
         testData.accumulate("superficie", 50000);
         lotTest = new LotissementResidentiel(testData);
-        lotTest.setPrixMinMax(MinMax);
+        lotTest.setPrixMinMax(new double[]{1, 5});
         assertEquals(-149500, lotTest.montantDroitDePassages(), 0);
     }
 
     //superficie = 50000; prixMin = 1; prixMax = 5 -> 150000
     @Test
     public void testValeurSuperficie() throws FormatInvalide {
-        double[] MinMax ={1, 5};
         testData.accumulate("superficie", 50000);
         lotTest = new LotissementResidentiel(testData);
-        lotTest.setPrixMinMax(MinMax);
+        lotTest.setPrixMinMax(new double[]{1, 5});
         assertEquals(150000, lotTest.valeurSuperficie(), 0);
     }
 }
