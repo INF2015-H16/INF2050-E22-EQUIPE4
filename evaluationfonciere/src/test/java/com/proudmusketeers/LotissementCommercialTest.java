@@ -28,7 +28,7 @@ public class LotissementCommercialTest {
 
     //service = 1; superficie = 500 -> 1500
     @Test
-    public void testMontantServicesCinqCentsEtMoins() throws FormatInvalide {
+    public void testMontantServicesSuperficieCinqCentsEtMoins() throws FormatInvalide {
         testData.accumulate("nombre_services", 1);
         testData.accumulate("superficie", 500);
         lotTest = new LotissementCommercial(testData);
@@ -37,7 +37,7 @@ public class LotissementCommercialTest {
 
     //service = 1; superficie = 501 -> 4500
     @Test
-    public void testMontantServicesPlusQueCinqCents() throws FormatInvalide {
+    public void testMontantServicesSuperficiePlusQueCinqCents() throws FormatInvalide {
         testData.accumulate("nombre_services", 1);
         testData.accumulate("superficie", 501);
         lotTest = new LotissementCommercial(testData);
@@ -56,22 +56,20 @@ public class LotissementCommercialTest {
     //superficie = 500; prixMax = 5 -> -3250
     @Test
     public void testMontantDroitDePassages() throws FormatInvalide {
-        double[] MinMax ={1, 5};
         testData.accumulate("nombre_services", 1);
         testData.accumulate("superficie", 500);
         lotTest = new LotissementCommercial(testData);
-        lotTest.setPrixMinMax(MinMax);
+        lotTest.setPrixMinMax(new double[]{1, 5});
         assertEquals(-3250, lotTest.montantDroitDePassages(), 0);
     }
 
     //superficie = 500; prixMax = 5 -> 2500
     @Test
     public void testValeurSuperficie() throws FormatInvalide {
-        double[] MinMax ={1, 5};
         testData.accumulate("nombre_services", 1);
         testData.accumulate("superficie", 500);
         lotTest = new LotissementCommercial(testData);
-        lotTest.setPrixMinMax(MinMax);
+        lotTest.setPrixMinMax(new double[]{1, 5});
         assertEquals(2500, lotTest.valeurSuperficie(), 0);
     }
 }
