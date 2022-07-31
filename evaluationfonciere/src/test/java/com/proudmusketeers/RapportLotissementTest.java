@@ -15,28 +15,26 @@ import net.sf.json.JSONObject;
  * 
  */
 public class RapportLotissementTest {
-    JSONObject testData;
+    JSONObject lotData;
     Lotissement lotTest;
-    JSONObject lot;
-    RapportLotissement rapportTest;
 
     @Before
     public void setUp() throws Exception {
-        testData = new JSONObject();
-        testData.accumulate("description", "valide");
-        testData.accumulate("nombre_droits_passage", 10);
-        testData.accumulate("date_mesure", "2001-07-30");
-        testData.accumulate("nombre_services", 1);
-        testData.accumulate("superficie", 500);
-        lotTest = new LotissementAgricole(testData);
+        lotData = new JSONObject();
+        lotData.accumulate("description", "valide");
+        lotData.accumulate("nombre_droits_passage", 10);
+        lotData.accumulate("date_mesure", "2001-07-30");
+        lotData.accumulate("nombre_services", 1);
+        lotData.accumulate("superficie", 500);
+        lotTest = new LotissementAgricole(lotData);
     }
 
     @Test
     public void testRapportLotissement() {
-        lot = new JSONObject();
-        rapportTest = new RapportLotissement();
-        lot.accumulate("description", "valide");
-        lot.accumulate("valeur_par_lot", "500.00 $");
-        assertEquals(lot, rapportTest.rapport(lotTest));
+        JSONObject lotAttendu = new JSONObject();
+        RapportLotissement sortie = new RapportLotissement();
+        lotAttendu.accumulate("description", "valide");
+        lotAttendu.accumulate("valeur_par_lot", "500.00 $");
+        assertEquals(lotAttendu, sortie.rapport(lotTest));
     }
 }
