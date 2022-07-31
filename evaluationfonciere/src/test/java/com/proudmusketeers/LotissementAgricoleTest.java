@@ -27,8 +27,7 @@ public class LotissementAgricoleTest {
         testData.accumulate("nombre_services", 1);
         testData.accumulate("superficie", 500);
         lotTest = new LotissementAgricole(testData);
-        double[] prixMinMax ={1, 5};
-        lotTest.setPrixMinMax(prixMinMax);
+        lotTest.setPrixMinMax(new double[]{1,5});
     }
 
     //retourne 0
