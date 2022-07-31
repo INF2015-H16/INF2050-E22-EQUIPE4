@@ -16,45 +16,45 @@ import net.sf.json.JSONObject;
  * 
  */
 public class RapportTerrainTest {
-    JSONObject testData;
-    Terrain lotTest;
-    JSONObject rapport;
+    JSONObject terrainData; 
+    Terrain unTerrain; 
+    JSONObject rapportTerrainAttendu; 
     JSONArray lots;
-    JSONObject fill;
-    RapportTerrain rapportTest;
+    JSONObject unLot;
+    RapportTerrain sortie;
 
     @Before
     public void setUp() throws Exception {
-        testData = new JSONObject();
         lots = new JSONArray();
-        fill = new JSONObject();
-        fill.accumulate("description", "valide");
-        fill.accumulate("nombre_droits_passage", 10);
-        fill.accumulate("date_mesure", "2001-07-30");
-        fill.accumulate("nombre_services", 1);
-        fill.accumulate("superficie", 500);
-        fill.accumulate("valeur_par_lot", "750.00 $");
-        lots.add(fill);
-        testData.accumulate("lotissements", lots);
-        testData.accumulate("type_terrain", 0);
-        testData.accumulate("prix_m2_min", 1);
-        testData.accumulate("prix_m2_max", 5);
-        lotTest = new Terrain(testData);
+        unLot = new JSONObject()
+            .accumulate("description", "valide")
+            .accumulate("nombre_droits_passage", 10)
+            .accumulate("nombre_services", 1)
+            .accumulate("superficie", 500)
+            .accumulate("date_mesure", "2001-07-30");
+        lots.add(unLot);
+        terrainData = new JSONObject()
+            .accumulate("type_terrain", 0)
+            .accumulate("prix_m2_min", 1)
+            .accumulate("prix_m2_max", 5)
+            .accumulate("lotissements", lots);
+        unTerrain = new Terrain(terrainData);
+        sortie = new RapportTerrain();
     };
 
     @Test
     public void testRapportTerrain() {
-        rapport = new JSONObject();
         lots = new JSONArray();
-        fill = new JSONObject();
-        fill.accumulate("description", "valide");
-        fill.accumulate("valeur_par_lot", "750.00 $");
-        lots.add(fill);
-        rapportTest = new RapportTerrain();
-        rapport.accumulate("valeur_fonciere_totale", "1483.75 $");
-        rapport.accumulate("taxe_scolaire", "17.80 $");
-        rapport.accumulate("taxe_municipale", "37.10 $");
-        rapport.accumulate("lotissements", lots);
-        assertEquals(rapport, rapportTest.rapport(lotTest));
+        unLot = new JSONObject()
+            .accumulate("description", "valide")
+            .accumulate("valeur_par_lot", "750.00 $");
+        lots.add(unLot);
+        rapportTerrainAttendu = new JSONObject()
+            .accumulate("valeur_fonciere_totale", "1483.75 $")
+            .accumulate("taxe_scolaire", "17.80 $")
+            .accumulate("taxe_municipale", "37.10 $")
+            .accumulate("lotissements", lots);
+
+        assertEquals(rapportTerrainAttendu, sortie.rapport(unTerrain));
     }
 }
