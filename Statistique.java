@@ -30,8 +30,8 @@ class Statistique {
     private int nbrLotAgricole = 0;
     private int nbrLotCommercial = 0;
     private int nbrLotResidentiel = 0;
-    private List<Integer> superficiesMaximales = new ArrayList<>();//liste des superficie maximale a laquell on rajoute a chaque fois
-    private List<Integer> valeursMaximales = new ArrayList<>();//liste des valeurs maximale a laquell on rajoute a chaque fois
+    private double superficieMaximale = 0.0;
+    private double valeurMaximale = 0.0;
 
     public Statistique() {
         File f = new File(NOM_FICHIER);
@@ -97,6 +97,34 @@ class Statistique {
     }
 
     void mettreAJour(Terrain terrain) {
-        //Seul chose a implementer
+        Lotissement[] lotissements = terrain.getLotissements;
+        for(i = 0; i < lotissements.length; i++){
+            this.nbrTotalLots++;
+            this.nombreDeTypeDeLotsAJour(lotissements[i]);
+            this.superficieMaximaleAJour(lotissements[i]);
+            this.valeurMaximaleAJour(lotissements[i]);
+        }
+    }
+                
+    private void nombreDeTypeDeLotsAJour(Lotissement lot){
+        if(lot instanceof LotissementAgricole){
+            this.nbrLotAgricole++;
+        }else if(lot instanceof LotissementResidentiel){
+            this.nbrLotResidentiel++;
+        }else if(lot instanceof LotissementCommercial){
+            this.nbrLotCommercial++;
+        }
+    }
+    
+    private void superficieMaximaleAJour(Lotissement lot){
+        if(lot.getSuperficie() > this.superficieMaximale){
+            this.superficieMaximale = lot.getSuperficie();
+        }
+    }
+    
+    private void valeurMaximaleAJour(Lotissement lot){
+        if(lot.getValeurTotaleLot() > this.valeurMaximale){
+            this.valeurMaximale = lot.getValeurTotaleLot();
+        }
     }
 }
