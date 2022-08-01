@@ -64,13 +64,18 @@ class Statistique {
         }
         JSONObject fichier = getContenueFichier();
         System.out.println("Le nombre total de lots : " + fichier.getInt("nbrTotalLots"));
-        System.out.println(fichier.getJSONArray("valeursParLot"));
+        afficherBraquettes(fichier.getJSONArray("valeursParLot"));
         System.out.println("Le nombre de lots agricoles : " + fichier.getInt("nbrLotAgricole"));
         System.out.println("Le nombre de lots commerciaux : " + fichier.getInt("nbrLotCommercial"));
         System.out.println("Le nombre de lots residentiels : " + fichier.getInt("nbrLotResidentiel"));
         System.out.println("La plus grande superficie de lot traite : "+ fichier.getDouble("superficiesMaximales"));
         System.out.println("La valeur maximale de lot traite : " + fichier.getDouble("valeursMaximales"));
     }
+    
+    private void afficherBraquettes(List<Integer> valeursParLot){
+        System.out.println("Le nombre de lots valant moins de 1000$: " + valeursParLot.get(0));
+        System.out.println("Le nombre de lots valant entre 1000$ et 10000$" + valeursParLot.get(1));
+        System.out.println("Le nombre de lots valant plus de 10000$" + valeursParLot.get(2));
 
     //Ces trois methodes sont static pour la eviter 
     //les erreurs quand on -SR un fichier Statistique.json corrompue
