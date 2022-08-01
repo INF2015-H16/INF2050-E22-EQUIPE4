@@ -1,6 +1,8 @@
 
 package evaluationfonciere;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,64 +21,78 @@ import net.sf.json.JSONObject;
  */
 class Statistique {
     public static final String MSG_ERREUR = "Erreur: Parametres non reconnus !";
-    
-    static void traiter(String arg) {
-        switch (arg.toUpperCase()) {
-            case "-S" -> Statistique.afficher();
-            case "-SR" -> Statistique.reinitialiser();
-            default -> System.out.println(Statistique.MSG_ERREUR);
-        }
-    }
+    private final String NOM_FICHIER = "Statistiques.json";
 
-    static void afficher() {
-        //Si existe pas cree le fichier avec tout a zero
-        //Faudrait toruver comment veriifer lexistance dun fichier
-        Statistique.creeStatsInitiale();
-        //Faire la methode qui lit le fichier et affiche toute les statistique estehiquement
-    }
-
-    static void reinitialiser() {
-        //Si nexiste pas cree le ficheir avec tout a zero
-        //Supprime le fichier et appelle
-        Statistique.creeStatsInitiale();
-    }
-
-    static void mettreAJour(Terrain terrain) {
-        //Si nexiste pas cree le ficheir avec tout a zero
-        //Faudrait truover comment veriifer lexistance dun fichier
-        Statistique.creeStatsInitiale();
-        //Rajouter les donnes dans le fichier de statisqitique
-        try {
-            String texteSource = new String(Files.readAllBytes(Paths.get("Statistiques.json")));
-            JSONObject JSONSource = JSONObject.fromObject(texteSource);
-            Statistique stats = new Statistique(JSONSource);
-            stats.ajouter(terrain);
-        } catch (IOException e) {
-            System.out.print("Erreur dans la lecture du fichier de statistiques.");
-        }
-    }
-
-    private static void creeStatsInitiale() {
-        //Cree le fichier vide
-    }
+//    static void mettreAJour(Terrain terrain) {
+//        //Si nexiste pas cree le ficheir avec tout a zero
+//        //Faudrait truover comment veriifer lexistance dun fichier
+//        Statistique.creeStatsInitiale();
+//        //Rajouter les donnes dans le fichier de statisqitique
+//        try {
+//            String texteSource = new String(Files.readAllBytes(Paths.get("Statistiques.json")));
+//            JSONObject JSONSource = JSONObject.fromObject(texteSource);
+//            Statistique stats = new Statistique(JSONSource);
+//            stats.ajouter(terrain);
+//        } catch (IOException e) {
+//            System.out.print("Erreur dans la lecture du fichier de statistiques.");
+//        }
+//    }
     ///Fin des methode static
     
+//    private void ajouter(Terrain terrain) {
+//        //Ici des affaires du genre this.nbrTotalLots += nbrTotalLots(terrain);
+//    }
+    
     private int nbrTotalLots = 0;
-    private int[] valeursParLot = new int[3]; //[0] moins de 1000, [1] 1000 a 10000, [2] 10000 et plus
+    private List<Integer> valeursParLot = new ArrayList<>(3); //[0] moins de 1000, [1] 1000 a 10000, [2] 10000 et plus
     private int nbrLotAgricole = 0;
     private int nbrLotCommercial = 0;
     private int nbrLotResidentiel = 0;
-    private List<Integer> superficieMaximale = new ArrayList<>();//liste des superficie maximale a laquell on rajoute a chaque fois
-    private List<Integer> valeurMaximale = new ArrayList<>();//liste des valeurs maximale a laquell on rajoute a chaque fois
-    
-    private Statistique(JSONObject stats) {
-        //ici des affaire du genre this.nbrTotalLots = stats.getInt("nbrTotalLots");
+    private List<Integer> superficiesMaximales = new ArrayList<>();//liste des superficie maximale a laquell on rajoute a chaque fois
+    private List<Integer> valeursMaximales = new ArrayList<>();//liste des valeurs maximale a laquell on rajoute a chaque fois
+
+    public Statistique() {
+        File f = new File(NOM_FICHIER);
+        if(f.exists() && !f.isDirectory()) { 
+            JSONObject fichier = getFichier();
+            this.nbrTotalLots = fichier.getInt("nbrTotalLots");
+            this.valeursParLot = fichier.getJSONArray("valeursParLot");
+            this.nbrLotCommercial = fichier.getInt("nbrLotCommercial");
+            this.nbrLotResidentiel = fichier.getInt("nbrLotResidentiel");
+            this.nbrLotAgricole = fichier.getInt("nbrLotAgricole");
+            this.superficiesMaximales = fichier.getJSONArray("superficiesMaximales");
+            this.valeursMaximales = fichier.getJSONArray("valeursMaximales");
+        } else {
+            reinitialiser();
+        }
     }
 
-    private void ajouter(Terrain terrain) {
-        //Ici des affaires du genre this.nbrTotalLots += nbrTotalLots(terrain);
+    private JSONObject getFichier() {
+        try {
+            JSONObject fichier = JSONObject.fromObject(new String(Files.readAllBytes(Paths.get(NOM_FICHIER))));
+            return fichier;
+        } catch (IOException e) {
+            System.out.println("Une erreur dans la lecture du fichier Statistique.json est survenue.");
+        }
     }
     
-    
-    
+    void afficher() {
+        //Si existe pas cree le fichier avec tout a zero
+        //Faudrait toruver comment veriifer lexistance dun fichier
+        //Faire la methode qui lit le fichier et affiche toute les statistique estehiquement
+    }
+
+    final void reinitialiser() {
+        File f = new File(NOM_FICHIER);
+        try (FileWriter writer = new FileWriter(f)) {
+            String rapportString = contenueInitiale();
+            writer.write(rapportString);
+        } catch (IOException e) {
+            System.out.println("Une erreur dans l'ecriture du fichier Statistique.json est survenue.");
+        }
+    }
+
+    private String contenueInitiale() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
