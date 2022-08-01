@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -53,33 +54,42 @@ class Statistique {
 
     public Statistique() {
         File f = new File(NOM_FICHIER);
-        if(f.exists() && !f.isDirectory()) { 
-            JSONObject fichier = getFichier();
-            this.nbrTotalLots = fichier.getInt("nbrTotalLots");
-            this.valeursParLot = fichier.getJSONArray("valeursParLot");
-            this.nbrLotCommercial = fichier.getInt("nbrLotCommercial");
-            this.nbrLotResidentiel = fichier.getInt("nbrLotResidentiel");
-            this.nbrLotAgricole = fichier.getInt("nbrLotAgricole");
-            this.superficiesMaximales = fichier.getJSONArray("superficiesMaximales");
-            this.valeursMaximales = fichier.getJSONArray("valeursMaximales");
-        } else {
+        if(!f.exists() || f.isDirectory()) { 
             reinitialiser();
         }
+        JSONObject fichier = getContenueFichier();
+        this.nbrTotalLots = fichier.getInt("nbrTotalLots");
+        this.valeursParLot = fichier.getJSONArray("valeursParLot");
+        this.nbrLotAgricole = fichier.getInt("nbrLotAgricole");
+        this.nbrLotCommercial = fichier.getInt("nbrLotCommercial");
+        this.nbrLotResidentiel = fichier.getInt("nbrLotResidentiel");
+        this.superficiesMaximales = fichier.getJSONArray("superficiesMaximales");
+        this.valeursMaximales = fichier.getJSONArray("valeursMaximales");
     }
 
-    private JSONObject getFichier() {
+    private JSONObject getContenueFichier() {
+        JSONObject fichier = null;
         try {
-            JSONObject fichier = JSONObject.fromObject(new String(Files.readAllBytes(Paths.get(NOM_FICHIER))));
-            return fichier;
+            fichier = JSONObject.fromObject(new String(Files.readAllBytes(Paths.get(NOM_FICHIER))));
         } catch (IOException e) {
             System.out.println("Une erreur dans la lecture du fichier Statistique.json est survenue.");
         }
+        return fichier;
     }
     
     void afficher() {
-        //Si existe pas cree le fichier avec tout a zero
-        //Faudrait toruver comment veriifer lexistance dun fichier
-        //Faire la methode qui lit le fichier et affiche toute les statistique estehiquement
+        File f = new File(NOM_FICHIER);
+        if(!f.exists() && f.isDirectory()) { 
+            reinitialiser();
+        }
+        JSONObject fichier = getContenueFichier();
+        System.out.println(fichier.getInt("nbrTotalLots"));
+        System.out.println(fichier.getJSONArray("valeursParLot"));
+        System.out.println(fichier.getInt("nbrLotAgricole"));
+        System.out.println(fichier.getInt("nbrLotCommercial"));
+        System.out.println(fichier.getInt("nbrLotResidentiel"));
+        System.out.println(fichier.getJSONArray("superficiesMaximales"));
+        System.out.println(fichier.getJSONArray("valeursMaximales"));
     }
 
     final void reinitialiser() {
@@ -93,6 +103,15 @@ class Statistique {
     }
 
     private String contenueInitiale() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        JSONObject contenue = new JSONObject();
+        contenue.accumulate("nbrTotalLots", 0);
+        contenue.accumulate("valeursParLot", new JSONArray());
+        contenue.accumulate("nbrLotAgricole", 0);
+        contenue.accumulate("nbrLotCommercial", 0);
+        contenue.accumulate("nbrLotResidentiel", 0);
+        contenue.accumulate("superficiesMaximales", new JSONArray());
+        contenue.accumulate("valeursMaximales", new JSONArray());
+        
+        return contenue.toString();
     }
 }
