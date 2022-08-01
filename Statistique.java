@@ -121,12 +121,12 @@ class Statistique {
     }
     
     private void superficieParBraquette(Lotissement lot){
-        if(lot.getSuperficie < 1000){
-            this.valeursParLot.set(0, this.valeursParLot.get(0) +1);
-        }else if(lot.getSuperficie < 10000){
-            this.valeursParLot.set(1, this.valeursParLot.get(1) +1);
+        if(lot.getSuperficie() < 1000){
+            this.valeursParLot.set(0, this.valeursParLot.get(0) + 1);
+        }else if(lot.getSuperficie() < 10000){
+            this.valeursParLot.set(1, this.valeursParLot.get(1) + 1);
         }else{
-            this.valeursParLot.set(2, this.valeursParLot.get(2) +1);
+            this.valeursParLot.set(2, this.valeursParLot.get(2) + 1);
         }
     }
     
