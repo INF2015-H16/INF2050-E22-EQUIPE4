@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -30,8 +29,13 @@ class Statistique {
     private int nbrLotAgricole = 0;
     private int nbrLotCommercial = 0;
     private int nbrLotResidentiel = 0;
+<<<<<<< Updated upstream
     private double superficieMaximale = 0.0;
     private double valeurMaximale = 0.0;
+=======
+    private double superficieMaximale = 0;
+    private double valeurMaximale = 0;
+>>>>>>> Stashed changes
 
     public Statistique() {
         File f = new File(NOM_FICHIER);
@@ -44,8 +48,8 @@ class Statistique {
         this.nbrLotAgricole = fichier.getInt("nbrLotAgricole");
         this.nbrLotCommercial = fichier.getInt("nbrLotCommercial");
         this.nbrLotResidentiel = fichier.getInt("nbrLotResidentiel");
-        this.superficiesMaximales = fichier.getJSONArray("superficiesMaximales");
-        this.valeursMaximales = fichier.getJSONArray("valeursMaximales");
+        this.superficieMaximale = fichier.getDouble("superficiesMaximales");
+        this.valeurMaximale = fichier.getDouble("valeursMaximales");
     }
 
     private JSONObject getContenueFichier() {
@@ -69,14 +73,18 @@ class Statistique {
         System.out.println("Le nombre de lots agricoles : " + fichier.getInt("nbrLotAgricole"));
         System.out.println("Le nombre de lots commerciaux : " + fichier.getInt("nbrLotCommercial"));
         System.out.println("Le nombre de lots residentiels : " + fichier.getInt("nbrLotResidentiel"));
-        System.out.println("La plus grande superficie de lot traite : "+ fichier.getJSONArray("superficiesMaximales"));
-        System.out.println("La valeur maximale de lot traite : " + fichier.getJSONArray("valeursMaximales"));
+        System.out.println("La plus grande superficie de lot traite : "+ fichier.getDouble("superficiesMaximales"));
+        System.out.println("La valeur maximale de lot traite : " + fichier.getDouble("valeursMaximales"));
     }
 
-    final void reinitialiser() {
+    public final void reinitialiser(){
+        ecrireFichierStats(contenueInitiale());
+    }
+    
+    private void ecrireFichierStats(String contenue) {
         File f = new File(NOM_FICHIER);
         try (FileWriter writer = new FileWriter(f)) {
-            String rapportString = contenueInitiale();
+            String rapportString = contenue;
             writer.write(rapportString);
         } catch (IOException e) {
             System.out.println("Une erreur dans l'ecriture du fichier Statistique.json est survenue.");
@@ -90,13 +98,14 @@ class Statistique {
         contenue.accumulate("nbrLotAgricole", 0);
         contenue.accumulate("nbrLotCommercial", 0);
         contenue.accumulate("nbrLotResidentiel", 0);
-        contenue.accumulate("superficiesMaximales", new JSONArray());
-        contenue.accumulate("valeursMaximales", new JSONArray());
+        contenue.accumulate("superficiesMaximales", 0);
+        contenue.accumulate("valeursMaximales", 0);
         
         return contenue.toString();
     }
 
     void mettreAJour(Terrain terrain) {
+<<<<<<< Updated upstream
         Lotissement[] lotissements = terrain.getLotissements;
         for(i = 0; i < lotissements.length; i++){
             this.nbrTotalLots++;
@@ -126,5 +135,26 @@ class Statistique {
         if(lot.getValeurTotaleLot() > this.valeurMaximale){
             this.valeurMaximale = lot.getValeurTotaleLot();
         }
+=======
+        //Seul chose a implementer
+        mettreAJourFichier();
+    }
+    
+    private void mettreAJourFichier(){
+        ecrireFichierStats(contenueMisAJour());
+    }
+    
+    private String contenueMisAJour() {
+        JSONObject contenue = new JSONObject();
+        contenue.accumulate("nbrTotalLots", nbrTotalLots);
+        contenue.accumulate("valeursParLot", valeursParLot);
+        contenue.accumulate("nbrLotAgricole", nbrLotAgricole);
+        contenue.accumulate("nbrLotCommercial", nbrLotCommercial);
+        contenue.accumulate("nbrLotResidentiel", nbrLotResidentiel);
+        contenue.accumulate("superficiesMaximales", superficieMaximale);
+        contenue.accumulate("valeursMaximales", valeurMaximale);
+        
+        return contenue.toString();
+>>>>>>> Stashed changes
     }
 }
