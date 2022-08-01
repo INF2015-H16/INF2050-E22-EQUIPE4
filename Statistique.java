@@ -29,13 +29,8 @@ class Statistique {
     private int nbrLotAgricole = 0;
     private int nbrLotCommercial = 0;
     private int nbrLotResidentiel = 0;
-<<<<<<< Updated upstream
     private double superficieMaximale = 0.0;
     private double valeurMaximale = 0.0;
-=======
-    private double superficieMaximale = 0;
-    private double valeurMaximale = 0;
->>>>>>> Stashed changes
 
     public Statistique() {
         File f = new File(NOM_FICHIER);
@@ -105,9 +100,8 @@ class Statistique {
     }
 
     void mettreAJour(Terrain terrain) {
-<<<<<<< Updated upstream
-        Lotissement[] lotissements = terrain.getLotissements;
-        for(i = 0; i < lotissements.length; i++){
+        Lotissement[] lotissements = terrain.getLotissements();
+        for (int i = 0; i < lotissements.length; i++){
             this.nbrTotalLots++;
             this.nombreDeTypeDeLotsAJour(lotissements[i]);
             this.superficieMaximaleAJour(lotissements[i]);
@@ -132,10 +126,9 @@ class Statistique {
     }
     
     private void valeurMaximaleAJour(Lotissement lot){
-        if(lot.getValeurTotaleLot() > this.valeurMaximale){
-            this.valeurMaximale = lot.getValeurTotaleLot();
+        if(lot.getValeurTotalLot() > this.valeurMaximale){
+            this.valeurMaximale = lot.getValeurTotalLot();
         }
-=======
         //Seul chose a implementer
         mettreAJourFichier();
     }
@@ -155,6 +148,5 @@ class Statistique {
         contenue.accumulate("valeursMaximales", valeurMaximale);
         
         return contenue.toString();
->>>>>>> Stashed changes
     }
 }
