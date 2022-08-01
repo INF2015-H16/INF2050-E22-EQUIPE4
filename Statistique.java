@@ -23,26 +23,6 @@ import net.sf.json.JSONObject;
 class Statistique {
     public static final String MSG_ERREUR = "Erreur: Parametres non reconnus !";
     private final String NOM_FICHIER = "Statistiques.json";
-
-//    static void mettreAJour(Terrain terrain) {
-//        //Si nexiste pas cree le ficheir avec tout a zero
-//        //Faudrait truover comment veriifer lexistance dun fichier
-//        Statistique.creeStatsInitiale();
-//        //Rajouter les donnes dans le fichier de statisqitique
-//        try {
-//            String texteSource = new String(Files.readAllBytes(Paths.get("Statistiques.json")));
-//            JSONObject JSONSource = JSONObject.fromObject(texteSource);
-//            Statistique stats = new Statistique(JSONSource);
-//            stats.ajouter(terrain);
-//        } catch (IOException e) {
-//            System.out.print("Erreur dans la lecture du fichier de statistiques.");
-//        }
-//    }
-    ///Fin des methode static
-    
-//    private void ajouter(Terrain terrain) {
-//        //Ici des affaires du genre this.nbrTotalLots += nbrTotalLots(terrain);
-//    }
     
     private int nbrTotalLots = 0;
     private List<Integer> valeursParLot = new ArrayList<>(3); //[0] moins de 1000, [1] 1000 a 10000, [2] 10000 et plus
@@ -83,13 +63,13 @@ class Statistique {
             reinitialiser();
         }
         JSONObject fichier = getContenueFichier();
-        System.out.println(fichier.getInt("nbrTotalLots"));
+        System.out.println("Le nombre total de lots : " + fichier.getInt("nbrTotalLots"));
         System.out.println(fichier.getJSONArray("valeursParLot"));
-        System.out.println(fichier.getInt("nbrLotAgricole"));
-        System.out.println(fichier.getInt("nbrLotCommercial"));
-        System.out.println(fichier.getInt("nbrLotResidentiel"));
-        System.out.println(fichier.getJSONArray("superficiesMaximales"));
-        System.out.println(fichier.getJSONArray("valeursMaximales"));
+        System.out.println("Le nombre de lots agricoles : " + fichier.getInt("nbrLotAgricole"));
+        System.out.println("Le nombre de lots commerciaux : " + fichier.getInt("nbrLotCommercial"));
+        System.out.println("Le nombre de lots residentiels : " + fichier.getInt("nbrLotResidentiel"));
+        System.out.println("La plus grande superficie de lot traite : "+ fichier.getJSONArray("superficiesMaximales"));
+        System.out.println("La valeur maximale de lot traite : " + fichier.getJSONArray("valeursMaximales"));
     }
 
     final void reinitialiser() {
