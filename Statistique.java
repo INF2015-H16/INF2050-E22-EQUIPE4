@@ -155,7 +155,7 @@ class Statistique {
         contenue.accumulate("nbrLotCommercial", nbrLotCommercial);
         contenue.accumulate("nbrLotResidentiel", nbrLotResidentiel);
         contenue.accumulate("superficiesMaximales", superficieMaximale);
-        contenue.accumulate("valeursMaximales", valeurMaximale);
+        contenue.accumulate("valeursMaximales", Double.valueOf(RapportTerrain.formaterDecimal(valeurMaximale)));
         
         return contenue.toString();
     }

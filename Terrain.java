@@ -33,6 +33,7 @@ public class Terrain {
         setPrixMax();
         setPrixMin();
         
+        //Important qu'il soit en dernier
         mettreAJourStatistiques();
     }
     

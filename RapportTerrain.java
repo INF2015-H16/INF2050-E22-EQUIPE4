@@ -46,7 +46,8 @@ public class RapportTerrain {
         return lots;
     }
     
-    private String formaterDecimal(double valeur) {
+    //Methode pour formater a 2 decimal utilisee dans d'autre classes
+    static String formaterDecimal(double valeur) {
         String pattern = "#.00";
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
         return decimalFormat.format(valeur);
