@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -25,7 +26,7 @@ class Statistique {
     private final String NOM_FICHIER = "Statistiques.json";
     
     private int nbrTotalLots = 0;
-    private List<Integer> valeursParLot = new ArrayList<>(3); //[0] moins de 1000, [1] 1000 a 10000, [2] 10000 et plus
+    private List<Integer> valeursParLot = new ArrayList<>(Collections.nCopies(3, 0)); //[0] moins de 1000, [1] 1000 a 10000, [2] 10000 et plus
     private int nbrLotAgricole = 0;
     private int nbrLotCommercial = 0;
     private int nbrLotResidentiel = 0;
@@ -85,7 +86,7 @@ class Statistique {
     private String contenueInitiale() {
         JSONObject contenue = new JSONObject();
         contenue.accumulate("nbrTotalLots", 0);
-        contenue.accumulate("valeursParLot", new JSONArray());
+        contenue.accumulate("valeursParLot", new ArrayList<>(Collections.nCopies(3, 0)));
         contenue.accumulate("nbrLotAgricole", 0);
         contenue.accumulate("nbrLotCommercial", 0);
         contenue.accumulate("nbrLotResidentiel", 0);
