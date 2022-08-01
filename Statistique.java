@@ -129,7 +129,6 @@ class Statistique {
         if(lot.getValeurTotalLot() > this.valeurMaximale){
             this.valeurMaximale = lot.getValeurTotalLot();
         }
-        //Seul chose a implementer
         mettreAJourFichier();
     }
     
