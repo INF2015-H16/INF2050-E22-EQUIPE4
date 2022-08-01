@@ -104,7 +104,7 @@ class Statistique {
         for (int i = 0; i < lotissements.length; i++){
             this.nbrTotalLots++;
             this.nombreDeTypeDeLotsAJour(lotissements[i]);
-            this.superficieParBraquette(lotissements[i]);
+            this.valeurParBraquette(lotissements[i]);
             this.superficieMaximaleAJour(lotissements[i]);
             this.valeurMaximaleAJour(lotissements[i]);
         }
@@ -120,10 +120,10 @@ class Statistique {
         }
     }
     
-    private void superficieParBraquette(Lotissement lot){
-        if(lot.getSuperficie() < 1000){
+    private void valeurParBraquette(Lotissement lot){
+        if(lot.getValeurTotalLot() < 1000){
             this.valeursParLot.set(0, this.valeursParLot.get(0) + 1);
-        }else if(lot.getSuperficie() < 10000){
+        }else if(lot.getValeurTotalLot() < 10000){
             this.valeursParLot.set(1, this.valeursParLot.get(1) + 1);
         }else{
             this.valeursParLot.set(2, this.valeursParLot.get(2) + 1);
