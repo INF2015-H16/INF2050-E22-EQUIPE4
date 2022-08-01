@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
 /**
@@ -29,7 +30,7 @@ class Statistique {
     private int nbrLotAgricole = 0;
     private int nbrLotCommercial = 0;
     private int nbrLotResidentiel = 0;
-    private double superficieMaximale = 0.0;
+    private int superficieMaximale = 0;
     private double valeurMaximale = 0.0;
 
     public Statistique() {
@@ -38,13 +39,24 @@ class Statistique {
             reinitialiser();
         }
         JSONObject fichier = getContenueFichier();
-        this.nbrTotalLots = fichier.getInt("nbrTotalLots");
-        this.valeursParLot = fichier.getJSONArray("valeursParLot");
-        this.nbrLotAgricole = fichier.getInt("nbrLotAgricole");
-        this.nbrLotCommercial = fichier.getInt("nbrLotCommercial");
-        this.nbrLotResidentiel = fichier.getInt("nbrLotResidentiel");
-        this.superficieMaximale = fichier.getDouble("superficiesMaximales");
-        this.valeurMaximale = fichier.getDouble("valeursMaximales");
+        setValeurs(fichier);
+    }
+    
+    private void setValeurs(JSONObject fichier) {
+        try {
+            this.nbrTotalLots = fichier.getInt("nbrTotalLots");
+            this.valeursParLot = fichier.getJSONArray("valeursParLot");
+            this.nbrLotAgricole = fichier.getInt("nbrLotAgricole");
+            this.nbrLotCommercial = fichier.getInt("nbrLotCommercial");
+            this.nbrLotResidentiel = fichier.getInt("nbrLotResidentiel");
+            this.superficieMaximale = fichier.getInt("superficiesMaximales");
+            this.valeurMaximale = fichier.getDouble("valeursMaximales");
+        } catch (JSONException e) {
+            System.out.println("Une erreur dans l'analyse du fichier Statistique.json "
+                    + "est survenue, il est probablement corrompue. "
+                    + "Utilser l'option '-SR' pour le reinitialiser.");
+            System.exit(0);
+        }
     }
 
     private JSONObject getContenueFichier() {
@@ -69,8 +81,8 @@ class Statistique {
     
     private void afficherBraquettes(List<Integer> valeursParLot){
         System.out.println("Le nombre de lots valant moins de 1000$: " + valeursParLot.get(0));
-        System.out.println("Le nombre de lots valant entre 1000$ et 10000$" + valeursParLot.get(1));
-        System.out.println("Le nombre de lots valant plus de 10000$" + valeursParLot.get(2));
+        System.out.println("Le nombre de lots valant entre 1000$ et 10000$: " + valeursParLot.get(1));
+        System.out.println("Le nombre de lots valant plus de 10000$: " + valeursParLot.get(2));
     }
     //Ces trois methodes sont static pour la eviter 
     //les erreurs quand on -SR un fichier Statistique.json corrompue
@@ -110,6 +122,7 @@ class Statistique {
             this.superficieMaximaleAJour(lotissements[i]);
             this.valeurMaximaleAJour(lotissements[i]);
         }
+        mettreAJourFichier();
     }
                 
     private void nombreDeTypeDeLotsAJour(Lotissement lot){
@@ -142,7 +155,6 @@ class Statistique {
         if(lot.getValeurTotalLot() > this.valeurMaximale){
             this.valeurMaximale = lot.getValeurTotalLot();
         }
-        mettreAJourFichier();
     }
     
     private void mettreAJourFichier(){
