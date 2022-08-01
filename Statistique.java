@@ -73,9 +73,9 @@ class Statistique {
     }
     
     private void afficherBraquettes(List<Integer> valeursParLot){
-        System.out.println("Le nombre de lots valant moins de 1000$: " + valeursParLot.get(0));
-        System.out.println("Le nombre de lots valant entre 1000$ et 10000$" + valeursParLot.get(1));
-        System.out.println("Le nombre de lots valant plus de 10000$" + valeursParLot.get(2));
+        System.out.println("Le nombre de lots valant moins de 1000$ : " + valeursParLot.get(0));
+        System.out.println("Le nombre de lots valant entre 1000$ et 10000$ : " + valeursParLot.get(1));
+        System.out.println("Le nombre de lots valant plus de 10000$ : " + valeursParLot.get(2));
 
     //Ces trois methodes sont static pour la eviter 
     //les erreurs quand on -SR un fichier Statistique.json corrompue
