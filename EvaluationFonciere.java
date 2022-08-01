@@ -23,7 +23,7 @@ public class EvaluationFonciere {
         if (args.length == 1) {
             switch (args[0].toUpperCase()) {
                 case "-S" -> new Statistique().afficher();
-                case "-SR" -> new Statistique().reinitialiser();
+                case "-SR" -> Statistique.reinitialiser();
                 default -> System.out.println(Statistique.MSG_ERREUR);
             }
         } else {

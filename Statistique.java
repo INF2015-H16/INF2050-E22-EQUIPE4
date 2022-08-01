@@ -22,7 +22,7 @@ import net.sf.json.JSONObject;
  */
 class Statistique {
     public static final String MSG_ERREUR = "Erreur: Parametres non reconnus !";
-    private final String NOM_FICHIER = "Statistiques.json";
+    private final static String NOM_FICHIER = "Statistiques.json";
     
     private int nbrTotalLots = 0;
     private List<Integer> valeursParLot = new ArrayList<>(Collections.nCopies(3, 0)); //[0] moins de 1000, [1] 1000 a 10000, [2] 10000 et plus
@@ -72,12 +72,14 @@ class Statistique {
         System.out.println("La valeur maximale de lot traite : " + fichier.getDouble("valeursMaximales"));
     }
 
-    public final void reinitialiser(){
+    //Ces trois methodes sont static pour la eviter 
+    //les erreurs quand on -SR un fichier Statistique.json corrompue
+    public static final void reinitialiser(){
         ecrireFichierStats(contenueInitiale());
     }
     
-    private void ecrireFichierStats(String contenue) {
-        File f = new File(NOM_FICHIER);
+    private static void ecrireFichierStats(String contenue) {
+        File f = new File(Statistique.NOM_FICHIER);
         try (FileWriter writer = new FileWriter(f)) {
             String rapportString = contenue;
             writer.write(rapportString);
@@ -86,7 +88,7 @@ class Statistique {
         }
     }
 
-    private String contenueInitiale() {
+    private static String contenueInitiale() {
         JSONObject contenue = new JSONObject();
         contenue.accumulate("nbrTotalLots", 0);
         contenue.accumulate("valeursParLot", new ArrayList<>(Collections.nCopies(3, 0)));
