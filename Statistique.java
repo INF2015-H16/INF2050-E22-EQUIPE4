@@ -94,4 +94,8 @@ class Statistique {
         
         return contenue.toString();
     }
+
+    void mettreAJour(Terrain terrain) {
+        //Seul chose a implementer
+    }
 }

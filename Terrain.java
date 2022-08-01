@@ -37,7 +37,7 @@ public class Terrain {
     }
     
     private void mettreAJourStatistiques() {
-//        Statistique.mettreAJour(this);
+        new Statistique().mettreAJour(this);
     }
     
     private void setLotissements() throws FormatInvalide{
