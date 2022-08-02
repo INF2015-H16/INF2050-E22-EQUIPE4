@@ -1,4 +1,4 @@
-package evaluationfonciere;
+package com.proudmusketeers;
 
 import net.sf.json.JSONObject;
 
@@ -14,6 +14,9 @@ import net.sf.json.JSONObject;
 public class Terrain {
     //Definies dans le constructeur
     private Lotissement[] lotissements;
+    private double prixMax;
+    private double prixMin;
+
     
     //Constantes
     static final double PRIX_FIXE = 733.77;
@@ -27,10 +30,27 @@ public class Terrain {
         this.valider = new ValiderValeursTerrain(JSONSource);
         
         setLotissements();
+        setPrixMax();
+        setPrixMin();
+        
+        //Important qu'il soit en dernier
+        mettreAJourStatistiques();
+    }
+    
+    private void mettreAJourStatistiques() {
+        new Statistique().mettreAJour(this);
     }
     
     private void setLotissements() throws FormatInvalide{
         this.lotissements = valider.lotissements();
+    }
+    
+    private void setPrixMax() throws FormatInvalide{
+        this.prixMax = valider.prixMax();
+    }
+    
+    private void setPrixMin() throws FormatInvalide{
+        this.prixMin = valider.prixMin();
     }
     
     public Lotissement[] getLotissements() {
@@ -42,18 +62,26 @@ public class Terrain {
         for (Lotissement lot : lotissements) {
             resultat += lot.getValeurTotalLot();
         }
-        return arrondiAu5sousSuperieur(resultat);
+        return arrondiAu5sous(resultat);
     }    
     
     public double getTaxeScolaire(){
-        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_SCOLAIRE);
+        return arrondiAu5sous(getValeurFonciereTotale() * TAUX_SCOLAIRE);
     }
     
     public double getTaxeMunicipale(){
-        return arrondiAu5sousSuperieur(getValeurFonciereTotale() * TAUX_MUNICIPALE);
+        return arrondiAu5sous(getValeurFonciereTotale() * TAUX_MUNICIPALE);
     }
 
-    private double arrondiAu5sousSuperieur(double montant) {
-        return Math.ceil(montant * 20) / 20;
+    static double arrondiAu5sous(double montant) {
+        return (double) Math.round(montant * 20) / 20;
+    }
+    
+    public double getPrixMax(){
+        return prixMax;
+    }
+    
+    public double getPrixMin(){
+        return prixMin;
     }
 }

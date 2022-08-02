@@ -1,5 +1,4 @@
-
-package evaluationfonciere;
+package com.proudmusketeers;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -43,7 +42,9 @@ public class Traitement {
 
     public JSONObject contenuSortie(JSONObject JSONSource){
         try {
+            //Peut lancer des exceptions :
             Terrain terrain = new Terrain(JSONSource);
+            //Ne devrait pas lancer des exceptions :
             JSONObject rapport = new RapportTerrain().rapport(terrain);
             return rapport;
         } catch (FormatInvalide erreur) {

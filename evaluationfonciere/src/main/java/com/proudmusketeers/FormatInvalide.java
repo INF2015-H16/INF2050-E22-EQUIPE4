@@ -1,5 +1,4 @@
-
-package evaluationfonciere;
+package com.proudmusketeers;
 
 /**
  * Classe d'exception qui est lancee lorsque le format des valeurs dans 

@@ -1,5 +1,4 @@
-
-package evaluationfonciere;
+package com.proudmusketeers;
 
 import net.sf.json.JSONObject;
 
@@ -79,5 +78,13 @@ public abstract class Lotissement{
 
     public double getValeurTotalLot() {
         return valeurSuperficie() + montantDroitDePassages() + montantServices();
+    }
+    
+    public int getSuperficie() {
+        return superficie;
+    }
+
+    public String getDateMesure() {
+        return dateMesure;
     }
 }

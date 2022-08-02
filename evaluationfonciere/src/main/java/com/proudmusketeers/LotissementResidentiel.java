@@ -1,4 +1,4 @@
-package evaluationfonciere;
+package com.proudmusketeers;
 
 import net.sf.json.JSONObject;
 
