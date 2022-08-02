@@ -1,4 +1,4 @@
-package com.proudmusketeers;
+package evaluationfonciere;
 
 import static org.junit.Assert.*;
 import org.junit.*;

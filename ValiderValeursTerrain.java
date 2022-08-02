@@ -1,5 +1,4 @@
-
-package com.proudmusketeers;
+package evaluationfonciere;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,5 +1,4 @@
-
-package com.proudmusketeers;
+package evaluationfonciere;
 
 import java.text.DecimalFormat;
 import net.sf.json.JSONObject;
