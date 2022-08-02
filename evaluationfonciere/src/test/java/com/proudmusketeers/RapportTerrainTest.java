@@ -36,7 +36,7 @@ public class RapportTerrainTest {
         terrainData = new JSONObject()
             .accumulate("type_terrain", 0)
             .accumulate("prix_m2_min", 1)
-            .accumulate("prix_m2_max", 5)
+            .accumulate("prix_m2_max", 2)
             .accumulate("lotissements", lots);
         unTerrain = new Terrain(terrainData);
         sortie = new RapportTerrain();
