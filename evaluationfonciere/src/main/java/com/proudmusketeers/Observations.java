@@ -1,4 +1,3 @@
-
 package com.proudmusketeers;
 
 import java.time.LocalDate;
@@ -20,6 +19,8 @@ import java.util.List;
 public class Observations {
     private Terrain terrain;
     private ArrayList<String> observations = new ArrayList<>();
+    private final int MAX_SUPERFICIE = 45000;
+    private final int MAX_VALEUR = 45000;
     
     public Observations(Terrain terrain) {
         this.terrain = terrain;
@@ -41,9 +42,9 @@ public class Observations {
         double valeurMax = Arrays.stream(this.terrain.getLotissements())
                 .mapToDouble(lot -> lot.getValeurTotalLot()).max().getAsDouble();
         
-        if(valeurMax > 45000) {
+        if(valeurMax > MAX_VALEUR) {
             this.observations.add(String
-                    .format("La valeur par lot du lot %d est trop dispendieuse.",this.indexMaxLot()));
+                    .format("La valeur par lot %s est trop dispendieuse.", this.lotsGrandeValeur()));
         }
     }
 
@@ -74,9 +75,9 @@ public class Observations {
     private void superficie() {
         double superficie = Arrays.stream(this.terrain.getLotissements())
                 .mapToDouble(lot -> lot.getSuperficie()).max().getAsDouble();
-        if(superficie > 45000) {
+        if(superficie > MAX_SUPERFICIE) {
             this.observations.add(String
-                    .format("La superficie par lot %s est trop grande.", this.superficies(45000)));
+                    .format("La superficie par lot %s est trop grande.", this.lotsGrandeSuperficies()));
         }
     }
 
@@ -92,25 +93,35 @@ public class Observations {
         }
     }
 
-    private int indexMaxLot() {
+    private String lotsGrandeValeur() {
         double[] valeursLots = Arrays.stream(this.terrain.getLotissements())
                 .mapToDouble(lot -> lot.getValeurTotalLot()).toArray();
-        int maxAt = 0;
-        for (int i = 0; i < valeursLots.length; i++) {
-            maxAt = valeursLots[i] > valeursLots[maxAt] ? i : maxAt;
-        }
-        return maxAt + 1;
-    }
-
-    private String superficies(int maxSuperficie) {
-        int[] superficies = Arrays.stream(this.terrain.getLotissements())
-                .mapToInt(lot -> lot.getSuperficie()).toArray();
+        
         List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < superficies.length; i++) {
-            if(superficies[i] > maxSuperficie){
+        for (int i = 0; i < valeursLots.length; i++) {
+            if(valeursLots[i] > MAX_VALEUR){
                 indexes.add(i);
             }
         }
+        
+        return texteIndexLots(indexes);
+    }
+
+    private String lotsGrandeSuperficies() {
+        int[] superficies = Arrays.stream(this.terrain.getLotissements())
+                .mapToInt(lot -> lot.getSuperficie()).toArray();
+        
+        List<Integer> indexes = new ArrayList<>();
+        for (int i = 0; i < superficies.length; i++) {
+            if(superficies[i] > MAX_SUPERFICIE){
+                indexes.add(i);
+            }
+        }
+        
+        return texteIndexLots(indexes);
+    }
+    
+    private String texteIndexLots(List<Integer> indexes){
         String retour = "";
         if(indexes.size() > 1){
             retour += "des lots ";
@@ -125,5 +136,4 @@ public class Observations {
         }
         return retour;
     }
-    
 }

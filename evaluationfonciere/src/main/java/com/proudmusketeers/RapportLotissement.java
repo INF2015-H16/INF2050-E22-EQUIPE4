@@ -1,4 +1,3 @@
-
 package com.proudmusketeers;
 
 import java.text.DecimalFormat;
@@ -18,13 +17,7 @@ public class RapportLotissement {
     public JSONObject rapport(Lotissement lot){
        JSONObject lotUnique = new JSONObject();
        lotUnique.accumulate("description", lot.getDescription());
-       lotUnique.accumulate("valeur_par_lot", formaterDecimal(lot.getValeurTotalLot()) + " $");
+       lotUnique.accumulate("valeur_par_lot", RapportTerrain.formaterDecimal(lot.getValeurTotalLot()) + " $");
        return lotUnique;
-    }
-     
-    private String formaterDecimal(double valeur) {
-        String pattern = "#.00";
-        DecimalFormat decimalFormat = new DecimalFormat(pattern);
-        return decimalFormat.format(valeur);
     }
 }
