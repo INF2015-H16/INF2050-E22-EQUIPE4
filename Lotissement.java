@@ -1,7 +1,5 @@
-
 package evaluationfonciere;
 
-import java.util.stream.Stream;
 import net.sf.json.JSONObject;
 
 /**

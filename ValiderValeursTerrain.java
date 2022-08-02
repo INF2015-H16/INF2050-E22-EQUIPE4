@@ -1,4 +1,3 @@
-
 package evaluationfonciere;
 
 import java.util.Arrays;
@@ -50,7 +49,7 @@ class ValiderValeursTerrain {
         }
     }
     
-    private int typeTerrain() throws FormatInvalide {
+    int typeTerrain() throws FormatInvalide {
         try {
             int typeTerrain = JSONSource.getInt("type_terrain");
             if(typeNonValide(typeTerrain)){

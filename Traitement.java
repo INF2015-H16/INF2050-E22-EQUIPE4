@@ -1,4 +1,3 @@
-
 package evaluationfonciere;
 
 import java.io.File;

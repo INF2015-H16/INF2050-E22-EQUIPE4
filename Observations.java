@@ -1,4 +1,3 @@
-
 package evaluationfonciere;
 
 import java.time.LocalDate;
@@ -83,7 +82,7 @@ public class Observations {
     }
 
     private void prixMinMax() {
-        if((this.terrain.getPrixMin() * 2) > this.terrain.getPrixMax()) {
+        if((this.terrain.getPrixMin() * 2) < this.terrain.getPrixMax()) {
             this.observations.add("Le prix maximum par metres carres depasse de plus de deux fois le prix minimum par metres carres.");
         }
     }

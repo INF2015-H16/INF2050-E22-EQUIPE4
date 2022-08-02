@@ -1,4 +1,3 @@
-
 package evaluationfonciere;
 
 import net.sf.json.JSONObject;

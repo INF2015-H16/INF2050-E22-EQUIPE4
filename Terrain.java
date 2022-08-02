@@ -73,8 +73,8 @@ public class Terrain {
         return arrondiAu5sous(getValeurFonciereTotale() * TAUX_MUNICIPALE);
     }
 
-    private double arrondiAu5sous(double montant) {
-        return Math.round(montant * 20) / 20;
+    static double arrondiAu5sous(double montant) {
+        return (double) Math.round(montant * 20) / 20;
     }
     
     public double getPrixMax(){
