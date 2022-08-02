@@ -2,6 +2,7 @@
 package com.proudmusketeers;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -28,7 +29,12 @@ public class RapportTerrain {
         rapport.accumulate("taxe_municipale", formaterDecimal(terrain.getTaxeMunicipale()) + " $");
         JSONArray lots = creerRapportsLots();
         rapport.accumulate("lotissements", lots);
-
+        
+        List<String> observations = new Observations(terrain).observations();
+        if(!observations.isEmpty()){
+            rapport.accumulate("observations", observations);
+        }
+        
         return rapport;
     }
 
@@ -40,7 +46,8 @@ public class RapportTerrain {
         return lots;
     }
     
-    private String formaterDecimal(double valeur) {
+    //Methode pour formater a 2 decimal utilisee dans d'autre classes
+    static String formaterDecimal(double valeur) {
         String pattern = "#.00";
         DecimalFormat decimalFormat = new DecimalFormat(pattern);
         return decimalFormat.format(valeur);
